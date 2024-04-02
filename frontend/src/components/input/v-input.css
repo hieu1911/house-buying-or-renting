@@ -1,0 +1,299 @@
+/* css chung cho tất cả text field */
+.input__title {
+    display: block;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 20px;
+    color: #1f1f1f;
+    margin-bottom: 8px;
+}
+
+/* input body */
+.input__content {
+    background: #ffffff;
+    padding: 12px 12px 12px 12px;
+    height: 36px;
+    /* padding: 8px 12px; */
+    min-width: 250px;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    outline: none;
+}
+
+.input__content--no-min-width {
+    min-width: 0;
+}
+
+.input__content:not(.input--disable):hover {
+    border-color: var(--color-primary);
+}
+
+.input__body:has(.input-delete-icon) .input__content {
+    padding-right: 24px;
+}
+
+.input--height-large {
+    height: 40px;
+}
+
+.input--small {
+    min-width: 0 !important;
+    width: 68px;
+    height: 28px !important;
+    font-size: 13px !important;
+    padding-right: 0 !important;
+}
+
+.input__body:has(.input--small) .input__icon--after {
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px !important;
+    height: 24px !important;
+}
+
+.input--disable {
+    cursor: not-allowed;
+    background-color: #fafafa;
+}
+
+.input--disable:hover {
+    background-color: #fafafa !important;
+}
+
+.input--disable:focus {
+    border-color: #e0e0e0 !important;
+}
+
+.input--required {
+    position: relative;
+}
+
+.input--hide-text {
+    -webkit-text-security: disc;
+}
+
+.input--required::after {
+    content: '*';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #e81e1e;
+    padding-left: 4px;
+}
+
+.input--w-100 {
+    width: 100% !important;
+}
+
+.input--w-280 {
+    width: 280px;
+}
+
+.input--large {
+    height: 80px;
+}
+
+.input__content::placeholder {
+    font-weight: 500;
+    font-size: 13px;
+    text-align: left;
+    color: #979695;
+}
+
+.input--placeholder-italic::placeholder {
+    font-style: italic;
+}
+
+.input--text-align-right {
+    text-align: right;
+}
+
+/* padding right when input have icon inside */
+.input--have-icon {
+    padding-left: 36px;
+}
+
+.input--have-icon-after {
+    /* padding-right: 40px; */
+    padding-right: 36px;
+}
+
+/* text field nomal */
+.input--nomal:focus {
+    background: #ffffff !important;
+    border-color: var(--color-primary);
+}
+
+/* text field error */
+.input--error {
+    border-color: #e61d1d !important;
+}
+
+.input--error:hover {
+    border-color: #e61d1d !important;
+}
+
+.input__desc-error {
+    font-weight: 400;
+    font-size: 12px;
+    color: #e61d1d;
+    margin: 6px 0 0 0;
+    min-height: 12px;
+    line-height: 12px;
+}
+
+.input__desc-error--hidden {
+    visibility: hidden;
+}
+
+.input__desc-error-limit {
+    width: 250px;
+}
+
+.input--error + .input__desc-error {
+    display: block !important;
+}
+
+/* read only text field */
+.input--read-only {
+    background: #ebebeb;
+}
+
+/* css icon in input field */
+.input__body {
+    position: relative;
+    width: fit-content
+}
+
+.input__body:has(.input__icon) .input__content {
+    padding-left: 36px;
+}
+
+.input__body:has(.input__filter) .input__content {
+    padding-left: 36px;
+}
+
+.input__icon, .input__filter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 36px !important;
+    height: 34px !important;
+    border-radius: 4px 0 0 4px ;
+    background: transparent;
+    left: 1px;
+    top: 1px;
+}
+
+.input__icon--after {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 36px;
+    height: 34px;
+    border-radius: 0 4px 4px 0 ;
+    background: transparent;
+    right: 1px;
+    top: 2px;
+}
+
+/* text field with icon, with icon hover and with icon press */
+.input__icon--with-icon {
+    color: #666666;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.input--with-icon:hover {
+    background: #f6f6f6;
+}
+
+.input--with-icon:focus {
+    background: #ffffff;
+}
+
+.input--with-icon:focus + .input__icon--with-icon {
+    background: #f6f6f6;
+}
+
+.input-delete-icon {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    top: 0;
+    right: 4px;
+    height: 100%;
+}
+
+.input__body:has(.input--have-icon-after) .input-delete-icon {
+    right: 36px;
+}
+
+/* css cho các text field combobox chung */
+.input__icon--combobox {
+    background: transparent;
+    border-left: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 40px !important;
+    height: 34px !important;
+    border-radius: 0 4px 4px 0 ;
+    right: 1px;
+    top: 1px;
+    color: #1f1f1f !important;
+    cursor: pointer;
+}
+
+.input--combobox {
+    padding-right: 44px !important;
+}
+
+.input--combobox:focus {
+    background-color: #fff;
+    border-color: var(--color-focus);
+}
+
+input[type="date"] {
+    position: relative;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    color: rgba(0, 0, 0, 0);
+    opacity: 1;
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-44%);
+    background: url('../../assets/images/qlts-icon2.svg') no-repeat -287px -67px;
+    width: 18px;
+    height: 18px;
+    border-width: thin;
+    cursor: pointer;
+}
+
+.input__body:has(.input--toggle-value) input {
+    padding-right: 36px;
+}
+
+.input--toggle-value {
+    position: absolute;
+    top: 0;
+    right: 10px;
+}
+
+.input--toggle-value > div{
+    height: 18px;
+    width: 18px;
+    display: flex;
+    justify-content: center;
+    padding: 2px;
+    cursor: pointer;
+}

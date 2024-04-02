@@ -1,0 +1,114 @@
+/* css div wrapper icon */
+.icon-wrapper {
+	position: relative;
+    width: 24px;
+    height: 24px;
+    padding: 2px;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.icon-wrapper-align-end {
+	align-items: flex-end !important;
+	padding-bottom: 8px;
+}
+
+.icon-wrapper-small {
+	width: 18px;
+    height: 18px;
+}
+
+.icon-wrapper-small:hover .icon::after {
+	display: block;
+}
+
+.icon-wrapper-small:active .icon::before {
+	display: block;
+}
+
+.icon-disable {
+	cursor: not-allowed !important;
+}
+
+/* css description for icon */
+.icon-wrapper:hover .icon-desc {
+	display: block;
+}
+
+.icon-desc {
+	position: absolute;
+	top: 34px;
+	white-space: nowrap;
+	font-size: 13px;
+	font-weight: 500;
+	color: #fff;
+	background-color: #003166;
+	padding: 6px 8px;
+	border-radius: 6px;
+	border-top: 1px solid #fff;
+	display: none;
+	z-index: 20;
+}
+
+.icon-desc-pseudo {
+	position: absolute;
+	top: 30px;
+	width: 16px;
+	height: 16px;
+	background-color: #003166;
+	transform: rotate(45deg);
+	display: none;
+	z-index: 20;
+}
+
+/* css description on top */
+.icon-desc--top {
+	top: -38px;
+	border-top: none;
+	border-bottom: 1px solid #fff;
+	z-index: 2;
+}
+
+.icon-desc-pseudo--top {
+	top: -22px;
+	z-index: 2;
+}
+
+.icon-desc--pagination {
+	top: -42px !important;
+}
+
+.icon-desc-pseudo--pagination {
+	top: -26px !important;
+}
+
+.icon-desc--more {
+	top: -46px !important;
+}
+
+.icon-desc-pseudo--more {
+	top: -28px !important;
+}
+
+.icon-wrapper:hover .icon-desc-pseudo {
+	display: block;
+}
+
+.icon-option-more .icon-desc--top {
+	top: -42px;
+}
+
+.icon-option-more .icon-desc-pseudo--top {
+	top: -24px;
+}
+
+.icon-transition-wrapper {
+	transition-duration: 0.3s;
+}
+
+.icon-rotate {
+	transform: rotate(180deg);
+}
