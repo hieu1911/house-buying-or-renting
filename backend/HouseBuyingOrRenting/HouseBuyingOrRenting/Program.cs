@@ -1,5 +1,4 @@
 using HouseBuyingOrRenting.Application;
-using HouseBuyingOrRenting.Application.Services;
 using HouseBuyingOrRenting.Domain;
 using HouseBuyingOrRenting.Infrastructure;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -80,6 +79,16 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IDistrictService, DistrictService>();
+builder.Services.AddScoped<IDistrictRepository, DistrictRepository>();
+builder.Services.AddScoped<IProvinceService, ProvinceService>();
+builder.Services.AddScoped<IProvinceRepository, ProvinceRepository>();
+builder.Services.AddScoped<IImageUrlService, ImageUrlService>();
+builder.Services.AddScoped<IImageUrlRepository, ImageUrlRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IRealEstateService, RealEstateService>();
+builder.Services.AddScoped<IRealEstateRepository, RealEstateRepository>();
 
 var app = builder.Build();
 

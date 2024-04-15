@@ -78,3 +78,22 @@
     font-size: 14px;
     padding-left: 8px;
 }
+
+.login-account {
+    font-size: 14px;
+    text-align: center;
+}
+
+.login-account span {
+    padding-right: 4px;
+}
+
+.login-account a {
+    color: var(--color-primary);
+    cursor: pointer;
+}
+
+.login-account a:hover {
+    color: var(--color-hover);
+    text-decoration: underline;
+}

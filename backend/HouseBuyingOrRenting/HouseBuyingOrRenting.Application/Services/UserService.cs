@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.Extensions.Options;
 using System.Text;
 
-namespace HouseBuyingOrRenting.Application.Services
+namespace HouseBuyingOrRenting.Application
 {
     public class UserService : BaseService<User, UserDto, UserCreateDto, UserUpdateDto>, IUserService
     {

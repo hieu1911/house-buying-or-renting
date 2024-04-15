@@ -63,7 +63,7 @@
                     <span>Apple</span>
                 </div>
             </div>
-            <div class="register-account">
+            <div class="login-account">
                 <span>{{ $t('auth.hasAccount') }}</span>
                 <RouterLink to="login">{{ $t('auth.loginNow') }}</RouterLink>
             </div>
@@ -74,7 +74,6 @@
 <script setup>
 import { ref, inject } from 'vue'
 import { register } from '@/js/service/auth';
-import full from 'core-js/full';
 
 const router = inject('$router');
 

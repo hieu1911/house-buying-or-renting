@@ -103,5 +103,6 @@
 }
 
 .register-account a:hover {
+    color: var(--color-hover);
     text-decoration: underline;
 }

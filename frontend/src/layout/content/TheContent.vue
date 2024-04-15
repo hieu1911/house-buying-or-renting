@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div :class="{'content': !store.isAuthPage}">
         <router-view></router-view>
         <v-dialog 
             v-if="dialogShowed"
@@ -20,6 +20,7 @@
 <script setup>
 import { onMounted, onUnmounted, inject } from 'vue';
 import { ref } from 'vue';
+import { publicStore } from '@/js/store/publicStore';
 
 const loadingShowed = ref(false)
 
@@ -32,6 +33,7 @@ const dialogDelete = ref(false)
 let dialogAction = null
 
 const emitter = inject('$emitter');
+const store = publicStore();
 
 onMounted(() => {
     // emitter.on('showToastMessage', showToastMessage);
