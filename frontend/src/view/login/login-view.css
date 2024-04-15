@@ -1,0 +1,107 @@
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: #F6F5F7;
+}
+
+.login-form {
+    background-color: #fff;
+    padding: 32px 44px;
+    border-radius: 4px;
+}
+
+.login-field {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    row-gap: 12px;
+}
+
+.login-title {
+    text-align: center;
+    font-size: 24px;
+    margin: 0 0 24px 0;
+}
+
+.forgot-password {
+    font-size: 14px;
+    color: var(--color-primary);
+    cursor: pointer;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+.other-way-login-title {
+    display: flex;
+    padding: 16px 0;
+}
+
+.other-way-login-title hr {
+    width: 100px;
+    height: 1px;
+}
+
+.other-way-login-title span {
+    font-size: 14px;
+    padding: 0 16px;
+}
+
+.other-way-login {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.other-way-login-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid #9e9e9e;
+}
+
+.other-way-login-item:hover {
+    border-color: var(--color-primary);
+}
+
+.other-way-login-item:hover span {
+    color: var(--color-primary);
+}
+
+.other-way-login-item img {
+    width: 20px;
+    height: 20px;
+}
+
+.other-way-login-item span {
+    font-size: 14px;
+    padding-left: 8px;
+}
+
+.register-account {
+    font-size: 14px;
+    text-align: center;
+}
+
+.register-account span {
+    padding-right: 4px;
+}
+
+.register-account a {
+    color: var(--color-primary);
+    cursor: pointer;
+}
+
+.register-account a:hover {
+    text-decoration: underline;
+}

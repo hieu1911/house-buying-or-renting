@@ -11,6 +11,7 @@
 </template>
 
 <script setup>
+import { defineProps, defineEmits } from 'vue';
 defineProps({
     'type': String,
     'desc': String,
@@ -29,5 +30,5 @@ defineEmits(['click'])
 </script>
 
 <style scoped>
-@import url(./misa-icon.css);
+@import url(./v-icon.css);
 </style>

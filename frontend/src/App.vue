@@ -1,26 +1,31 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="app-wrapper">
+    <TheMenu></TheMenu>
+    <div class="app-content">
+      <TheHeader></TheHeader>
+      <TheContent></TheContent>
+    </div>
+  </div>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
+<script setup>
+import { defineComponent, onErrorCaptured } from 'vue';
+import TheHeader from '@/layout/header/TheHeader.vue';
+import TheMenu from '@/layout/menu/TheMenu.vue';
+import TheContent from '@/layout/content/TheContent.vue';
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+defineComponent({
+  TheHeader,
+  TheMenu,
+  TheContent
+})
+
+onErrorCaptured((err) => {
+  console.log(err);
+  this.$common.handleError(err);
+})
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+@import url(./css/main.css);
 </style>

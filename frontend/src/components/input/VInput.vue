@@ -1,52 +1,50 @@
 <template>
-    <div>
-        <label 
-            v-if="label" 
-            class="input__title" 
-            :class="{'input--required': required}"
-            @click="$refs.inputRef?.focus()"
-        >{{ label }}</label>
-        <div class="input__body" :class="{'input--w-100': width100}">
-            <input 
-                :class="inputClass" 
-                :placeholder="placeholder" 
-                :readonly="readonly"
-                :disabled="disable"
-                :type="inputType"
-                class="input__content" 
-                ref="inputRef"
-                v-model="value"
-                maxlength="250"
-                @blur="handleBlur"
-                @keydown.enter="$emit('clickIcon', value)"
-                @keydown.tab="$emit('tab')"
-                @focus="$emit('focus')"
-            />
-            <div v-if="showDeleteIcon && !combobox && !password && !disable" class="input-delete-icon" @click="deleteValue">
-                <v-icon type="close-small"></v-icon>
-            </div>
-            <div v-if="iconFilter" class="input__filter">
-                <v-icon type="filter"></v-icon>
-            </div>
-            <div 
-                v-if="hasIcon || password" 
-                :class="{'input__icon--after': iconAfter || password, 'input__icon': !(iconAfter || password)}" 
-                @click="handleClickIcon"
-            >
-                <v-icon v-if="password" :type="showPassword ? 'show-pass' : 'hide-pass'"></v-icon>
-                <v-icon :type="iconType" :disable="disable" v-else></v-icon>
-            </div>
+    <label 
+        v-if="label" 
+        class="input__title" 
+        :class="{'input--required': required}"
+        @click="$refs.inputRef?.focus()"
+    >{{ label }}</label>
+    <div class="input__body" :class="{'input--w-100': w100}">
+        <input 
+            :class="inputClass" 
+            :placeholder="placeholder" 
+            :readonly="readonly"
+            :disabled="disable"
+            :type="inputType"
+            class="input__content" 
+            ref="inputRef"
+            v-model="value"
+            maxlength="250"
+            @blur="handleBlur"
+            @keydown.enter="$emit('clickIcon', value)"
+            @keydown.tab="$emit('tab')"
+            @focus="$emit('focus')"
+        />
+        <div v-if="showDeleteIcon && !combobox && !password && !disable" class="input-delete-icon" @click="deleteValue">
+            <v-icon type="close-small"></v-icon>
         </div>
-        <p v-if="errorDesc && showErrorDesc" class="input__desc-error" :class="{'input__desc-error-limit': !width100}">{{ errorDesc }}</p>
+        <div v-if="iconFilter" class="input__filter">
+            <v-icon type="filter"></v-icon>
+        </div>
+        <div 
+            v-if="hasIcon || password" 
+            :class="{'input__icon--after': iconAfter || password, 'input__icon': !(iconAfter || password)}" 
+            @click="handleClickIcon"
+        >
+            <v-icon v-if="password" :type="showPassword ? 'show-pass' : 'hide-pass'"></v-icon>
+            <v-icon :type="iconType" :disable="disable" v-else></v-icon>
+        </div>
     </div>
+    <p v-if="errorDesc && showErrorDesc" class="input__desc-error" :class="{'input__desc-error-limit': !w100}">{{ errorDesc }}</p>
 </template>
 
 <script setup>
-import { formatNumber, deFormatNumber } from '@/js/helpers/format-data';
+import { defineEmits, defineProps, ref, computed, watch } from 'vue';
 
-defineEmits(['update:modelValue', 'clickIcon', 'clear', 'tab', 'focus', 'blur', 'change'])
+const emit = defineEmits(['update:modelValue', 'clickIcon', 'clear', 'tab', 'focus', 'blur', 'change'])
 
-defineProps({
+const props = defineProps({
     'label': String,
     'placeholder': String,
     'hasValidate': Boolean,
@@ -55,7 +53,7 @@ defineProps({
     'iconType': String,
     'iconAfter': Boolean,
     'required': Boolean,
-    'width100': Boolean,
+    'w100': Boolean,
     'modelValue': [String, Number],
     'combobox': Boolean,
     'small': Boolean,
@@ -63,7 +61,7 @@ defineProps({
     'disable': Boolean,
     'blurNotHideErr': Boolean,
     'password': Boolean,
-    'inputLoginForm': Boolean,
+    'h40': Boolean,
     'iconFilter': Boolean,
     'placeholderItalic': Boolean,
     'typeNumber': Boolean,
@@ -73,101 +71,106 @@ defineProps({
     'noFormat': Boolean,
     'width280': Boolean,
     'noMinWidth': Boolean,
-    'validateDup': Boolean,
-    'max': Number
+    'validateDup': Boolean
 })
 
-const value = ref(modelValue)
+const value = ref(props.modelValue)
 const showErrorDesc = ref(false)
 const showDeleteIcon = ref(false)
 const showPassword = ref(false)
+const inputType = ref("text")
 
-function focus() {
-    this.$refs.inputRef?.focus();
+if (props.password) {
+    inputType.value = "password"
 }
 
+// function focus() {
+//     this.$refs.inputRef?.focus();
+// }
+
 function handleBlur() {
-    if (this.blurNotHideErr && this.modelValue) {
+    if (props.blurNotHideErr && props.modelValue) {
         return;
     }
 
-    if (this.combobox) return;
+    if (props.combobox) return;
 
-    if (this.hasValidate && !this.modelValue) {
-        this.showErrorDesc = true;
+    if (props.hasValidate && !props.modelValue) {
+        showErrorDesc.value = true;
     } else {
-        this.showErrorDesc = false;
+        showErrorDesc.value = false;
     }
 
-    this.$emit('blur');
+    emit('blur');
 }
 
-function showError() {
-    this.showErrorDesc = true;
-}
+// function showError() {
+//     this.showErrorDesc = true;
+// }
 
-function hideError() {
-    this.showErrorDesc = false;
-}
+// function hideError() {
+//     this.showErrorDesc = false;
+// }
 
 function deleteValue() {
-    this.value = '';
-    this.$emit('update:modelValue', this.value);
-    this.$emit('clear');
-    this.focus();
+    value.value = '';
+    emit('update:modelValue', value.value);
+    emit('clear');
+    focus();
 }
 
-function andleClickIcon() {
-    if (this.combobox) {
-        this.focus();
+function handleClickIcon() {
+    if (props.combobox) {
+        focus();
     }
-    this.$emit('clickIcon', this.value);
+    emit('clickIcon', value.value);
 
-    if (this.password) {
-        this.showPassword = !this.showPassword;
+    if (props.password) {
+        showPassword.value = !showPassword.value;
     }
 }
 
-function blur() {
-    this.$refs.inputRef.blur();
-}
+// function blur() {
+//     this.$refs.inputRef.blur();
+// }
 
 const inputClass = computed(() => {
     return {
-        'input--nomal': !this.showErrorDesc,
-        'input--error': this.showErrorDesc,
-        'input--have-icon-after': this.iconAfter,
-        'input--w-100': this.width100,
-        'input--small': this.small,
-        'input--disable': this.disable,
-        'input--hide-text': !this.showPassword && this.password,
-        'input--height-large': this.inputLoginForm,
-        'input--placeholder-italic': this.placeholderItalic,
-        'input--text-align-right': this.typeNumber || this.numberFloat,
-        'input--w-280': this.width280,
-        'input__content--no-min-width': this.noMinWidth
+        'input--nomal': !props.showErrorDesc,
+        'input--error': props.showErrorDesc,
+        'input--have-icon-after': props.iconAfter,
+        'input--w-100': props.w100,
+        'input--small': props.small,
+        'input--disable': props.disable,
+        'input--hide-text': !props.showPassword && props.password,
+        'input--height-40': props.h40,
+        'input--placeholder-italic': props.placeholderItalic,
+        'input--text-align-right': props.typeNumber || props.numberFloat,
+        'input--w-280': props.width280,
+        'input__content--no-min-width': props.noMinWidth,
     }
 })
 
 watch(value, (newValue, oldValue) => {
     if (newValue) {
-        this.showDeleteIcon = true;
+        showDeleteIcon.value = true;
     } else {
-        this.$emit('clear');
-        this.showDeleteIcon = false;
+        emit('clear');
+        showDeleteIcon.value = false;
     }
 
-    if (newValue != oldValue && !this.validateDup) {
-        this.showErrorDesc = false;
+    if (newValue != oldValue && !props.validateDup) {
+        showErrorDesc.value = false;
     }
 
-    this.$emit('update:modelValue', this.value);
-    this.$emit('change')
+    emit('update:modelValue', value.value);
+    emit('change')
 })
 
-watch(modelValue, (newValue) => {
-    this.value = newValue
-})
+// watch(props.modelValue, (newValue) => {
+//     value.value = newValue
+// })
+
 </script>
 
 <style scoped>

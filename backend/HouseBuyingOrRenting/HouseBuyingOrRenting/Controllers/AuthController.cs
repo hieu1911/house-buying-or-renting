@@ -10,25 +10,26 @@ namespace HouseBuyingOrRenting.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class AuthController : BaseController<User>
+    public class AuthController : BaseController<User, UserDto, UserCreateDto, UserUpdateDto>
     {
         private readonly IUserService _userService;
 
-        public AuthController(IUserService userService) 
+        public AuthController(IUserService userService) : base(userService)
         {
             _userService = userService;
         }
 
         [HttpPost]
-        [Route("/login")]
+        [Route("login")]
         public async Task<IActionResult> Login(UserLoginDto userLoginDto)
         {
             var user = await _userService.GetUserAsync(userLoginDto);
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.Name, user.UserName ?? ""),
                 new Claim("Email", user.Email ?? ""),
+                new Claim("PhoneNumber", user.PhoneNumber ?? "")
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

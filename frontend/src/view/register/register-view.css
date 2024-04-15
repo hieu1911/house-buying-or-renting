@@ -1,0 +1,80 @@
+.register-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: #F6F5F7;
+}
+
+.register-form {
+    background-color: #fff;
+    padding: 32px 44px;
+    border-radius: 4px;
+}
+
+.register-field {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    row-gap: 12px;
+    margin-bottom: 16px;
+}
+
+.register-title {
+    text-align: center;
+    font-size: 24px;
+    margin: 0 0 24px 0;
+}
+
+.other-way-register-title {
+    display: flex;
+    padding: 16px 0;
+}
+
+.other-way-register-title hr {
+    width: 100px;
+    height: 1px;
+}
+
+.other-way-register-title span {
+    font-size: 14px;
+    padding: 0 16px;
+}
+
+.other-way-register {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.other-way-register-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid #9e9e9e;
+}
+
+.other-way-register-item:hover {
+    border-color: var(--color-primary);
+}
+
+.other-way-register-item:hover span {
+    color: var(--color-primary);
+}
+
+.other-way-register-item img {
+    width: 20px;
+    height: 20px;
+}
+
+.other-way-register-item span {
+    font-size: 14px;
+    padding-left: 8px;
+}

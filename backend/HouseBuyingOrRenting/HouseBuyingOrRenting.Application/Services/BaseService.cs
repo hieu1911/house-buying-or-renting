@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace HouseBuyingOrRenting.Application.Services
 {
-    public class BaseService<TEntity, TEntityCreateDto, TEntityUpdateDto> : IBaseService<TEntity, TEntityCreateDto, TEntityUpdateDto>
-        where TEntity : BaseEntity where TEntityCreateDto : class where TEntityUpdateDto : class
+    public abstract class BaseService<TEntity, TEntityDto, TEntityCreateDto, TEntityUpdateDto> : IBaseService<TEntity, TEntityDto, TEntityCreateDto, TEntityUpdateDto>
+        where TEntity : BaseEntity where TEntityDto : class where TEntityCreateDto : class where TEntityUpdateDto : class
     {
         protected IBaseRepository<TEntity> BaseRepository;
 
@@ -41,14 +41,26 @@ namespace HouseBuyingOrRenting.Application.Services
             return entity;
         }
 
-        public Task<int> InsertAsync(TEntityCreateDto entityCreateDto)
+        public virtual async Task<int> InsertAsync(TEntityCreateDto entityCreateDto)
         {
-            throw new NotImplementedException();
+            var entity = await MapEntityCreateDtoToEntity(entityCreateDto);
+            entity.CreatedDate = DateTime.Now;
+            entity.CreatedName = "";
+
+            var result = await BaseRepository.InsertAsync(entity);
+
+            return result;
         }
 
         public Task<int> UpdateAsync(Guid id, TEntityUpdateDto entityUpdateDto)
         {
             throw new NotImplementedException();
         }
+
+        public abstract Task<TEntity> MapEntityCreateDtoToEntity(TEntityCreateDto entityCreateDto);
+
+        public abstract Task<TEntity> MapEntityUpdateDtoToEntity(Guid id, TEntityUpdateDto entityUpdateDto);
+
+        public abstract Task<TEntityDto> MapEntityToEntityDto(TEntity entity);
     }
 }

@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace HouseBuyingOrRenting.Application
 {
-    public interface IBaseService<TEntity, TEntityCreateDto, TEntityUpdateDto> 
-        where TEntity : BaseEntity where TEntityCreateDto : class where TEntityUpdateDto : class
+    public interface IBaseService<TEntity, TEntityDto, TEntityCreateDto, TEntityUpdateDto> 
+        where TEntity : BaseEntity where TEntityDto : class where TEntityCreateDto : class where TEntityUpdateDto : class
     {
         Task<List<TEntity>> GetAllAsync();
 

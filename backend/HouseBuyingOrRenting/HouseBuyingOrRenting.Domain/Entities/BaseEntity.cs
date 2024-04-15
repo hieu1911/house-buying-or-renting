@@ -12,11 +12,11 @@ namespace HouseBuyingOrRenting.Domain
         [Key]
         public Guid Id { get; set; }
 
-        public DateTimeOffset? CreateDate { get; set; }
+        public DateTimeOffset? CreatedDate { get; set; }
 
         public DateTimeOffset? ModifiedDate { get; set; }
 
-        public string? CreateName { get; set; }
+        public string? CreatedName { get; set; }
         
         public string? ModifiedName { get; set; }
     }

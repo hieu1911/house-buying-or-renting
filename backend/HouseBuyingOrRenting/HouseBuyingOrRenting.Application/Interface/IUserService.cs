@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HouseBuyingOrRenting.Application
 {
-    public interface IUserService : IBaseService<User, UserCreateDto, UserUpdateDto>
+    public interface IUserService : IBaseService<User, UserDto, UserCreateDto, UserUpdateDto>
     {
         Task<User> GetUserAsync(UserLoginDto user);
     }

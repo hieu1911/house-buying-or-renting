@@ -10,10 +10,13 @@ namespace HouseBuyingOrRenting.Infrastructure
 {
     public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
     {
+        private MyDbContext _dbContext;
+
         private DbSet<TEntity> _dbSet;
 
-        public BaseRepository(DbSet<TEntity> dbSet)
+        public BaseRepository(MyDbContext dbContext, DbSet<TEntity> dbSet)
         {
+            _dbContext = dbContext;
             _dbSet = dbSet;
         }
 
@@ -36,9 +39,12 @@ namespace HouseBuyingOrRenting.Infrastructure
             return entity;
         }
 
-        public Task<int> InsertAsync(TEntity entity)
+        public async Task<int> InsertAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            var result = await _dbSet.AddAsync(entity);
+            await _dbContext.SaveChangesAsync();
+
+            return 1;
         }
 
         public Task<int> UpdateAsync(TEntity entity)

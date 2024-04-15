@@ -1,4 +1,3 @@
-using HouseBuyingOrRenting;
 using HouseBuyingOrRenting.Application;
 using HouseBuyingOrRenting.Application.Services;
 using HouseBuyingOrRenting.Domain;
@@ -8,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+var corsPolicyName = "RealEstateOrigins";
 
 var supportedCultures = new[] { "vi-VN", "en-US" };
 var localizationOptions = new RequestLocalizationOptions().SetDefaultCulture(supportedCultures[0])
@@ -17,6 +17,7 @@ var localizationOptions = new RequestLocalizationOptions().SetDefaultCulture(sup
 var connectionString = builder.Configuration.GetValue<string>("ConnectionString");
 
 // Add services to the container.
+builder.Services.Configure<HashPasswordOptions>(builder.Configuration.GetSection("HashPassword"));
 builder.Services.AddControllers()
     .ConfigureApiBehaviorOptions(options =>
     {
@@ -48,6 +49,17 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     options.Cookie.SameSite = SameSiteMode.None;
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(corsPolicyName, policy =>
+    {
+        policy.WithOrigins("http://localhost:8080")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
+
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddLocalization(options =>
@@ -61,6 +73,7 @@ builder.Services.AddDbContext<MyDbContext>(options =>
 });
 
 builder.Services.AddControllers();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -81,8 +94,9 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseCors(corsPolicyName);
 
-app.UseMiddleware<ExceptionMiddleware>();
+//app.UseMiddleware<ExceptionMiddleware>();
 
 app.MapControllers();
 
