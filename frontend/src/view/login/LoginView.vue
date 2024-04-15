@@ -5,6 +5,7 @@
             <div class="login-field">
                 <v-input 
                     :placeholder="$t('auth.phoneNumberOrGmail')"
+                    :errorDesc="$t('auth.phoneOrEmailEmpty')"
                     ref="phoneOrEmailRef"
                     v-model="phoneNumberOrGmail"
                     w100
@@ -12,6 +13,7 @@
                 ></v-input>
                 <v-input 
                     :placeholder="$t('auth.password')"
+                    :errorDesc="$t('auth.passwordEmpty')"
                     ref="passwordRef"
                     v-model="password"
                     password
@@ -55,19 +57,26 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, inject } from 'vue';
 import { login } from '@/js/service/auth'
+
+const phoneOrEmailRef = ref(null);
+const passwordRef = ref(null);
 
 const phoneNumberOrGmail = ref('');
 const password = ref('');
+const router = inject('$router');
+const emitter = inject('$emitter');
+const enums = inject('$enums')
 
 async function handleLogin() {
     if (phoneNumberOrGmail.value.trim() == '') {
-        // phoneNumberOrGmail
+        phoneOrEmailRef.value.showError();
         return;
     }
 
     if (password.value.trim() == '') {
+        passwordRef.value.showError();
         return;
     }
 
@@ -76,11 +85,10 @@ async function handleLogin() {
         Password: password.value
     })
 
-    console.log(response);
     if (response) {
-        $router.push('/')
+        router.push('/')
     } else {
-
+        emitter.emit('showDialog', enums.statusEnum.ERROR, 'Cảnh báo', ['Thông tin đăng nhập không chính xác'])
     }
 }
 </script>

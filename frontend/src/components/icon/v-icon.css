@@ -112,3 +112,35 @@
 .icon-rotate {
 	transform: rotate(180deg);
 }
+
+.icon-error {
+	background: url('../../assets/icon/cross.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 24px;
+	height: 24px;
+}
+
+.icon-warning {
+	background: url('../../assets/icon/caution.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 24px;
+	height: 24px;
+}
+
+.icon-info {
+	background: url('../../assets/icon/information.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 24px;
+	height: 24px;
+}
+
+.icon-close {
+	background: url('../../assets/icon/close.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+}

@@ -1,46 +1,50 @@
 <template>
-    <label 
-        v-if="label" 
-        class="input__title" 
-        :class="{'input--required': required}"
-        @click="$refs.inputRef?.focus()"
-    >{{ label }}</label>
-    <div class="input__body" :class="{'input--w-100': w100}">
-        <input 
-            :class="inputClass" 
-            :placeholder="placeholder" 
-            :readonly="readonly"
-            :disabled="disable"
-            :type="inputType"
-            class="input__content" 
-            ref="inputRef"
-            v-model="value"
-            maxlength="250"
-            @blur="handleBlur"
-            @keydown.enter="$emit('clickIcon', value)"
-            @keydown.tab="$emit('tab')"
-            @focus="$emit('focus')"
-        />
-        <div v-if="showDeleteIcon && !combobox && !password && !disable" class="input-delete-icon" @click="deleteValue">
-            <v-icon type="close-small"></v-icon>
+    <div :class="{'input--w-100': w100}">
+        <label
+            v-if="label" 
+            class="input__title" 
+            :class="{'input--required': required}"
+            @click="$refs.inputRef?.focus()"
+        >{{ label }}</label>
+        <div class="input__body" :class="{'input--w-100': w100}">
+            <input 
+                :class="inputClass" 
+                :placeholder="placeholder" 
+                :readonly="readonly"
+                :disabled="disable"
+                :type="inputType"
+                class="input__content" 
+                ref="inputRef"
+                v-model="value"
+                maxlength="250"
+                @blur="handleBlur"
+                @keydown.enter="$emit('clickIcon', value)"
+                @keydown.tab="$emit('tab')"
+                @focus="$emit('focus')"
+            />
+            <div v-if="showDeleteIcon && !combobox && !password && !disable" class="input-delete-icon" @click="deleteValue">
+                <v-icon type="close-small"></v-icon>
+            </div>
+            <div v-if="iconFilter" class="input__filter">
+                <v-icon type="filter"></v-icon>
+            </div>
+            <div 
+                v-if="hasIcon || password" 
+                :class="{'input__icon--after': iconAfter || password, 'input__icon': !(iconAfter || password)}" 
+                @click="handleClickIcon"
+            >
+                <v-icon v-if="password" :type="showPassword ? 'show-pass' : 'hide-pass'"></v-icon>
+                <v-icon :type="iconType" :disable="disable" v-else></v-icon>
+            </div>
         </div>
-        <div v-if="iconFilter" class="input__filter">
-            <v-icon type="filter"></v-icon>
-        </div>
-        <div 
-            v-if="hasIcon || password" 
-            :class="{'input__icon--after': iconAfter || password, 'input__icon': !(iconAfter || password)}" 
-            @click="handleClickIcon"
-        >
-            <v-icon v-if="password" :type="showPassword ? 'show-pass' : 'hide-pass'"></v-icon>
-            <v-icon :type="iconType" :disable="disable" v-else></v-icon>
+        <div class="error-wrapper">
+            <p v-if="errorDesc && showErrorDesc" class="input__desc-error" :class="{'input__desc-error-limit': !w100}">{{ errorDesc }}</p>
         </div>
     </div>
-    <p v-if="errorDesc && showErrorDesc" class="input__desc-error" :class="{'input__desc-error-limit': !w100}">{{ errorDesc }}</p>
 </template>
 
 <script setup>
-import { defineEmits, defineProps, ref, computed, watch } from 'vue';
+import { defineEmits, defineProps, defineExpose, ref, computed, watch } from 'vue';
 
 const emit = defineEmits(['update:modelValue', 'clickIcon', 'clear', 'tab', 'focus', 'blur', 'change'])
 
@@ -72,6 +76,10 @@ const props = defineProps({
     'width280': Boolean,
     'noMinWidth': Boolean,
     'validateDup': Boolean
+});
+
+defineExpose({
+    showError
 })
 
 const value = ref(props.modelValue)
@@ -104,9 +112,9 @@ function handleBlur() {
     emit('blur');
 }
 
-// function showError() {
-//     this.showErrorDesc = true;
-// }
+function showError() {
+    showErrorDesc.value = true;
+}
 
 // function hideError() {
 //     this.showErrorDesc = false;
@@ -136,8 +144,8 @@ function handleClickIcon() {
 
 const inputClass = computed(() => {
     return {
-        'input--nomal': !props.showErrorDesc,
-        'input--error': props.showErrorDesc,
+        'input--nomal': !showErrorDesc.value,
+        'input--error': showErrorDesc.value,
         'input--have-icon-after': props.iconAfter,
         'input--w-100': props.w100,
         'input--small': props.small,

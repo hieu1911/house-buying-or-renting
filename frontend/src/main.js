@@ -10,7 +10,10 @@ import App from './App.vue'
 import VInput from './components/input/VInput.vue';
 import VButton from './components/button/VButton.vue';
 import VIcon from './components/icon/VIcon.vue';
+import VDialog from './components/dialog/VDialog.vue';
 import messages from './js/resource';
+import enums from './js/common/enum';
+import common from './js/common/helper';
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -21,13 +24,16 @@ const i18n = createI18n({
     messages
 })
 
-app.config.globalProperties.$router = router;
-app.config.globalProperties.$emitter = emitter;
+app.provide('$emitter', emitter)
+app.provide('$router', router)
+app.provide('$enums', enums)
+app.provide('$common', common)
 
 app
 .component('v-input', VInput)
 .component('v-button', VButton)
 .component('v-icon', VIcon)
+.component('v-dialog', VDialog)
 
 app.use(
     VueTippy,

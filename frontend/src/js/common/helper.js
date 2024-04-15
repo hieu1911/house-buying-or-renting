@@ -7,8 +7,8 @@ const common = {
         emitter.emit('showToastMessage', type, title, content);
     },
 
-    showDialog(type, title, desc, action, confirmLabel, warningInput=false, del=false, moreLabel='', moreAction=null) {
-        emitter.emit('showDialog', type, title, desc, action, confirmLabel, warningInput, del, moreLabel, moreAction);
+    showDialog(type, title, desc, action, del=false) {
+        emitter.emit('showDialog', type, title, desc, action, del);
     },
     
     handleError(err) {

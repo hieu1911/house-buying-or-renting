@@ -9,10 +9,12 @@
 </template>
 
 <script setup>
-import { defineComponent, onErrorCaptured } from 'vue';
+import { defineComponent, onErrorCaptured, inject } from 'vue';
 import TheHeader from '@/layout/header/TheHeader.vue';
 import TheMenu from '@/layout/menu/TheMenu.vue';
 import TheContent from '@/layout/content/TheContent.vue';
+
+const common = inject('$common')
 
 defineComponent({
   TheHeader,
@@ -22,7 +24,7 @@ defineComponent({
 
 onErrorCaptured((err) => {
   console.log(err);
-  this.$common.handleError(err);
+  common.handleError(err);
 })
 </script>
 

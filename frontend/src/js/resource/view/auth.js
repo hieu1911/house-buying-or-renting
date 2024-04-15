@@ -13,7 +13,12 @@ const authResource = {
         hasAccount: 'Đã có tài khoản?',
         registerNewAccount: 'Đăng ký tài khoản mới',
         loginNow: 'Đăng nhập ngay',
-        fullName: 'Họ và tên'
+        fullName: 'Họ và tên',
+        phoneOrEmailEmpty: 'Email hoặc số điện thoại không được để trống.',
+        passwordEmpty: 'Password không được để trống.',
+        fullNameEmpty: 'Tên không được để trống',
+        phoneNumberEmpty: 'Số điện thoại không được để trống',
+        emailEmpty: 'Email không được để trống'
     },
     en: {
         title: 'Login',
@@ -29,7 +34,12 @@ const authResource = {
         hasAccount: 'Has account?',
         registerNewAccount: 'Register new account',
         loginNow: 'Login now',
-        fullName: 'Fullname'
+        fullName: 'Fullname',
+        phoneOrEmailEmpty: 'Email or phone is required.',
+        passwordEmpty: 'Password is required.',
+        fullNameEmpty: 'Fullname is required',
+        phoneNumberEmpty: 'Phone number is required',
+        emailEmpyt: 'Email is required'
     }
 }
 

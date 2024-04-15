@@ -1,0 +1,71 @@
+/* css dialog */
+.dialog-wrapper {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(20, 20, 20, 0.5);
+    z-index: 3;
+}
+
+.dialog-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.dialog {
+    background-color: #ffffff;
+    min-width: 400px;
+    max-width: 600px;
+    width: fit-content;
+    padding: 24px;
+    border-radius: 4px;
+    box-shadow: 0 4px 40px rgba(0, 0, 0, 0.078);
+}
+
+.dialog-close-btn:hover .icon::after {
+    display: block !important;
+}
+
+/* dialog header */
+.dialog__header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.dialog__title {
+    font-weight: 700;
+    font-size: 20px;
+    color: #1f1f1f;
+    margin: 0;
+}
+
+/* dialog body */
+.dialog__body {
+    display: flex;
+    align-items: center;
+    column-gap: 12px;
+    font-weight: 400;
+    font-size: 13px;
+    color: #1f1f1f;
+    padding: 24px 0;
+}
+
+.dialog__body li{
+    margin: 4px 0;
+}
+
+.dialog__body .list-style-none {
+    list-style: none;
+}
+
+/* dialog footer */
+.dialog__footer {
+    display: flex;
+    justify-content: end;
+    align-items: end;
+}

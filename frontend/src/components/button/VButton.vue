@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue';
+import { defineProps, defineEmits, defineExpose } from 'vue';
 
 const props = defineProps({
     'label': String,
@@ -26,11 +26,14 @@ const props = defineProps({
     'h40': Boolean
 })
 
-defineEmits(['click'])
+defineEmits(['click']);
+defineExpose({
+    focus
+});
 
-// function focus() {
-//     this.$refs.btnRef.focus();
-// }
+function focus() {
+    this.$refs.btnRef.focus();
+}
 
 function checkClassByType(allowTypes) {
     return allowTypes.includes(props.type);

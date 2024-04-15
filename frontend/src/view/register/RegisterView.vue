@@ -5,24 +5,32 @@
             <div class="register-field">
                 <v-input 
                     :placeholder="$t('auth.fullName')"
+                    :errorDesc="$t('auth.fullNameEmpty')"
+                    ref="fullNameRef"
                     v-model="fullName"
                     w100
                     h40
                 ></v-input>
                 <v-input 
                     :placeholder="$t('auth.phoneNumber')"
+                    :errorDesc="$t('auth.phoneNumberEmpty')"
+                    ref="phoneNumberRef"
                     v-model="phoneNumber"
                     w100
                     h40
                 ></v-input>
                 <v-input 
                     :placeholder="$t('auth.email')"
+                    :errorDesc="$t('auth.emailEmpty')"
+                    ref="emailRef"
                     v-model="email"
                     w100
                     h40
                 ></v-input>
                 <v-input 
                     :placeholder="$t('auth.password')"
+                    :errorDesc="$t('auth.passwordEmpyt')"
+                    ref="passwordRef"
                     v-model="password"
                     password
                     w100
@@ -34,6 +42,7 @@
                 type="primary"
                 w100
                 h40
+                @click="handleRegister"
             ></v-button>
             <div class="other-way-register-title">
                 <hr/>
@@ -63,12 +72,56 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
+import { register } from '@/js/service/auth';
+import full from 'core-js/full';
+
+const router = inject('$router');
+
+const fullNameRef = ref(null)
+const phoneNumberRef = ref(null)
+const emailRef = ref(null)
+const passwordRef = ref(null)
 
 const fullName = ref('')
 const phoneNumber = ref('')
 const email = ref('')
 const password = ref('')
+
+async function handleRegister() {
+    if (fullName.value.trim() == '') {
+        fullNameRef.value.showError();
+        return;
+    }
+
+    if (phoneNumber.value.trim() == '') {
+        phoneNumberRef.value.showError();
+        return;
+    }
+
+    if (email.value.trim() == '') {
+        emailRef.value.showError();
+        return;
+    }
+
+    if (password.value.trim() == '') {
+        passwordRef.value.showError();
+        return;
+    }
+
+    const response = await register({
+        Fullname: fullName.value,
+        PhoneNumber: phoneNumber.value,
+        Email: email.value,
+        Password: password.value
+    });
+
+    if (response) {
+        router.push('/login');
+    } else {
+        console.log(response)
+    }
+}
 </script>
 
 <style scoped>
