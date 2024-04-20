@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HouseBuyingOrRenting.Application
+namespace HouseBuyingOrRenting.Domain
 {
-    public class CategoryUpdateDto
+    public interface IBoardingHouseRepository : IBaseRepository<BoardingHouse>
     {
     }
 }

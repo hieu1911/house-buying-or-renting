@@ -120,6 +120,7 @@ async function handleRegister() {
     } else {
         console.log(response)
     }
+
 }
 </script>
 

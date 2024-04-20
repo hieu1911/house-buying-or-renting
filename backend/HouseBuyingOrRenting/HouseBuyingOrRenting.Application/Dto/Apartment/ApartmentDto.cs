@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HouseBuyingOrRenting.Application
 {
-    public class CategoryCreateDto
+    public class ApartmentDto
     {
     }
 }

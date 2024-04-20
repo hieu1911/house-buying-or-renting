@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HouseBuyingOrRenting.Application
 {
-    public interface IImageUrlService : IBaseService<ImageUrl, ImageUrlDto, ImageUrlCreateDto, ImageUrlUpdateDto>
+    public interface IHouseService : IBaseService<House, HouseDto, HouseCreateDto, HouseUpdateDto>
     {
     }
 }

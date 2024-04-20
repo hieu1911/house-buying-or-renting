@@ -7,9 +7,9 @@ namespace HouseBuyingOrRenting.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class RealEstateController : BaseController<RealEstate, RealEstateDto, RealEstateCreateDto, RealEstateUpdateDto>
+    public class BoardingHouseController : BaseController<BoardingHouse, BoardingHouseDto, BoardingHouseCreateDto, BoardingHouseUpdateDto>
     {
-        public RealEstateController(IRealEstateService realEstateService) : base(realEstateService)
+        public BoardingHouseController(IBoardingHouseService provinceService) : base(provinceService)
         {
         }
     }

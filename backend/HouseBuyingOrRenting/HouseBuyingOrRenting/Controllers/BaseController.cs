@@ -16,6 +16,13 @@ namespace HouseBuyingOrRenting.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> GetAllAsync()
+        {
+            var result = await BaseService.GetAllAsync();
+            return StatusCode(StatusCodes.Status200OK, result);
+        }
+
+        [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetAsync(Guid id)
         {

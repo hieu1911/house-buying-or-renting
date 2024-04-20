@@ -85,10 +85,14 @@ builder.Services.AddScoped<IProvinceService, ProvinceService>();
 builder.Services.AddScoped<IProvinceRepository, ProvinceRepository>();
 builder.Services.AddScoped<IImageUrlService, ImageUrlService>();
 builder.Services.AddScoped<IImageUrlRepository, ImageUrlRepository>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-builder.Services.AddScoped<IRealEstateService, RealEstateService>();
-builder.Services.AddScoped<IRealEstateRepository, RealEstateRepository>();
+builder.Services.AddScoped<IHouseService, HouseService>();
+builder.Services.AddScoped<IHouseRepository, HouseRepository>();
+builder.Services.AddScoped<IBoardingHouseService, BoardingHouseService>();
+builder.Services.AddScoped<IBoardingHouseRepository, BoardingHouseRepository>();
+builder.Services.AddScoped<IApartmentService, ApartmentService>();
+builder.Services.AddScoped<IApartmentRepository, ApartmentRepository>();
+builder.Services.AddScoped<ILandService, LandService>();
+builder.Services.AddScoped<ILandRepository, LandRepository>();
 
 var app = builder.Build();
 

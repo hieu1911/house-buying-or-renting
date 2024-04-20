@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace HouseBuyingOrRenting.Infrastructure
 {
-    public class RealEstateRepository : BaseRepository<RealEstate>, IRealEstateRepository
+    public class LandRepository : BaseRepository<Land>, ILandRepository
     {
-        public RealEstateRepository(MyDbContext db) : base(db, db.RealEstates)
+        public LandRepository(MyDbContext db) : base(db, db.Lands)
         {
         }
     }

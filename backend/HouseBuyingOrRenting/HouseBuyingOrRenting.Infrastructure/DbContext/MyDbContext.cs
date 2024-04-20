@@ -13,7 +13,13 @@ namespace HouseBuyingOrRenting.Infrastructure
 
         public DbSet<ImageUrl> ImageUrls { get; set; }
 
-        public DbSet<RealEstate> RealEstates { get; set; }
+        public DbSet<Apartment> Apartments { get; set; }
+
+        public DbSet<House> Houses { get; set; }
+
+        public DbSet<BoardingHouse> BoardingHouses { get; set; }
+
+        public DbSet<Land> Lands { get; set; }
 
         public DbSet<Province> Provinces { get; set; }
 

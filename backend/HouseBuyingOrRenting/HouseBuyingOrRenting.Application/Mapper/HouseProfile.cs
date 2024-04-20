@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace HouseBuyingOrRenting.Application
 {
-    public class CategoryProfile : Profile
+    public class HouseProfile : Profile
     {
-        public CategoryProfile() 
+        public HouseProfile()
         {
-            CreateMap<Category, CategoryDto>();
-            CreateMap<CategoryCreateDto, Category>();
-            CreateMap<CategoryUpdateDto, Category>();
+            CreateMap<House, HouseDto>();
+            CreateMap<HouseCreateDto, House>();
+            CreateMap<HouseUpdateDto, House>();
         }
     }
 }

@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace HouseBuyingOrRenting.Infrastructure
 {
-    public class CategoryRepository : BaseRepository<Category>, ICategoryRepository
+    public class BoardingHouseRepository : BaseRepository<BoardingHouse>, IBoardingHouseRepository
     {
-        public CategoryRepository(MyDbContext db) : base(db, db.Categories)
+        public BoardingHouseRepository(MyDbContext db) : base(db, db.BoardingHouses)
         {
         }
     }

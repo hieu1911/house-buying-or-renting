@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace HouseBuyingOrRenting.Application
 {
-    public class RealEstateProfile : Profile
+    public class LandProfile : Profile
     {
-        public RealEstateProfile() 
+        public LandProfile()
         {
-            CreateMap<RealEstate, RealEstateDto>();
-            CreateMap<RealEstateCreateDto, RealEstate>();
-            CreateMap<RealEstateUpdateDto, RealEstate>();
+            CreateMap<Land, LandDto>();
+            CreateMap<LandCreateDto, Land>();
+            CreateMap<LandUpdateDto, Land>();
         }
     }
 }

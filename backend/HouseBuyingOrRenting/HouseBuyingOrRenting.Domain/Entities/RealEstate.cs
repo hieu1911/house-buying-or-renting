@@ -7,24 +7,30 @@ using System.Threading.Tasks;
 
 namespace HouseBuyingOrRenting.Domain
 {
-    public class RealEstate : BaseEntity
+    public abstract class RealEstate : BaseEntity
     {
         public Guid OwnerId { get; set; }
-
-        public Guid CategoryId { get; set; }
 
         public Guid? DistrictId { get; set; }
 
         public string? Address { get; set; }
 
-        public string Title { get; set; }
+        public double? Latitude { get; set; }
+
+        public double? Longtitude { get; set; }
+
+        public double Area { get; set; }
+
+        public string? Title { get; set; }
 
         public string? Name { get; set; }
 
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         public double Price { get; set; }
 
-        public double Deposit { get; set; }
+        public string? Feature { get; set; }
+
+        public RealEstateType Type { get; set; }
     }
 }

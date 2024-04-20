@@ -7,9 +7,9 @@ namespace HouseBuyingOrRenting.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class CategoryController : BaseController<Category, CategoryDto, CategoryCreateDto, CategoryUpdateDto>
+    public class ApartmentController : BaseController<Apartment, ApartmentDto, ApartmentCreateDto, ApartmentUpdateDto>
     {
-        public CategoryController(ICategoryService categoryService) : base(categoryService)
+        public ApartmentController(IApartmentService districtService) : base(districtService)
         {
         }
     }

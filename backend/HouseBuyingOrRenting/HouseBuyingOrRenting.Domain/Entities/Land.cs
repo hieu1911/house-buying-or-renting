@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace HouseBuyingOrRenting.Domain
 {
-    public interface IRealEstateRepository : IBaseRepository<RealEstate>
+    public class Land : RealEstate
     {
+        public string? LandType { get; set; }
+
+        public string? LegalDocument { get; set; }
     }
 }

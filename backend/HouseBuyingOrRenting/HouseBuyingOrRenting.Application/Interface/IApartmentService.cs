@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HouseBuyingOrRenting.Application
 {
-    public interface IRealEstateService : IBaseService<RealEstate, RealEstateDto, RealEstateCreateDto, RealEstateUpdateDto>
+    public interface IApartmentService : IBaseService<Apartment, ApartmentDto, ApartmentCreateDto, ApartmentUpdateDto>
     {
     }
 }
