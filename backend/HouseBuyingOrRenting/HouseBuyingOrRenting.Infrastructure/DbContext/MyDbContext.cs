@@ -9,8 +9,6 @@ namespace HouseBuyingOrRenting.Infrastructure
 
         public DbSet<User> Users { get; set; }
 
-        public DbSet<Category> Categories { get; set; }
-
         public DbSet<ImageUrl> ImageUrls { get; set; }
 
         public DbSet<Apartment> Apartments { get; set; }
