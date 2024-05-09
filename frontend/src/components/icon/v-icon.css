@@ -144,3 +144,43 @@
 	width: 20px;
 	height: 20px;
 }
+
+.icon-logo {
+	background: url('../../assets/icon/logo.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 24px;
+	height: 24px;
+}
+
+.icon-notify {
+	background: url('../../assets/icon/notify.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 24px;
+	height: 24px;
+}
+
+.icon-user {
+	background: url('../../assets/icon/profile-user.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 24px;
+	height: 24px;
+}
+
+.icon-search {
+	background: url('../../assets/icon/magnifying-glass.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-filter {
+	background: url('../../assets/icon/filter.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+}

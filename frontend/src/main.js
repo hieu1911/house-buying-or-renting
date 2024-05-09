@@ -11,6 +11,7 @@ import VInput from './components/input/VInput.vue';
 import VButton from './components/button/VButton.vue';
 import VIcon from './components/icon/VIcon.vue';
 import VDialog from './components/dialog/VDialog.vue';
+import VCombobox from './components/combobox/VCombobox.vue';
 import messages from './js/resource';
 import enums from './js/common/enum';
 import common from './js/common/helper';
@@ -34,6 +35,7 @@ app
 .component('v-button', VButton)
 .component('v-icon', VIcon)
 .component('v-dialog', VDialog)
+.component('v-combobox', VCombobox)
 
 app.use(
     VueTippy,

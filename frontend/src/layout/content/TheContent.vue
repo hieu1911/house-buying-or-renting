@@ -75,5 +75,5 @@ function showLoading(showed) {
 </script>
 
 <style scoped>
-
+@import url(./the-content.css);
 </style>

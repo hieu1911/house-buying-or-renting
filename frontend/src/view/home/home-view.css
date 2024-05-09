@@ -1,0 +1,7 @@
+.search-wrapper {
+    background: url('../../assets/image/background-search.png');
+	background-size: cover;
+	background-repeat: no-repeat;
+    width: 1110px;
+    height: 300px;
+}

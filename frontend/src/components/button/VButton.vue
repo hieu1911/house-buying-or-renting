@@ -7,7 +7,7 @@
         @click="$emit('click')"
         v-tippy="description"
     >
-        <v-icon v-if="hasIcon" :type="icon" :nowrap="icon=='add'"></v-icon>
+        <v-icon v-if="icon" :type="icon" :nowrap="icon=='add'"></v-icon>
         <label for="">{{ label }}</label>
     </button>
 </template>
@@ -18,7 +18,6 @@ import { defineProps, defineEmits, defineExpose } from 'vue';
 const props = defineProps({
     'label': String,
     'type': String,
-    'hasIcon': Boolean,
     'icon': String,
     'description': String,
     'disable': Boolean,

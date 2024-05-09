@@ -1,0 +1,33 @@
+.header-wrapper, .header-left, .header-right {
+    display: flex;
+    align-items: center;
+}
+
+.header-wrapper {
+    justify-content: space-between;
+    padding: 8px 200px;
+}
+
+.header-right {
+    display: flex;
+    column-gap: 16px;
+}
+
+.header-left h3 {
+    font-size: 20px;
+    margin-left: 4px;
+}
+
+
+.header-link {
+    display: flex;
+    align-items: flex-end;
+    column-gap: 16px;
+    margin-left: 40px;
+}
+
+.header-left a {
+    margin-top: 3px;
+    font-size: 16px;
+    font-weight: 500;
+}
