@@ -5,8 +5,22 @@ const statusEnum = {
     INFO: 3 
 }
 
+const realEstateEnum = {
+    HOUSE: 0,
+    BOARDINGHOUSE: 1,
+    APARTMENT: 2,
+    LAND: 3
+}
+
+const postEnum = {
+    BUY: 0,
+    RENT: 1
+}
+
 const enums = {
-    statusEnum
+    statusEnum,
+    realEstateEnum,
+    postEnum
 }
 
 export default enums;

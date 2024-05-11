@@ -156,6 +156,7 @@ const inputClass = computed(() => {
         'input--text-align-right': props.typeNumber || props.numberFloat,
         'input--w-280': props.width280,
         'input__content--no-min-width': props.noMinWidth,
+        'input--readonly': props.readonly
     }
 })
 
@@ -179,6 +180,7 @@ watch(value, (newValue, oldValue) => {
 //     value.value = newValue
 // })
 
+watch(() => props.modelValue, newValue => value.value = newValue)
 </script>
 
 <style scoped>

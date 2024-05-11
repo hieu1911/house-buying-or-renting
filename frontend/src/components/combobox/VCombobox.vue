@@ -1,5 +1,5 @@
 <template>
-    <div :ref="wref">
+    <div ref="wref">
         <label 
             v-if="label" 
             class="combobox__title" 
@@ -18,21 +18,18 @@
                 <v-input
                     ref="inputRef"
                     combobox
-                    :width100="!comboboxSmall"
+                    :w100="!comboboxSmall"
                     hasIcon
                     iconType="combobox-down"
                     iconAfter
                     v-model="selectedTitle"
                     :iconFilter="iconFilter"
                     :small="comboboxSmall"
-                    :readonly="readonly"
+                    :readonly="readonly || selectOnly"
                     :disable="disable"
                     :placeholder="placeholder"
-                    :inputLoginForm="inputLoginForm"
-                    :placeholderItalic="placeholderItalic"
-                    :hasValidate="hasValidate"
-                    :validateDup="validateDup"
-                    @showCombobox="showCombobox = true"
+                    @clickIcon="toggleCombobox"
+                    @focus="showCombobox = true"
                 ></v-input>
             </div>
             <div 
@@ -51,7 +48,7 @@
                         class="combobox__item"
                         :key="item?.value" 
                         :value="item?.value" 
-                        :class="{'combobox__item--selected': item?.value == itemTarget?.value}"
+                        :class="{'combobox__item--selected': item?.value == selectedValue}"
                         @click="handleSelect(item)"
                     >
                         {{ item?.title + (item?.subTitle ? ' - ' + item.subTitle : '')}}
@@ -67,38 +64,43 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits, ref} from 'vue';
-// import { useOnClickOutside } from '@/js/composable/click-outside';
+import { defineProps, defineEmits, ref, onMounted } from 'vue';
+import { useOnClickOutside } from '@/js/composable/click-outside';
 // import { publicStore } from '@/js/store/public';
 
 const props = defineProps({
-        'label': String,
-        'errorDesc': String,
-        'errorDescDup': String,
-        'required': Boolean,
-        'options': Array,
-        'showInTop': Boolean,
-        'comboboxSmall': Boolean,
-        'modelValue': [Number, String],
-        'titleGray': Boolean,
-        'disable': Boolean,
-        'readonly': Boolean,
-        'placeholder': String,
-        'inputLoginForm': Boolean,
-        'iconFilter': Boolean,
-        'placeholderItalic': Boolean,
-        'hasValidate': Boolean,
-        'wref': String,
-        'validateDup': Boolean
-    });
+    'label': String,
+    'errorDesc': String,
+    'errorDescDup': String,
+    'required': Boolean,
+    'options': Array,
+    'showInTop': Boolean,
+    'comboboxSmall': Boolean,
+    'modelValue': [Number, String],
+    'titleGray': Boolean,
+    'disable': Boolean,
+    'readonly': Boolean,
+    'placeholder': String,
+    'iconFilter': Boolean,
+    'wref': String,
+    'selectOnly': Boolean
+});
 
 const emit = defineEmits(['update:modelValue', 'selectedItem']);
 
 const showCombobox = ref(false)
 const selectedValue = ref(props.modelValue)
 const selectedTitle = ref(props.options?.find(option => props.modelValue == option.value)?.title)
-const itemTarget = ref(props.options?.find(option => props.modelValue == option.value))
 // const isFocus = ref(false)
+const wref = ref(null);
+
+onMounted(() => {
+    if (wref.value) {
+        useOnClickOutside(wref.value, () => {
+            showCombobox.value = false;
+        });
+    }
+})
   
 function handleSelect(item) {
     selectedValue.value = item.value;
@@ -157,11 +159,12 @@ function handleSelect(item) {
 //     this.listItem = this.options;
 // }
 
-// function toggleCombobox() {
-//     if (!props.disable) {
-//         showCombobox.value = !showCombobox.value;
-//     }
-// }
+function toggleCombobox() {
+    if (!props.disable) {
+        showCombobox.value = !showCombobox.value;
+        console.log(showCombobox.value)
+    }
+}
 
 // function focus() {
 //     this.$refs.inputRef.focus();

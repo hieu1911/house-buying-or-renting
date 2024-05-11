@@ -184,3 +184,19 @@
 	width: 20px;
 	height: 20px;
 }
+
+.icon-combobox-down {
+	background: url('../../assets/icon/down-arrow.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 18px;
+	height: 18px;
+}
+
+.icon-tick {
+	background: url('../../assets/icon/checkmark.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+}

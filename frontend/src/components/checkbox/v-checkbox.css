@@ -1,0 +1,106 @@
+/* input type checkbox */
+input[type='checkbox'] {
+    position: relative;
+    width: 14px;
+    height: 14px;
+    /*accent-color: #1c3048; */
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+input[type='checkbox']::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: block;
+    color: white;
+    width: 14px;
+    height: 14px;
+    background-color: #fff;
+    border-radius: 2px;
+    border: 1px solid #666;
+}
+
+.checkbox-wrapper > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2px 2px 1px 1px;
+    border-radius: 4px;
+}
+
+/* .checkbox-wrapper:hover > div {
+} */
+
+input[type=checkbox]:indeterminate::before {
+    content: "";
+    display: block;
+    color: white;
+    width: 14px;
+    height: 14px;
+    background-color: var(--color-primary);
+    border-radius: 2px;
+    border: 1px solid var(--color-primary);
+}
+
+input[type=checkbox]:indeterminate::after {
+    content: "";
+    display: block;
+    width: 10px;
+    height: 3px;
+    background-color: #fff;
+    position: absolute;
+    border-radius: 1px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+input[type=checkbox]:checked:before {
+    content: "";
+    display: block;
+    color: #fff;
+    width: 14px;
+    height: 14px;
+    background-color: var(--color-primary);
+    border-radius: 2px;
+    border: 1px solid var(--color-primary);
+}
+
+input[type=checkbox]:checked:after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    top: 42%;
+    left: 50%;
+    width: 4px;
+    height: 8px;
+    border: solid #fff;
+    border-radius: 1px;
+    border-width: 0 3px 3px 0;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+input[type='checkbox']:focus-visible {
+    outline: 1px solid var(--color-primary);
+}
+
+input[type='checkbox']:disabled {
+    cursor: not-allowed;
+}
+
+.checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 4px;
+}
+
+.checkbox-wrapper label {
+    font-size: 13px;
+    width: 112px;
+    user-select: none;
+    cursor: pointer;
+}

@@ -22,6 +22,10 @@
     outline: none;
 }
 
+.input--readonly {
+    cursor: pointer;
+}
+
 .input__content--no-min-width {
     min-width: 0;
 }
