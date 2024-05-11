@@ -9,8 +9,11 @@ namespace HouseBuyingOrRenting.Controllers
     [ApiController]
     public class ProvinceController : BaseController<Province, ProvinceDto, ProvinceCreateDto, ProvinceUpdateDto>
     {
+        private readonly IProvinceService _provinceService;
+
         public ProvinceController(IProvinceService provinceService) : base(provinceService)
         {
+            _provinceService = provinceService;
         }
     }
 }

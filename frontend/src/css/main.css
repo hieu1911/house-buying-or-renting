@@ -53,3 +53,7 @@ body {
 .app-content {
     display: flex;
 }
+
+input[type='radio'] {
+    accent-color: var(--color-primary);
+}

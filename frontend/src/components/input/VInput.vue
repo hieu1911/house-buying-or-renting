@@ -20,7 +20,7 @@
                 @blur="handleBlur"
                 @keydown.enter="$emit('clickIcon', value)"
                 @keydown.tab="$emit('tab')"
-                @focus="$emit('focus')"
+                @focus="handleFocus"
             />
             <div v-if="showDeleteIcon && !combobox && !password && !disable" class="input-delete-icon" @click="deleteValue">
                 <v-icon type="close-small"></v-icon>
@@ -97,6 +97,7 @@ if (props.password) {
 // }
 
 function handleBlur() {
+    showDeleteIcon.value = false;
     if (props.blurNotHideErr && props.modelValue) {
         return;
     }
@@ -110,6 +111,13 @@ function handleBlur() {
     }
 
     emit('blur');
+}
+
+function handleFocus() {
+    if (value.value) {
+        showDeleteIcon.value = true;
+    }
+    emit('focus')
 }
 
 function showError() {
@@ -136,6 +144,25 @@ function handleClickIcon() {
     if (props.password) {
         showPassword.value = !showPassword.value;
     }
+}
+
+function formatNumber(num) {
+    if (!num && num !== 0) return;
+    let n = num;
+    let str = n.toLocaleString('en-US');
+    str = str.replace(/\./, ',');
+    str = str.replace(/,/g, '.');
+    return str;
+}
+
+function deFormatNumber(numberString) {
+    let number;
+
+    if (numberString === null || numberString === undefined) return 0;
+    number = numberString.toString().replace(/\./g, "");
+    number = parseInt(number);
+
+    return number;
 }
 
 // function blur() {
@@ -168,19 +195,26 @@ watch(value, (newValue, oldValue) => {
         showDeleteIcon.value = false;
     }
 
-    if (newValue != oldValue && !props.validateDup) {
-        showErrorDesc.value = false;
+    if (props.typeNumber && newValue) {
+        console.log(newValue)
+        const number = deFormatNumber(newValue.toString());
+
+        if (isNaN(number)) {
+            this.value = oldValue;
+            return;
+        }
+        
+        value.value = formatNumber(number);
+        //console.log(value.value)
     }
 
     emit('update:modelValue', value.value);
     emit('change')
 })
 
-// watch(props.modelValue, (newValue) => {
-//     value.value = newValue
-// })
-
-watch(() => props.modelValue, newValue => value.value = newValue)
+watch(() => props.modelValue, newValue => {
+    value.value = newValue;
+})
 </script>
 
 <style scoped>

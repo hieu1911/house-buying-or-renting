@@ -46,4 +46,35 @@ hr {
     border-top: 1px solid #ccc;
     margin: 1em 0;
     padding: 0;
-  }
+}
+
+.post-description {
+    display: flex;
+    flex-direction: column;
+}
+
+.post-description label{
+    display: block;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: #1f1f1f;
+    margin-bottom: 8px;
+}
+
+.post-description textarea {
+    background: #ffffff;
+    padding: 8px;
+    height: 100px;
+    min-width: 250px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    outline: none;
+}
+
+.post-description textarea:hover,  .post-description textarea:focus {
+    border-color: var(--color-primary);
+}

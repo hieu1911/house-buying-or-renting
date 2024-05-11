@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HouseBuyingOrRenting.Domain
 {
-    public interface IDistrictRepository : IBaseRepository<District>
+    public interface IProvinceRepository : IBaseRepository<Province>
     {
     }
 }

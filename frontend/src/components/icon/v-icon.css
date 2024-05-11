@@ -200,3 +200,19 @@
 	width: 20px;
 	height: 20px;
 }
+
+.icon-checked {
+	background: url('../../assets/icon/checked.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-close-small {
+	background: url('../../assets/icon/close.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 14px;
+	height: 14px;
+}

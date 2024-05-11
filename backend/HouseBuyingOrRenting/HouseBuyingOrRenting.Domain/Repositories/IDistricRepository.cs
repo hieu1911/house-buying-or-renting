@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace HouseBuyingOrRenting.Domain
 {
-    public interface IProvinceRepository : IBaseRepository<Province>
+    public interface IDistrictRepository : IBaseRepository<District>
     {
+        Task<List<District>> GetDistrictsByProvinceId(Guid provinceId);
     }
 }

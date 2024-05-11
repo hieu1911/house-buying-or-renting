@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace HouseBuyingOrRenting.Application
 {
-    public interface IProvinceService : IBaseService<Province, ProvinceDto, ProvinceCreateDto, ProvinceUpdateDto>
+    public interface IDistrictService : IBaseService<District, DistrictDto, DistrictCreateDto, DistrictUpdateDto>
     {
+        Task<List<DistrictDto>> GetDistrictsByProvinceId(Guid provinceId);
     }
 }

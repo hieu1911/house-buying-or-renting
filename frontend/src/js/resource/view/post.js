@@ -28,7 +28,9 @@ const postResource = {
         noHave: "Không có",
         have: "Đã có sổ",
         pinkBook: "Sổ hồng riêng",
-        landType: "Loại hình đất"
+        landType: "Loại hình đất",
+        description: "Mô tả",
+        post: "Đăng tin"
     },
     en: {
         header: "Post real estate",

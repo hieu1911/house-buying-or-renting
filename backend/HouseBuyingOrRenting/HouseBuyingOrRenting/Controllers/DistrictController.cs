@@ -9,8 +9,20 @@ namespace HouseBuyingOrRenting.Controllers
     [ApiController]
     public class DistrictController : BaseController<District, DistrictDto, DistrictCreateDto, DistrictUpdateDto>
     {
+        private readonly IDistrictService _districtService;
+
         public DistrictController(IDistrictService districtService) : base(districtService)
         {
+            _districtService = districtService;
+        }
+
+        [HttpGet]
+        [Route("by-province-id/{provinceId}")]
+        public async Task<IActionResult> GetDistrictsByProvinceId(Guid provinceId)
+        {
+            var result = await _districtService.GetDistrictsByProvinceId(provinceId);
+
+            return StatusCode(StatusCodes.Status200OK, result);
         }
     }
 }
