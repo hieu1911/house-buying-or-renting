@@ -1,5 +1,5 @@
 <template>
-    <div class="post-wrapper">
+    <div class="post-wrapper" @wheel.prevent="preventScroll">
         <h4 class="post-header">{{ $t('post.header') }}</h4>
         <hr/>
         <div>
@@ -64,6 +64,44 @@
                 w100
                 :label="$t('post.addressDetail')"
             ></v-input>
+            <div style="margin: 28px 0 0 20px">
+                <v-button
+                    :label="$t('post.chooseFromMap')"
+                    type="primary"
+                    @click="showGoogleMap = true"
+                ></v-button>
+            </div>
+        </div>
+        <div v-show="showGoogleMap" class="google-map-wrapper">
+            <div class="google-map-content">
+                <div class="google-map-header">
+                    <div></div>
+                    <h5>{{ $t('post.choosePosition') }}</h5>
+                    <v-icon type="close" @click="showGoogleMap = false"></v-icon>
+                </div>
+                <div class="google-map-center">
+                    <GoogleMap
+                        api-key="AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg"
+                        style="width: 1200px; height: 500px"
+                        :center="positionLatLng"
+                        :zoom="15"
+                        @click="handleClick"
+                    >
+                        <Marker :options="{ position: positionLatLng }" />
+                    </GoogleMap>
+                </div>
+                <div class="google-map-footer">
+                    <v-button
+                        :label="$t('button.cancel')"
+                        type="secondary"
+                        @click="showGoogleMap = false"
+                    ></v-button>
+                    <v-button
+                        :label="$t('button.save')"
+                        type="primary"
+                    ></v-button>
+                </div>
+            </div>
         </div>
         <div class="post-row">
             <div style="width: 47%">
@@ -237,14 +275,21 @@
             type="hasIconPrimary"
             icon="checked"
         ></v-button>
+        <!-- api-key="AIzaSyAI9kPkskayYti5ttrZL_UfBlL3OkMEbvs" -->
     </div>
 </template>
 
 <script setup>
 import { ref, inject, onBeforeMount, reactive } from 'vue';
-import { getRecords } from '@/js/service/base'
-import { getDistrictsByProvinceId } from '@/js/service/district'
+import { getRecords } from '@/js/service/base';
+import { getDistrictsByProvinceId } from '@/js/service/district';
+import { GoogleMap, Marker } from 'vue3-google-map';
 
+const positionLatLng = reactive({
+    lat: 20.993302571091153,
+    lng: 105.84508713545992
+})
+const showGoogleMap = ref(false);
 const realestateEnum = inject('$enums').realEstateEnum;
 const realestateType = ref(0)
 const realestateOptions = [
@@ -287,14 +332,44 @@ onBeforeMount(async () => {
         title: province.Name,
         value: province.Id
     }))
+
+    if( navigator.geolocation )
+    {
+        navigator.geolocation.getCurrentPosition( success, fail );
+    }
+    else
+    {
+        alert("Sorry, your browser does not support geolocation services.");
+    }
 });
 
 async function handleSelectedProvince(item) {
     const res = await getDistrictsByProvinceId(item.value)
+    districtOptions.splice(0, districtOptions.length)
     res.data.forEach(district => districtOptions.push({
         title: district.Name,
         value: district.Id
     }));
+}
+
+function handleClick(e) {
+    console.log(e.latLng.lat())
+    console.log(e.latLng.lng())
+}
+
+function preventScroll(event) {
+    if (showGoogleMap.value) {
+        event.preventDefault();
+    }
+}
+
+function success(position) {
+    positionLatLng.lat = position.latitude;
+    positionLatLng.lng = position.longitude;
+}
+
+function fail() {
+// Could not obtain location
 }
 </script>
 

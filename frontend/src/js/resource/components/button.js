@@ -1,7 +1,8 @@
 const buttonResource = {
     vi: {
         cancel: 'Hủy',
-        accept: 'Đóng'
+        accept: 'Đóng',
+        save: 'Lưu'
     },
     en: {
         cancel: 'Cancel',

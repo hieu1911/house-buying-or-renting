@@ -209,6 +209,14 @@
 	height: 20px;
 }
 
+.icon-close {
+	background: url('../../assets/icon/close.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+}
+
 .icon-close-small {
 	background: url('../../assets/icon/close.png');
 	background-size: contain;

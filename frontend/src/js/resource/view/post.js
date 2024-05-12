@@ -30,7 +30,9 @@ const postResource = {
         pinkBook: "Sổ hồng riêng",
         landType: "Loại hình đất",
         description: "Mô tả",
-        post: "Đăng tin"
+        post: "Đăng tin",
+        chooseFromMap: "Google map api",
+        choosePosition: "Chọn vị trí từ bản đồ"
     },
     en: {
         header: "Post real estate",

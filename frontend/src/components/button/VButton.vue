@@ -8,7 +8,7 @@
         v-tippy="description"
     >
         <v-icon v-if="icon" :type="icon" :nowrap="icon=='add'"></v-icon>
-        <label for="">{{ label }}</label>
+        <label for="btn">{{ label }}</label>
     </button>
 </template>
 

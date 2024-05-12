@@ -6,6 +6,7 @@
 
 .post-wrapper {
     padding-bottom: 40px;
+    position: relative;
 }
 
 .post-header {
@@ -77,4 +78,54 @@ hr {
 
 .post-description textarea:hover,  .post-description textarea:focus {
     border-color: var(--color-primary);
+}
+
+.google-map-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 200vh;
+    background-color: rgba(20, 20, 20, 0.5);;
+    z-index: 100;
+}
+
+.google-map-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 4px;
+    background-color: #fff;
+    height: 40px;
+    width: 100%;
+}
+
+.google-map-header h5 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.google-map-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.google-map-center {
+    padding: 4px 0;
+    background-color: #fff;
+    border-top: 1px solid var(--color-primary);
+    border-bottom: 1px solid var(--color-primary);
+}
+
+.google-map-footer {
+    display: flex;
+    justify-content: flex-end;
+    background-color: #fff;
+    padding: 8px;
 }
