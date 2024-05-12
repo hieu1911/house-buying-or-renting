@@ -125,8 +125,8 @@
 	background: url('../../assets/icon/caution.png');
 	background-size: contain;
 	background-repeat: no-repeat;
-	width: 24px;
-	height: 24px;
+	width: 28px;
+	height: 28px;
 }
 
 .icon-info {
@@ -219,6 +219,14 @@
 
 .icon-close-small {
 	background: url('../../assets/icon/close.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 14px;
+	height: 14px;
+}
+
+.icon-add {
+	background: url('../../assets/icon/add.png');
 	background-size: contain;
 	background-repeat: no-repeat;
 	width: 14px;

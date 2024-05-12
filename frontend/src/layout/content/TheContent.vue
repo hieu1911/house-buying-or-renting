@@ -7,7 +7,6 @@
             :dialogDesc="dialogDesc"
             :dialogType="dialogType"
             :showCancelBtn="dialogShowCancelBtn"
-            :del="dialogDelete"
             @close="closeDialog"
             @action="dialogAction"
         ></v-dialog>
@@ -29,14 +28,12 @@ const dialogTitle = ref('')
 const dialogDesc = ref('')
 const dialogType = ref('')
 const dialogShowCancelBtn = ref(false)
-const dialogDelete = ref(false)
 let dialogAction = null
 
 const emitter = inject('$emitter');
 const store = publicStore();
 
 onMounted(() => {
-    // emitter.on('showToastMessage', showToastMessage);
     emitter.on('showDialog', showDialog);
     emitter.on('showLoading', showLoading);
 })
@@ -46,13 +43,12 @@ onUnmounted(() => {
     emitter.off('showLoading', showLoading);
 })
 
-function showDialog(type, title, desc, action=null, del=false) {
+function showDialog(type, title, desc, action=null) {
     dialogAction = null;
     dialogType.value = type;
     dialogTitle.value = title;
     dialogDesc.value = desc;
     dialogShowed.value = true;
-    dialogDelete.value = del;
 
     if (action != null) {
         dialogShowCancelBtn.value = true;
@@ -65,7 +61,6 @@ function showDialog(type, title, desc, action=null, del=false) {
 
 function closeDialog() {
     dialogShowed.value = false;
-    emitter.emit('focusElementError');
 }
 
 function showLoading(showed) {

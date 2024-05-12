@@ -32,7 +32,11 @@ const postResource = {
         description: "Mô tả",
         post: "Đăng tin",
         chooseFromMap: "Google map api",
-        choosePosition: "Chọn vị trí từ bản đồ"
+        choosePosition: "Chọn vị trí từ bản đồ",
+        dragFile: "Kéo thả tệp vào đây hoặc nhấn để chọn tệp",
+        supportFile: "Hỗ trợ dịnh dạng *.png, *.jpg và kích thước tối đa 5MB",
+        provideImage: "Cung cấp hình ảnh",
+        addImage: "Thêm ảnh"
     },
     en: {
         header: "Post real estate",

@@ -1,12 +1,12 @@
 <template>
-    <div class="post-wrapper" @wheel.prevent="preventScroll">
+    <div class="post-wrapper">
         <h4 class="post-header">{{ $t('post.header') }}</h4>
         <hr/>
         <div>
             <h4 class="post-row-title">{{ $t('post.poster') }}</h4>
             <div class="radio-group">
                 <div>
-                    <input type="radio" id="personal" name="poster" value="0">
+                    <input type="radio" id="personal" name="poster" value="0" checked>
                     <label for="html">{{ $t('post.personal') }}</label><br>
                 </div>
                 <div>
@@ -29,6 +29,7 @@
                 <v-combobox
                     :label="$t('post.postType')"
                     :options="postOptions"
+                    v-model="postType"
                     required
                     selectOnly
                 ></v-combobox>
@@ -38,6 +39,7 @@
             <v-input
                 w100
                 :label="$t('post.realestateName')"
+                v-model="realestateName"
             ></v-input>
         </div>
         <div class="post-row">
@@ -45,6 +47,7 @@
                 <v-combobox
                     :label="$t('post.chooseProvince')"
                     :options="provincesOptions"
+                    v-model="province"
                     required
                     selectOnly
                     @selectedItem="handleSelectedProvince"
@@ -54,6 +57,7 @@
                 <v-combobox
                     :label="$t('post.chooseDistrict')"
                     :options="districtOptions"
+                    v-model=district
                     required
                     selectOnly
                 ></v-combobox>
@@ -63,6 +67,8 @@
             <v-input
                 w100
                 :label="$t('post.addressDetail')"
+                required
+                v-model="addressDetail"
             ></v-input>
             <div style="margin: 28px 0 0 20px">
                 <v-button
@@ -110,12 +116,14 @@
                     :label="$t('post.area')"
                     required
                     typeNumber
+                    v-model="area"
                 ></v-input>
             </div>
             <div style="width: 47%">
                 <v-input
                     w100
                     :label="$t('post.price')"
+                    v-model="price"
                     required
                     typeNumber
                 ></v-input>
@@ -125,6 +133,8 @@
             <v-input
                 w100
                 :label="$t('post.title')"
+                required
+                v-model="title"
             ></v-input>
         </div>
         <!-- <div>
@@ -134,8 +144,8 @@
             ></v-input>
         </div> -->
         <div class="post-row post-description">
-            <label>{{ $t('post.description') }}</label>
-            <textarea></textarea>
+            <label class='input--required'>{{ $t('post.description') }}</label>
+            <textarea v-model="description"></textarea>
         </div>
 
         <div v-if="realestateType == realestateEnum.HOUSE">
@@ -146,6 +156,7 @@
                         :label="$t('post.numberOfBedRoom')"
                         required
                         typeNumber
+                        v-model="houseNumberOfBedRoom"
                     ></v-input>
                 </div>
                 <div style="width: 30%">
@@ -154,6 +165,7 @@
                         :label="$t('post.numberOfToilet')"
                         required
                         typeNumber
+                        v-model="houseNumberOfToilet"
                     ></v-input>
                 </div>
                 <div style="width: 30%">
@@ -162,6 +174,7 @@
                         :label="$t('post.numberOfFloor')"
                         required
                         typeNumber
+                        v-model="houseNumberOfFloor"
                     ></v-input>
                 </div>
             </div>
@@ -170,12 +183,13 @@
                     w100
                     :label="$t('post.funiture')"
                     required
+                    v-model="houseFuniture"
                 ></v-input>
             </div>
             <h4 class="post-row-title">{{ $t('post.redBook') }}</h4>
             <div class="radio-group">
                 <div>
-                    <input type="radio" id="hasRedBook" name="redBook" value="0">
+                    <input type="radio" id="hasRedBook" name="redBook" value="0" checked>
                     <label for="html">{{ $t('post.hasRedBook') }}</label><br>
                 </div>
                 <div>
@@ -190,12 +204,13 @@
                     w100
                     :label="$t('post.funiture')"
                     required
+                    v-model="boardingHouseFuniture"
                 ></v-input>
             </div>
             <h4 class="post-row-title">{{ $t('post.selfContained') }}</h4>
             <div class="radio-group">
                 <div>
-                    <input type="radio" id="private" name="selfContained" value="0">
+                    <input type="radio" id="private" name="selfContained" value="0" checked>
                     <label for="html">{{ $t('post.private') }}</label><br>
                 </div>
                 <div>
@@ -212,6 +227,7 @@
                         :label="$t('post.numberOfBedRoom')"
                         required
                         typeNumber
+                        v-model="apartmentNumberOfBedRoom"
                     ></v-input>
                 </div>
                 <div style="width: 30%">
@@ -220,6 +236,7 @@
                         :label="$t('post.numberOfToilet')"
                         required
                         typeNumber
+                        v-model="apartmentNumberOfToilet"
                     ></v-input>
                 </div>
                 <div style="width: 30%">
@@ -228,6 +245,7 @@
                         :label="$t('post.floor')"
                         required
                         typeNumber
+                        v-model="apartmentFloor"
                     ></v-input>
                 </div>
             </div>
@@ -236,12 +254,13 @@
                     w100
                     :label="$t('post.funiture')"
                     required
+                    v-model="apartmentFuniture"
                 ></v-input>
             </div>
             <h4 class="post-row-title">{{ $t('post.legalDocument') }}</h4>
             <div class="radio-group">
                 <div>
-                    <input type="radio" id="noHave" name="legalDocument" value="0">
+                    <input type="radio" id="noHave" name="legalDocument" value="0" checkd>
                     <label for="html">{{ $t('post.noHave') }}</label><br>
                 </div>
                 <div>
@@ -256,12 +275,13 @@
                     w100
                     :label="$t('post.landType')"
                     required
+                    v-model="landType"
                 ></v-input>
             </div>
             <h4 class="post-row-title">{{ $t('post.legalDocument') }}</h4>
             <div class="radio-group">
                 <div>
-                    <input type="radio" id="noHave" name="legalDocumentLand" value="0">
+                    <input type="radio" id="noHave" name="legalDocumentLand" value="0" checked>
                     <label for="html">{{ $t('post.noHave') }}</label><br>
                 </div>
                 <div>
@@ -270,11 +290,46 @@
                 </div>
             </div>
         </div>
-        <v-button
-            :label="$t('post.post')"
-            type="hasIconPrimary"
-            icon="checked"
-        ></v-button>
+        <div class="import-file-header">
+            <h4 class="import-file-title">{{ $t('post.provideImage') }}</h4>
+            <v-button
+                v-if="images.length > 0"
+                :label="$t('post.addImage')"
+                type="hasIconPrimary"
+                icon="add"
+                @click="$refs.inputFileRef.click()"
+            ></v-button>
+        </div>
+        <div @dragover.prevent @drop.prevent="e => dragFile(e.dataTransfer.files)">
+            <input 
+                type="file" 
+                ref="inputFileRef" 
+                v-show="false" 
+                accept=".png, .jpg"
+                multiple
+                @input="dragFile($event.target.files)" 
+            />
+            <div v-if="images.length > 0" class="import-file-wrapper--has-image">
+                <div class="img-import-wrapper">
+                    <div v-for="(preview, index) in images" :key="index">
+                        <img :src="preview" alt="Preview" class="img-import">
+                    </div>
+                </div>
+            </div>
+            <div class="import-file-wrapper" v-else>
+                <div class="import-file" @click="$refs.inputFileRef.click()"></div>
+                <p>{{ $t('post.dragFile') }}</p>
+                <p>{{ $t('post.supportFile') }}</p>
+            </div>
+        </div>
+        <div style="display: flex; justify-content: flex-end;">
+            <v-button
+                :label="$t('post.post')"
+                type="hasIconPrimary"
+                icon="checked"
+                @click="createNewPost"
+            ></v-button>
+        </div>
         <!-- api-key="AIzaSyAI9kPkskayYti5ttrZL_UfBlL3OkMEbvs" -->
     </div>
 </template>
@@ -285,13 +340,46 @@ import { getRecords } from '@/js/service/base';
 import { getDistrictsByProvinceId } from '@/js/service/district';
 import { GoogleMap, Marker } from 'vue3-google-map';
 
+import { ref as storageRef } from 'firebase/storage'
+import { useFirebaseStorage, useStorageFile } from 'vuefire'
+
+import common from '@/js/common/helper';
+
+const storage = useFirebaseStorage()
+const mountainFileRef = storageRef(storage, 'images/mountains.jpg')
+
+const {
+  upload
+} = useStorageFile(mountainFileRef)
+
+const realestateType = ref(null)
+const postType = ref(null)
+const realestateName = ref('')
+const province = ref(null)
+const district = ref(null)
+const addressDetail = ref('')
+const area = ref(null)
+const price = ref(null)
+const title = ref('')
+const description = ref('')
+const houseNumberOfBedRoom = ref(null)
+const houseNumberOfToilet = ref(null)
+const houseNumberOfFloor = ref(null)
+const houseFuniture = ref('')
+const boardingHouseFuniture = ref('')
+const apartmentNumberOfBedRoom = ref(null)
+const apartmentNumberOfToilet = ref(null)
+const apartmentFloor = ref(null)
+const apartmentFuniture = ref('')
+const landType = ref('')
 const positionLatLng = reactive({
     lat: 20.993302571091153,
     lng: 105.84508713545992
 })
+const statusEnum = inject('$enums').statusEnum;
+const images = reactive([]);
 const showGoogleMap = ref(false);
 const realestateEnum = inject('$enums').realEstateEnum;
-const realestateType = ref(0)
 const realestateOptions = [
     {
         title: "Nhà mặt đất",
@@ -355,12 +443,8 @@ async function handleSelectedProvince(item) {
 function handleClick(e) {
     console.log(e.latLng.lat())
     console.log(e.latLng.lng())
-}
-
-function preventScroll(event) {
-    if (showGoogleMap.value) {
-        event.preventDefault();
-    }
+    positionLatLng.lat = e.latLng.lat();
+    positionLatLng.lng = e.latLng.lng();
 }
 
 function success(position) {
@@ -370,6 +454,75 @@ function success(position) {
 
 function fail() {
 // Could not obtain location
+}
+
+function dragFile(files) {
+    console.log(files);
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = e => images.push(e.target.result)
+            reader.readAsDataURL(file);
+        }
+    }
+}
+
+function valideHouseProperties() {
+    if (!houseNumberOfBedRoom.value
+        || !houseNumberOfToilet.value
+        || !houseNumberOfFloor.value
+        || !houseFuniture.value
+    ) return false;
+    return true;
+}
+
+function validateBoardingHouseProperties() {
+    if (!boardingHouseFuniture.value) return false;
+    return true;
+}
+
+function validateApartmentProperties() {
+    if (!apartmentNumberOfBedRoom.value
+        || !apartmentNumberOfToilet.value
+        || !apartmentFloor.value
+        || !apartmentFuniture.value
+    ) return false;
+    return true;
+}
+
+function validateLandProperties() {
+    if (!landType.value) return false;
+    return true;
+}
+
+function valideProperties() {
+    if (!realestateType.value 
+        || !postType.value
+        || !realestateName.value
+        || !province.value
+        || !district.value
+        || !area.value
+        || !price.value
+        || !title.value
+        || !description.value
+        || (realestateType.value == realestateEnum.HOUSE && !valideHouseProperties())
+        || (realestateType.value == realestateEnum.BOARDINGHOUSE && !validateBoardingHouseProperties)
+        || (realestateType.value == realestateEnum.APARTMENT && !validateApartmentProperties())
+        || (realestateType.value == realestateEnum.LAND && !validateLandProperties())
+    ) {
+        return false;
+    }
+    common.showDialog(statusEnum.WARNING, "Cảnh báo", ["Vui lòng nhập đủ thông tin!"])
+    return true;
+}
+
+function createNewPost() {
+    if (valideProperties()) {
+        console.log("abc")
+    }
+ 
+    upload(images[0])
 }
 </script>
 

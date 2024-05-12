@@ -1,4 +1,5 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp } from "firebase/app";4
+
 const firebaseConfig = {
   apiKey: "AIzaSyAvmX84OXKXMFnRc2KMs7oZPBJ1zFrxbcE",
   authDomain: "real-estate-dff2d.firebaseapp.com",
@@ -8,4 +9,4 @@ const firebaseConfig = {
   appId: "1:270186076337:web:121b02803d1a60206c2a90"
 };
 
-const app = initializeApp(firebaseConfig);
+export const firebaseApp = initializeApp(firebaseConfig);

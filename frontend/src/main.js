@@ -4,6 +4,8 @@ import VueTippy from 'vue-tippy';
 import 'tippy.js/dist/tippy.css'; 
 import emitter from 'tiny-emitter/instance';
 import { createI18n } from 'vue-i18n';
+import { VueFire, VueFireAuth } from 'vuefire';
+import { firebaseApp } from './js/firebase';
 
 import router from './js/router/router'
 import App from './App.vue'
@@ -49,6 +51,13 @@ app.use(
         }
     }
 )
+
+app.use(VueFire, {
+    firebaseApp,
+    modules: [
+      VueFireAuth(),
+    ],
+})
 
 app.use(router);
 app.use(pinia);

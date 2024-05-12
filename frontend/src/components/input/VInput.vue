@@ -196,11 +196,10 @@ watch(value, (newValue, oldValue) => {
     }
 
     if (props.typeNumber && newValue) {
-        console.log(newValue)
         const number = deFormatNumber(newValue.toString());
 
         if (isNaN(number)) {
-            this.value = oldValue;
+            value.value = oldValue;
             return;
         }
         

@@ -129,3 +129,83 @@ hr {
     background-color: #fff;
     padding: 8px;
 }
+
+.import-file-title{
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    padding-bottom: 12px;
+}
+
+.import-file-wrapper {
+    height: 300px;
+    margin-bottom: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+.import-file {
+    background: url('../../assets/image/file.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 64px;
+	height: 64px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.import-file-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.import-file-wrapper--has-image {
+    height: 300px;
+    margin-bottom: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    overflow-y: auto;
+    padding: 8px;
+}
+
+.import-file-wrapper--has-image > div > div {
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 8px;
+}
+
+.import-file-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 0;
+}
+
+.import-file-btn {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.img-import-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    row-gap: 12px;
+    column-gap: 24px;
+    flex-wrap: wrap;
+}
+
+.img-import {
+    width: 234px;
+    height: 120px;
+}
+
+.import-file-wrapper p {
+    font-size: 14px;
+    margin: 0 0 4px;
+}
+
+.import-file-wrapper p:last-child {
+    color: #666;
+}
