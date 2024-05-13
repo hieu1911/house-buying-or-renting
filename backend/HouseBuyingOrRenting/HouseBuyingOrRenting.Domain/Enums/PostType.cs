@@ -8,7 +8,7 @@ namespace HouseBuyingOrRenting.Domain
 {
     public enum PostType
     {
-        Renting = 0,
-        Buying = 1
+        Renting = 1,
+        Buying = 2
     }
 }

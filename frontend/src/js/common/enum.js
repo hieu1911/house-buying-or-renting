@@ -1,20 +1,20 @@
 const statusEnum = {
-    ERROR: 0,
-    SUCCES0: 1,
-    WARNING: 2,
-    INFO: 3 
+    ERROR: 1,
+    SUCCES0: 2,
+    WARNING: 3,
+    INFO: 4 
 }
 
 const realEstateEnum = {
-    HOUSE: 0,
-    BOARDINGHOUSE: 1,
-    APARTMENT: 2,
-    LAND: 3
+    HOUSE: 1,
+    BOARDINGHOUSE: 2,
+    APARTMENT: 3,
+    LAND: 4
 }
 
 const postEnum = {
-    RENT: 0,
-    BUY: 1
+    RENT: 1,
+    BUY: 2
 }
 
 const enums = {
