@@ -9,11 +9,9 @@ export function useEventListener(target, event, handler) {
                 value?.addEventListener(event, handler);
             });
         } else {
-            // Thên EventListener
             target.addEventListener(event, handler);
         }
     
-        // Loại bỏ EventListener trước khi unmount
         onBeforeUnmount(() => {
             unref(target)?.removeEventListener(event, handler);
         });

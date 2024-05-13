@@ -7,9 +7,11 @@ axios.defaults.withCredentials = true;
 
 axios.interceptors.response.use(
     response => {
+        common.showLoading(false);
         return response;
     },
     error => {
+        common.showLoading(false);
         common.handleError(error);
         return false;
     }
@@ -18,6 +20,7 @@ axios.interceptors.response.use(
 axios.interceptors.request.use(
     config => {
       config.headers['Content-Type'] = 'application/json';
+      common.showLoading(true);
       return config;
     },
     error => {

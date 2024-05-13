@@ -13,8 +13,8 @@ const realEstateEnum = {
 }
 
 const postEnum = {
-    BUY: 0,
-    RENT: 1
+    RENT: 0,
+    BUY: 1
 }
 
 const enums = {

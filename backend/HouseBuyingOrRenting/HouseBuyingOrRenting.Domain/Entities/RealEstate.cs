@@ -31,6 +31,6 @@ namespace HouseBuyingOrRenting.Domain
 
         public string? Feature { get; set; }
 
-        public RealEstateType Type { get; set; }
+        public PostType Type { get; set; }
     }
 }

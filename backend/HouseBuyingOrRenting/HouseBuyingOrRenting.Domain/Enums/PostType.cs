@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HouseBuyingOrRenting.Domain
 {
-    public enum RealEstateType
+    public enum PostType
     {
         Renting = 0,
         Buying = 1

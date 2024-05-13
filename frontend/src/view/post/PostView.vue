@@ -137,12 +137,6 @@
                 v-model="title"
             ></v-input>
         </div>
-        <!-- <div>
-            <v-input
-                w100
-                :label="$t('post.feature')"
-            ></v-input>
-        </div> -->
         <div class="post-row post-description">
             <label class='input--required'>{{ $t('post.description') }}</label>
             <textarea v-model="description"></textarea>
@@ -189,7 +183,7 @@
             <h4 class="post-row-title">{{ $t('post.redBook') }}</h4>
             <div class="radio-group">
                 <div>
-                    <input type="radio" id="hasRedBook" name="redBook" value="0" checked>
+                    <input type="radio" id="hasRedBook" name="redBook" value="0" checked v-model="houseRedBook">
                     <label for="html">{{ $t('post.hasRedBook') }}</label><br>
                 </div>
                 <div>
@@ -210,7 +204,7 @@
             <h4 class="post-row-title">{{ $t('post.selfContained') }}</h4>
             <div class="radio-group">
                 <div>
-                    <input type="radio" id="private" name="selfContained" value="0" checked>
+                    <input type="radio" id="private" name="selfContained" value="0" checked v-model="boardingHouseSelfContained">
                     <label for="html">{{ $t('post.private') }}</label><br>
                 </div>
                 <div>
@@ -260,7 +254,7 @@
             <h4 class="post-row-title">{{ $t('post.legalDocument') }}</h4>
             <div class="radio-group">
                 <div>
-                    <input type="radio" id="noHave" name="legalDocument" value="0" checkd>
+                    <input type="radio" id="noHave" name="legalDocument" value="0" checkd v-model="apartmentLegalDocument">
                     <label for="html">{{ $t('post.noHave') }}</label><br>
                 </div>
                 <div>
@@ -281,7 +275,7 @@
             <h4 class="post-row-title">{{ $t('post.legalDocument') }}</h4>
             <div class="radio-group">
                 <div>
-                    <input type="radio" id="noHave" name="legalDocumentLand" value="0" checked>
+                    <input type="radio" id="noHave" name="legalDocumentLand" value="0" checked v-model="landLegalDocument">
                     <label for="html">{{ $t('post.noHave') }}</label><br>
                 </div>
                 <div>
@@ -312,6 +306,9 @@
             <div v-if="images.length > 0" class="import-file-wrapper--has-image">
                 <div class="img-import-wrapper">
                     <div v-for="(preview, index) in images" :key="index">
+                        <div class="img-import-icon-wrapper">
+                            <v-icon type="remove" @click="removeImage(index)" :desc="$t('post.removeImage')"></v-icon>
+                        </div>
                         <img :src="preview" alt="Preview" class="img-import">
                     </div>
                 </div>
@@ -336,14 +333,14 @@
 
 <script setup>
 import { ref, inject, onBeforeMount, reactive } from 'vue';
-import { getRecords } from '@/js/service/base';
-import { getDistrictsByProvinceId } from '@/js/service/district';
 import { GoogleMap, Marker } from 'vue3-google-map';
-
 import { ref as storageRef } from 'firebase/storage'
 import { useFirebaseStorage, useStorageFile } from 'vuefire'
 
 import common from '@/js/common/helper';
+import { getRecords } from '@/js/service/base';
+import { getDistrictsByProvinceId } from '@/js/service/district';
+import { createRecord } from '@/js/service/base';
 
 const storage = useFirebaseStorage()
 const mountainFileRef = storageRef(storage, 'images/mountains.jpg')
@@ -366,12 +363,16 @@ const houseNumberOfBedRoom = ref(null)
 const houseNumberOfToilet = ref(null)
 const houseNumberOfFloor = ref(null)
 const houseFuniture = ref('')
+const houseRedBook = ref(false)
 const boardingHouseFuniture = ref('')
+const boardingHouseSelfContained = ref(false)
 const apartmentNumberOfBedRoom = ref(null)
 const apartmentNumberOfToilet = ref(null)
 const apartmentFloor = ref(null)
 const apartmentFuniture = ref('')
+const apartmentLegalDocument = ref(false)
 const landType = ref('')
+const landLegalDocument = ref(false)
 const positionLatLng = reactive({
     lat: 20.993302571091153,
     lng: 105.84508713545992
@@ -416,7 +417,7 @@ let districtOptions = reactive([]);
 
 onBeforeMount(async () => {
     const res = await getRecords('Province')
-    res.data.forEach(province => provincesOptions.push({
+    res.data?.forEach(province => provincesOptions.push({
         title: province.Name,
         value: province.Id
     }))
@@ -457,7 +458,6 @@ function fail() {
 }
 
 function dragFile(files) {
-    console.log(files);
     for (let i = 0; i < files.length; i++) {
         const file = files[i];
         if (file) {
@@ -466,6 +466,10 @@ function dragFile(files) {
             reader.readAsDataURL(file);
         }
     }
+}
+
+function removeImage(idx) {
+    images.splice(idx, 1);
 }
 
 function valideHouseProperties() {
@@ -517,12 +521,74 @@ function valideProperties() {
     return true;
 }
 
-function createNewPost() {
+async function createNewPost() {
     if (valideProperties()) {
-        console.log("abc")
+        let object;
+        let record = {
+            OwnerId: "",
+            DistrictId: district.value,
+            Address: addressDetail.value,
+            Latitude: '',
+            Longtitude: '',
+            Area: area.value,
+            Title: title.value,
+            Description: description.value,
+            Price: price.value,
+            Type: postType.value
+        }
+
+        switch (realestateType.value) {
+            case realestateEnum.HOUSE:
+                object = 'House'
+                record = {
+                    ...record,
+                    NumberOfBedRoom: houseNumberOfBedRoom.value,
+                    NumberOfToilet: houseNumberOfToilet.value,
+                    NumberOfFloor: houseNumberOfFloor.value,
+                    Funiture: houseFuniture.value,
+                    RedBook: houseRedBook.value
+                }
+                break;
+            
+            case realestateEnum.BOARDINGHOUSE:
+                object = 'BoardingHouse'
+                record = {
+                    ...record,
+                    Funiture: boardingHouseFuniture.value,
+                    SeftContained: boardingHouseSelfContained.value
+                }
+                break;
+
+            case realestateEnum.APARTMENT:
+                object = 'Apartment'
+                record = {
+                    ...record,
+                    NumberOfBedRoom: apartmentNumberOfBedRoom.value,
+                    NumberOfToilet: apartmentNumberOfToilet.value,
+                    Floor: apartmentFloor.value,
+                    LegalDocument: apartmentLegalDocument.value
+                }
+                break;
+
+            case realestateEnum.LAND:
+                object = 'Land'
+                record = {
+                    ...record,
+                    LandType: landType.value,
+                    LegalDocument: landLegalDocument.value
+                }
+                break;
+
+            default: 
+                break;
+        }
+
+        await createRecord(object, record);
     }
  
-    upload(images[0])
+    common.showLoading(true);
+    await upload(images[0]);
+    common.showLoading(false);
 }
 </script>
 

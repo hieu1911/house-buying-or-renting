@@ -232,3 +232,11 @@
 	width: 14px;
 	height: 14px;
 }
+
+.icon-remove {
+	background: url('../../assets/icon/remove.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 24px;
+	height: 24px;
+}

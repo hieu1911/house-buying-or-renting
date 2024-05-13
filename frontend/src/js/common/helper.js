@@ -1,6 +1,8 @@
 import emitter from 'tiny-emitter/instance';
 
-// import router from '../router/router';
+import enums from './enum';
+import router from '../router/router';
+import { publicStore } from '../store/publicStore';
 
 const common = {
     showToastMessage(type, title, content) {
@@ -15,14 +17,12 @@ const common = {
         console.log(err);
         this.showLoading(false);
 
-        // const res = resource[publicStore().langCode];
-        //const errorData = err.response?.data;
-        // errors = errorData?.Errors;
-        // let dialogType = MISAEnum.statusType.WARNING;
-        // let dialogTitle = resource.VN.dialog.warning;
-        // let dialogContent= '';
-        // let action = null;
-        // let confirmLabel = res.button.confirm
+        const errorData = err.response?.data;
+        let errors = errorData?.Errors;
+        let dialogType = enums.statusEnum.WARNING;
+        let dialogTitle = "Cảnh báo";
+        let dialogContent= '';
+        let action = null;
 
         let code = err.response?.status;
         if (!code) {
@@ -31,46 +31,40 @@ const common = {
 
         switch(code) {
             case 400: 
-                //if (errors) {
-                    // dialogTitle = resource[MISAEnum.langCode.VN].emulation.dialog.warningData.title;
-                    // dialogContent = [];
-                    // errors.forEach(error => dialogContent.push(error.ErrorMessage));
-                    // dialogContent.reverse();
-                //} else {
-                    //dialogContent = [resource.VN.public.errorMsg500];
-                //}
+                if (errors) {
+                    dialogContent = [];
+                    errors.forEach(error => dialogContent.push(error.ErrorMessage));
+                    dialogContent.reverse();
+                } else {
+                    dialogContent = ["Yêu cầu API không hợp lệ hoặc có định dạng không chính xác."];
+                }
                 break;
             case 401: 
-                // dialogTitle = res.dialog.warning;
-                // dialogContent = [res.dialog.sessionEnd];
-                // action = () => router.push('/login');
-                // confirmLabel = res.dialog.reLogin;
-                // publicStore().isLogin = false;
+                dialogContent = ["Cần đăng nhập để thực hiện dịch vụ này."];
+                action = () => router.push('/login');
+                publicStore().isAuthPage = true;
                 break;
             case 404: 
                 return;
             case 409: 
-                //dialogTitle = res.dialog.warning;
-                //dialogContent = [err.response.data.UserMessage];
+                dialogContent = ["Dữ liệu không hợp lệ"];
                 break;
             case 412: 
                 throw err;
             case 500: 
-                //dialogContent = [resource.VN.public.errorMsg500];
+                dialogContent = ["Có lỗi từ phía server."];
                 break;
             default:
-               //dialogType = MISAEnum.statusType.ERROR;
-                //dialogContent = [resource.VN.public.errorMsg500];
+                dialogContent = ["Có lỗi từ phía server."];
                 break;
         }
 
-        // this.showDialog(
-        //     dialogType,
-        //     dialogTitle,
-        //     dialogContent,
-        //     action,
-        //     confirmLabel
-        // );
+        this.showDialog(
+            dialogType,
+            dialogTitle,
+            dialogContent,
+            action
+        );
     },
     
     showLoading(showed) {

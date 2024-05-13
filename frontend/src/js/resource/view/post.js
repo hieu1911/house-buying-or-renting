@@ -36,7 +36,8 @@ const postResource = {
         dragFile: "Kéo thả tệp vào đây hoặc nhấn để chọn tệp",
         supportFile: "Hỗ trợ dịnh dạng *.png, *.jpg và kích thước tối đa 5MB",
         provideImage: "Cung cấp hình ảnh",
-        addImage: "Thêm ảnh"
+        addImage: "Thêm ảnh",
+        removeImage: "Xóa ảnh"
     },
     en: {
         header: "Post real estate",

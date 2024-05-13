@@ -17,20 +17,4 @@ const router = createRouter({
     routes
 });
 
-// router.beforeEach(async (to, from, next) => {
-//     if (to.path == '/login') {
-//         const user = await getUserInfo();
-//         if (user) {
-//             const navItems = JSON.parse(localStorage.getItem('navItems'));
-//             const itemActive = navItems.filter(item => item.active)[0];
-    
-//             next({ path: itemActive.link});
-//         } else {
-//             next();
-//         }
-//     } else {
-//         next();
-//     }
-// });
-
 export default router;
