@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace HouseBuyingOrRenting.Application
 {
-    public class BoardingHouseUpdateDto
+    public class BoardingHouseUpdateDto : RealEstateUpdateDto
     {
+        public double Deposit { get; set; }
+
+        public string? Funiture { get; set; }
+
+        public string? SeftContained { get; set; }
     }
 }

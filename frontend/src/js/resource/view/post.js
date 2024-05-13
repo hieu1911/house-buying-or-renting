@@ -35,7 +35,7 @@ const postResource = {
         choosePosition: "Chọn vị trí từ bản đồ",
         dragFile: "Kéo thả tệp vào đây hoặc nhấn để chọn tệp",
         supportFile: "Hỗ trợ dịnh dạng *.png, *.jpg và kích thước tối đa 5MB",
-        provideImage: "Cung cấp hình ảnh",
+        provideImage: "Cung cấp hình ảnh(Từ 4 hình ảnh trở lên)",
         addImage: "Thêm ảnh",
         removeImage: "Xóa ảnh"
     },

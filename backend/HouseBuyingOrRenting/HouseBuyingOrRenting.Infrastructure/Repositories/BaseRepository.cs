@@ -41,10 +41,18 @@ namespace HouseBuyingOrRenting.Infrastructure
 
         public async Task<int> InsertAsync(TEntity entity)
         {
-            var result = await _dbSet.AddAsync(entity);
+            await _dbSet.AddAsync(entity);
             await _dbContext.SaveChangesAsync();
 
             return 1;
+        }
+
+        public async Task<int> InsertMultiAsync(List<TEntity> entities)
+        {
+            await _dbSet.AddRangeAsync(entities);
+            await _dbContext.SaveChangesAsync();
+
+            return entities.Count;
         }
 
         public Task<int> UpdateAsync(TEntity entity)

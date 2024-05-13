@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace HouseBuyingOrRenting.Application
 {
-    public class LandDto
+    public class LandDto : RealEstateDto
     {
+        public string? LandType { get; set; }
+
+        public string? LegalDocument { get; set; }
     }
 }

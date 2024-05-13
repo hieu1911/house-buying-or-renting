@@ -74,6 +74,9 @@
 <script setup>
 import { ref, inject } from 'vue'
 import { register } from '@/js/service/auth';
+import { publicStore } from '@/js/store/publicStore';
+
+publicStore().setAuthPageStatus(true)
 
 const router = inject('$router');
 

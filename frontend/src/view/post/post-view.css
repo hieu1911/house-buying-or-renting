@@ -226,3 +226,7 @@ hr {
 .import-file-wrapper p:last-child {
     color: #666;
 }
+
+.import-file-header .input--required::after {
+    top: 30%;
+}

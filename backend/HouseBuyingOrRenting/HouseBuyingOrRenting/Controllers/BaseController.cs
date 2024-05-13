@@ -46,6 +46,15 @@ namespace HouseBuyingOrRenting.Controllers
             return StatusCode(StatusCodes.Status201Created, result);
         }
 
+        [HttpPost]
+        [Route("multi")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<IActionResult> InsertMultiAsync(List<TEntityCreateDto> entitiesCreateDto)
+        {
+            var result = await BaseService.InsertMultiAsync(entitiesCreateDto);
+            return StatusCode(StatusCodes.Status201Created, result);
+        }
+
         [HttpPut]
         [Route("{id}")]
         public async Task<IActionResult> UpdateAsync(Guid id, TEntityUpdateDto entityUpdateDto)

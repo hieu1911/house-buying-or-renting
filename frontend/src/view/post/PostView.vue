@@ -285,7 +285,7 @@
             </div>
         </div>
         <div class="import-file-header">
-            <h4 class="import-file-title">{{ $t('post.provideImage') }}</h4>
+            <h4 class="import-file-title input--required">{{ $t('post.provideImage') }}</h4>
             <v-button
                 v-if="images.length > 0"
                 :label="$t('post.addImage')"
@@ -343,11 +343,6 @@ import { getDistrictsByProvinceId } from '@/js/service/district';
 import { createRecord } from '@/js/service/base';
 
 const storage = useFirebaseStorage()
-const mountainFileRef = storageRef(storage, 'images/mountains.jpg')
-
-const {
-  upload
-} = useStorageFile(mountainFileRef)
 
 const realestateType = ref(null)
 const postType = ref(null)
@@ -458,6 +453,8 @@ function fail() {
 }
 
 function dragFile(files) {
+    console.log(files[0])
+    console.log(Date.now())
     for (let i = 0; i < files.length; i++) {
         const file = files[i];
         if (file) {
@@ -515,9 +512,14 @@ function valideProperties() {
         || (realestateType.value == realestateEnum.APARTMENT && !validateApartmentProperties())
         || (realestateType.value == realestateEnum.LAND && !validateLandProperties())
     ) {
+        common.showDialog(statusEnum.WARNING, "Cảnh báo", ["Vui lòng nhập đủ thông tin!"])
         return false;
     }
-    common.showDialog(statusEnum.WARNING, "Cảnh báo", ["Vui lòng nhập đủ thông tin!"])
+
+    if (images.length < 4) {
+        common.showDialog(statusEnum.WARNING, "Cảnh báo", ["Cung cấp đủ 4 hình ảnh trở lên"])
+    }
+
     return true;
 }
 
@@ -582,13 +584,19 @@ async function createNewPost() {
             default: 
                 break;
         }
+        common.showLoading(true);
 
+        images.forEach(async image => {
+            let imageRef = storageRef(storage, `${Date.now()}${image.name}`)
+            let { upload } = useStorageFile(imageRef)
+            await upload(image);
+        });
+    
         await createRecord(object, record);
+
+        common.showLoading(false);
     }
  
-    common.showLoading(true);
-    await upload(images[0]);
-    common.showLoading(false);
 }
 </script>
 

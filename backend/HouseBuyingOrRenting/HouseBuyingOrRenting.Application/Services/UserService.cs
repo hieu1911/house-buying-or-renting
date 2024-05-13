@@ -19,7 +19,7 @@ namespace HouseBuyingOrRenting.Application
             _mapper = mapper;
         }
 
-        public async Task<User> GetUserAsync(UserLoginDto userLoginDto)
+        public async Task<UserDto> GetUserAsync(UserLoginDto userLoginDto)
         {
             var passwordHashed = HashPassword(userLoginDto.Password);
 
@@ -29,7 +29,9 @@ namespace HouseBuyingOrRenting.Application
                 throw new UnAuthorizeException();
             }
 
-            return user;
+            var userDto = await MapEntityToEntityDto(user);
+
+            return userDto;
         }
 
         public override Task<int> InsertAsync(UserCreateDto entityCreateDto)
@@ -46,9 +48,10 @@ namespace HouseBuyingOrRenting.Application
             return user;
         }
 
-        public override Task<UserDto> MapEntityToEntityDto(User entity)
+        public async override Task<UserDto> MapEntityToEntityDto(User entity)
         {
-            throw new NotImplementedException();
+            var userDto = _mapper.Map<UserDto>(entity);
+            return userDto;
         }
 
         public override Task<User> MapEntityUpdateDtoToEntity(Guid id, UserUpdateDto entityUpdateDto)

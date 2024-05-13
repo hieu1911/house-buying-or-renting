@@ -48,7 +48,15 @@ namespace HouseBuyingOrRenting.Application
             entity.CreatedName = "";
 
             var result = await BaseRepository.InsertAsync(entity);
+            return result;
+        }
 
+        public async Task<int> InsertMultiAsync(List<TEntityCreateDto> entitiesCreateDto)
+        {
+            var entities = entitiesCreateDto.Select(async entityCreateDto => await MapEntityCreateDtoToEntity(entityCreateDto))
+                .Select(entity => entity.Result).ToList();
+
+            var result = await BaseRepository.InsertMultiAsync(entities);
             return result;
         }
 

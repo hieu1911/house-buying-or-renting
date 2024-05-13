@@ -14,6 +14,8 @@ namespace HouseBuyingOrRenting.Domain
 
         Task<int> InsertAsync(TEntity entity);
 
+        Task<int> InsertMultiAsync(List<TEntity> entities);
+
         Task<int> UpdateAsync(TEntity entity);
 
         Task<int> DeleteAsync(TEntity entity);

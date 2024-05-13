@@ -58,7 +58,12 @@
 
 <script setup>
 import { ref, inject } from 'vue';
-import { login } from '@/js/service/auth'
+import { login } from '@/js/service/auth';
+import { publicStore } from '@/js/store/publicStore';
+import { userStore } from '@/js/store/userStore';
+
+const user = userStore();
+publicStore().setAuthPageStatus(true)
 
 const phoneOrEmailRef = ref(null);
 const passwordRef = ref(null);
@@ -86,6 +91,11 @@ async function handleLogin() {
     })
 
     if (response) {
+        user.setUser({
+            userName: response.data.FullName,
+            id: response.data.Id
+        })
+        publicStore().setAuthPageStatus(false);
         router.push('/')
     } else {
         emitter.emit('showDialog', enums.statusEnum.ERROR, 'Cảnh báo', ['Thông tin đăng nhập không chính xác'])

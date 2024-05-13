@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 
 namespace HouseBuyingOrRenting.Application
 {
-    public class HouseUpdateDto
+    public class HouseUpdateDto : RealEstateUpdateDto
     {
+        public int NumberOfBedRoom { get; set; }
+
+        public int NumberOfToilet { get; set; }
+
+        public int NumberOfFloor { get; set; }
+
+        public string? Funiture { get; set; }
+
+        public bool RedBook { get; set; }
     }
 }
