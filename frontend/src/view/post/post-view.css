@@ -207,13 +207,11 @@ hr {
 
 .img-import-icon-wrapper {
     position: absolute;
-    top: -8px;
-    right: -8px;
+    top: -12px;
+    right: -12px;
 }
 
 .img-import {
-    /* width: 234px;
-    height: 120px; */
     max-width: 100%;
     max-height: 100%;
 }

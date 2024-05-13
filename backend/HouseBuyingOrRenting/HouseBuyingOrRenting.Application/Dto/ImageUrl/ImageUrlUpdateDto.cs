@@ -8,5 +8,8 @@ namespace HouseBuyingOrRenting.Application
 {
     public class ImageUrlUpdateDto
     {
+        public Guid RealEstateId { get; set; }
+
+        public string Url { get; set; }
     }
 }

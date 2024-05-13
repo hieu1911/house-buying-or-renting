@@ -32,5 +32,7 @@ namespace HouseBuyingOrRenting.Application
         public string? Feature { get; set; }
 
         public PostType Type { get; set; }
+
+        public List<ImageUrlCreateDto> ImageUrlsCreateDto { get; set; }
     }
 }

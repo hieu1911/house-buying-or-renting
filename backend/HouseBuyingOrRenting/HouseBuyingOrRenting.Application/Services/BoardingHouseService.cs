@@ -9,8 +9,31 @@ namespace HouseBuyingOrRenting.Application
 {
     public class BoardingHouseService : BaseService<BoardingHouse, BoardingHouseDto, BoardingHouseCreateDto, BoardingHouseUpdateDto>, IBoardingHouseService
     {
-        public BoardingHouseService(IBoardingHouseRepository districtRepository) : base(districtRepository)
+        private readonly IImageUrlService _imageUrlService;
+
+        public BoardingHouseService(IBoardingHouseRepository districtRepository, IImageUrlService imageUrlService) : base(districtRepository)
         {
+            _imageUrlService = imageUrlService;
+        }
+
+        public async override Task<int> InsertAsync(BoardingHouseCreateDto entityCreateDto)
+        {
+
+            var boardingHouse = await MapEntityCreateDtoToEntity(entityCreateDto);
+            boardingHouse.CreatedDate = DateTime.Now;
+            boardingHouse.CreatedName = "";
+            boardingHouse.Id = Guid.NewGuid();
+
+            var imageUrlsCreateDto = entityCreateDto.ImageUrlsCreateDto.Select(imageUrlCreateDto =>
+            {
+                imageUrlCreateDto.RealEstateId = boardingHouse.Id;
+                return imageUrlCreateDto;
+            }).ToList();
+
+            var result = await BaseRepository.InsertAsync(boardingHouse);
+            await _imageUrlService.InsertMultiAsync(imageUrlsCreateDto);
+
+            return result;
         }
 
         public override Task<BoardingHouse> MapEntityCreateDtoToEntity(BoardingHouseCreateDto entityCreateDto)

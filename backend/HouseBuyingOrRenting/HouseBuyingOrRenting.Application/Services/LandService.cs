@@ -9,8 +9,31 @@ namespace HouseBuyingOrRenting.Application
 {
     public class LandService : BaseService<Land, LandDto, LandCreateDto, LandUpdateDto>, ILandService
     {
-        public LandService(ILandRepository districtRepository) : base(districtRepository)
+        private readonly IImageUrlService _imageUrlService;
+
+        public LandService(ILandRepository districtRepository, IImageUrlService imageUrlService) : base(districtRepository)
         {
+            _imageUrlService = imageUrlService;
+        }
+
+        public async override Task<int> InsertAsync(LandCreateDto entityCreateDto)
+        {
+
+            var land = await MapEntityCreateDtoToEntity(entityCreateDto);
+            land.CreatedDate = DateTime.Now;
+            land.CreatedName = "";
+            land.Id = Guid.NewGuid();
+
+            var imageUrlsCreateDto = entityCreateDto.ImageUrlsCreateDto.Select(imageUrlCreateDto =>
+            {
+                imageUrlCreateDto.RealEstateId = land.Id;
+                return imageUrlCreateDto;
+            }).ToList();
+
+            var result = await BaseRepository.InsertAsync(land);
+            await _imageUrlService.InsertMultiAsync(imageUrlsCreateDto);
+
+            return result;
         }
 
         public override Task<Land> MapEntityCreateDtoToEntity(LandCreateDto entityCreateDto)

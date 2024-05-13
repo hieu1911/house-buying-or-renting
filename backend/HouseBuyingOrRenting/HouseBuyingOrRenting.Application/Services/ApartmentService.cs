@@ -9,8 +9,31 @@ namespace HouseBuyingOrRenting.Application
 {
     public class ApartmentService : BaseService<Apartment, ApartmentDto, ApartmentCreateDto, ApartmentUpdateDto>, IApartmentService
     {
-        public ApartmentService(IApartmentRepository districtRepository) : base(districtRepository)
+        private readonly IImageUrlService _imageUrlService;
+
+        public ApartmentService(IApartmentRepository districtRepository, IImageUrlService imageUrlService) : base(districtRepository)
         {
+            _imageUrlService = imageUrlService;
+        }
+
+        public async override Task<int> InsertAsync(ApartmentCreateDto entityCreateDto)
+        {
+
+            var apartment = await MapEntityCreateDtoToEntity(entityCreateDto);
+            apartment.CreatedDate = DateTime.Now;
+            apartment.CreatedName = "";
+            apartment.Id = Guid.NewGuid();
+
+            var imageUrlsCreateDto = entityCreateDto.ImageUrlsCreateDto.Select(imageUrlCreateDto =>
+            {
+                imageUrlCreateDto.RealEstateId = apartment.Id;
+                return imageUrlCreateDto;
+            }).ToList();
+
+            var result = await BaseRepository.InsertAsync(apartment);
+            await _imageUrlService.InsertMultiAsync(imageUrlsCreateDto);
+
+            return result;
         }
 
         public override Task<Apartment> MapEntityCreateDtoToEntity(ApartmentCreateDto entityCreateDto)

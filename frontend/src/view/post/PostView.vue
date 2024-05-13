@@ -254,7 +254,7 @@
             <h4 class="post-row-title">{{ $t('post.legalDocument') }}</h4>
             <div class="radio-group">
                 <div>
-                    <input type="radio" id="noHave" name="legalDocument" value="0" checkd v-model="apartmentLegalDocument">
+                    <input type="radio" id="noHave" name="legalDocument" value="0" checked v-model="apartmentLegalDocument">
                     <label for="html">{{ $t('post.noHave') }}</label><br>
                 </div>
                 <div>
@@ -374,6 +374,7 @@ const positionLatLng = reactive({
 })
 const statusEnum = inject('$enums').statusEnum;
 const images = reactive([]);
+const imageFiles = reactive([]);
 const showGoogleMap = ref(false);
 const realestateEnum = inject('$enums').realEstateEnum;
 const realestateOptions = [
@@ -449,16 +450,15 @@ function success(position) {
 }
 
 function fail() {
-// Could not obtain location
+    // Could not obtain location
 }
 
 function dragFile(files) {
-    console.log(files[0])
-    console.log(Date.now())
     for (let i = 0; i < files.length; i++) {
-        const file = files[i];
+        let file = files[i];
+        imageFiles.push(file)
         if (file) {
-            const reader = new FileReader();
+            let reader = new FileReader();
             reader.onload = e => images.push(e.target.result)
             reader.readAsDataURL(file);
         }
@@ -467,6 +467,7 @@ function dragFile(files) {
 
 function removeImage(idx) {
     images.splice(idx, 1);
+    imageFiles.splice(idx, 1);
 }
 
 function valideHouseProperties() {
@@ -500,7 +501,6 @@ function validateLandProperties() {
 function valideProperties() {
     if (!realestateType.value 
         || !postType.value
-        || !realestateName.value
         || !province.value
         || !district.value
         || !area.value
@@ -586,17 +586,25 @@ async function createNewPost() {
         }
         common.showLoading(true);
 
-        images.forEach(async image => {
-            let imageRef = storageRef(storage, `${Date.now()}${image.name}`)
+        let imageUrls = [];
+        imageFiles.forEach(async (image, idx) => {
+            let imageName = Date.now().toString() + idx + image.name;
+            let imageRef = storageRef(storage, `images/${imageName}`)
             let { upload } = useStorageFile(imageRef)
+
+            imageUrls.push(imageName)
+
             await upload(image);
         });
+        
+        record.ImageUrlsCreateDto = imageUrls.map(url => ({
+            Url: url
+        }));
     
         await createRecord(object, record);
 
         common.showLoading(false);
     }
- 
 }
 </script>
 

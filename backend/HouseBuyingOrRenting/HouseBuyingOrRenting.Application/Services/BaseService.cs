@@ -46,6 +46,7 @@ namespace HouseBuyingOrRenting.Application
             var entity = await MapEntityCreateDtoToEntity(entityCreateDto);
             entity.CreatedDate = DateTime.Now;
             entity.CreatedName = "";
+            entity.Id = Guid.NewGuid();
 
             var result = await BaseRepository.InsertAsync(entity);
             return result;
