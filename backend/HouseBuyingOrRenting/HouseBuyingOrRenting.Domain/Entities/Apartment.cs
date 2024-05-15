@@ -16,6 +16,6 @@ namespace HouseBuyingOrRenting.Domain
 
         public string? Status { get; set; }
 
-        public string? LegalDocument { get; set; }
+        public bool LegalDocument { get; set; }
     }
 }

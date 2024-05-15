@@ -60,12 +60,20 @@ export const getByListIds = async (object, ids) => {
 }
 
 export const createRecord = async (object, record) => {
-    const response = await axios.post(`${config.API}/${object}`, record);
+    const response = await axios.post(`${config.API}/${object}`, record, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
     return response;
 }
 
 export const updateRecord = async (object, id, record) => {
-    const response = await axios.put(`${config.API}/${object}/${id}`, record);
+    const response = await axios.put(`${config.API}/${object}/${id}`, record, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
     return response;
 }
 

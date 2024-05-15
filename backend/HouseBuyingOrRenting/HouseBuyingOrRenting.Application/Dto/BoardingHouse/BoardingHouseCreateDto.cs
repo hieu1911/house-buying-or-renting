@@ -12,6 +12,6 @@ namespace HouseBuyingOrRenting.Application
 
         public string? Funiture { get; set; }
 
-        public string? SeftContained { get; set; }
+        public bool SeftContained { get; set; }
     }
 }

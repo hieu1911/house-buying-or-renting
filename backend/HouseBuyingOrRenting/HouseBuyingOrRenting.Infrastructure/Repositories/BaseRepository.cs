@@ -25,7 +25,7 @@ namespace HouseBuyingOrRenting.Infrastructure
             throw new NotImplementedException();
         }
 
-        public async Task<List<TEntity>> GetAllAsync()
+        public virtual async Task<List<TEntity>> GetAllAsync()
         {
             var entities = await _dbSet.ToListAsync();
 

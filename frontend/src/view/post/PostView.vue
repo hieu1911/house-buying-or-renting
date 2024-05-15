@@ -183,11 +183,11 @@
             <h4 class="post-row-title">{{ $t('post.redBook') }}</h4>
             <div class="radio-group">
                 <div>
-                    <input type="radio" id="hasRedBook" name="redBook" value="0" checked v-model="houseRedBook">
+                    <input type="radio" id="hasRedBook" name="redBook" value="1" checked v-model="houseRedBook">
                     <label for="html">{{ $t('post.hasRedBook') }}</label><br>
                 </div>
                 <div>
-                    <input type="radio" id="agenoRedBookncy" name="redBook" value="1">
+                    <input type="radio" id="agenoRedBookncy" name="redBook" value="0">
                     <label for="html">{{ $t('post.noRedBook') }}</label><br>
                 </div>
             </div>
@@ -204,11 +204,11 @@
             <h4 class="post-row-title">{{ $t('post.selfContained') }}</h4>
             <div class="radio-group">
                 <div>
-                    <input type="radio" id="private" name="selfContained" value="0" checked v-model="boardingHouseSelfContained">
+                    <input type="radio" id="private" name="selfContained" value="1" checked v-model="boardingHouseSelfContained">
                     <label for="html">{{ $t('post.private') }}</label><br>
                 </div>
                 <div>
-                    <input type="radio" id="shard" name="selfContained" value="1">
+                    <input type="radio" id="shard" name="selfContained" value="0">
                     <label for="html">{{ $t('post.shard') }}</label><br>
                 </div>
             </div>
@@ -254,12 +254,12 @@
             <h4 class="post-row-title">{{ $t('post.legalDocument') }}</h4>
             <div class="radio-group">
                 <div>
-                    <input type="radio" id="noHave" name="legalDocument" value="0" checked v-model="apartmentLegalDocument">
-                    <label for="html">{{ $t('post.noHave') }}</label><br>
+                    <input type="radio" id="pinkBook" name="legalDocument" value="1" checked v-model="apartmentLegalDocument">
+                    <label for="html">{{ $t('post.pinkBook') }}</label><br>
                 </div>
                 <div>
-                    <input type="radio" id="pinkBook" name="legalDocument" value="1">
-                    <label for="html">{{ $t('post.pinkBook') }}</label><br>
+                    <input type="radio" id="noHave" name="legalDocument" value="0">
+                    <label for="html">{{ $t('post.noHave') }}</label><br>
                 </div>
             </div>
         </div>
@@ -275,12 +275,12 @@
             <h4 class="post-row-title">{{ $t('post.legalDocument') }}</h4>
             <div class="radio-group">
                 <div>
-                    <input type="radio" id="noHave" name="legalDocumentLand" value="0" checked v-model="landLegalDocument">
-                    <label for="html">{{ $t('post.noHave') }}</label><br>
+                    <input type="radio" id="have" name="legalDocumentLand" value="1" checked v-model="landLegalDocument">
+                    <label for="html">{{ $t('post.have') }}</label><br>
                 </div>
                 <div>
-                    <input type="radio" id="have" name="legalDocumentLand" value="1">
-                    <label for="html">{{ $t('post.have') }}</label><br>
+                    <input type="radio" id="noHave" name="legalDocumentLand" value="0">
+                    <label for="html">{{ $t('post.noHave') }}</label><br>
                 </div>
             </div>
         </div>
@@ -527,11 +527,10 @@ async function createNewPost() {
     if (valideProperties()) {
         let object;
         let record = {
-            OwnerId: "",
             DistrictId: district.value,
             Address: addressDetail.value,
-            Latitude: '',
-            Longtitude: '',
+            Latitude: 0,
+            Longtitude: 0,
             Area: area.value,
             Title: title.value,
             Description: description.value,

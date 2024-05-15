@@ -10,6 +10,6 @@ namespace HouseBuyingOrRenting.Domain
     {
         public string? LandType { get; set; }
 
-        public string? LegalDocument { get; set; }
+        public bool LegalDocument { get; set; }
     }
 }
