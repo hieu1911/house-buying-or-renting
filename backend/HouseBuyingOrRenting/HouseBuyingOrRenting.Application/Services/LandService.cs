@@ -1,4 +1,5 @@
-﻿using HouseBuyingOrRenting.Domain;
+﻿using AutoMapper;
+using HouseBuyingOrRenting.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,12 @@ namespace HouseBuyingOrRenting.Application
     {
         private readonly IImageUrlService _imageUrlService;
 
-        public LandService(ILandRepository districtRepository, IImageUrlService imageUrlService) : base(districtRepository)
+        private readonly IMapper _mapper;
+
+        public LandService(ILandRepository districtRepository, IImageUrlService imageUrlService, IMapper mapper) : base(districtRepository)
         {
             _imageUrlService = imageUrlService;
+            _mapper = mapper;
         }
 
         public async override Task<int> InsertAsync(LandCreateDto entityCreateDto)
@@ -36,9 +40,10 @@ namespace HouseBuyingOrRenting.Application
             return result;
         }
 
-        public override Task<Land> MapEntityCreateDtoToEntity(LandCreateDto entityCreateDto)
+        public async override Task<Land> MapEntityCreateDtoToEntity(LandCreateDto entityCreateDto)
         {
-            throw new NotImplementedException();
+            var land = _mapper.Map<Land>(entityCreateDto);
+            return land;
         }
 
         public override Task<LandDto> MapEntityToEntityDto(Land entity)

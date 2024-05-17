@@ -4,7 +4,6 @@ import LoginView from '@/view/login/LoginView.vue';
 import RegisterView from '@/view/register/RegisterView.vue';
 import PostView from '@/view/post/PostView.vue';
 
-
 const routes = [
     { path: '/', name: 'HomeRouter', component: HomeView },
     { path: '/login', name: 'LoginRouter', component: LoginView },
@@ -12,7 +11,7 @@ const routes = [
     { path: '/post', name: 'PostView', component: PostView}
 ];
 
-const router = createRouter({
+export const router = createRouter({
     history: createWebHistory(),
     routes
 });

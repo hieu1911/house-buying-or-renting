@@ -97,7 +97,6 @@ if (props.password) {
 // }
 
 function handleBlur() {
-    showDeleteIcon.value = false;
     if (props.blurNotHideErr && props.modelValue) {
         return;
     }
@@ -130,6 +129,7 @@ function showError() {
 
 function deleteValue() {
     value.value = '';
+    console.log(value.value);
     emit('update:modelValue', value.value);
     emit('clear');
     focus();

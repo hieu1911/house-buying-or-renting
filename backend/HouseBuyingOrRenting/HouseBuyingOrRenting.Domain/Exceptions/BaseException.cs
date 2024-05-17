@@ -20,10 +20,5 @@ namespace HouseBuyingOrRenting.Domain
         public string? TraceId { get; set; }
 
         public string? MoreInfo { get; set; }
-
-        public override string ToString()
-        {
-            return JsonSerializer.Serialize(this);
-        }
     }
 }

@@ -341,6 +341,9 @@ import common from '@/js/common/helper';
 import { getRecords } from '@/js/service/base';
 import { getDistrictsByProvinceId } from '@/js/service/district';
 import { createRecord } from '@/js/service/base';
+import { publicStore } from '@/js/store/publicStore';
+import { getUserInfo } from '@/js/service/auth';
+import { router } from '@/js/router/router';
 
 const storage = useFirebaseStorage()
 
@@ -408,10 +411,21 @@ const postOptions = [
     }
 ]
 
-let provincesOptions = reactive([]);
-let districtOptions = reactive([]);
+const provincesOptions = reactive([]);
+const districtOptions = reactive([]);
+let ownerId;
 
 onBeforeMount(async () => {
+    if (!publicStore().isAuthPage) {
+        const user = await getUserInfo();
+        if (!user.data) {
+            router.push('/login');
+            return;
+        } else {
+            ownerId = user.data.Id;
+        }
+    }
+
     const res = await getRecords('Province')
     res.data?.forEach(province => provincesOptions.push({
         title: province.Name,
@@ -527,14 +541,15 @@ async function createNewPost() {
     if (valideProperties()) {
         let object;
         let record = {
+            OwnerId: ownerId,
             DistrictId: district.value,
             Address: addressDetail.value,
             Latitude: 0,
             Longtitude: 0,
-            Area: area.value,
+            Area: parseFloat(area.value),
             Title: title.value,
             Description: description.value,
-            Price: price.value,
+            Price: parseFloat(price.value),
             Type: postType.value
         }
 
@@ -543,9 +558,9 @@ async function createNewPost() {
                 object = 'House'
                 record = {
                     ...record,
-                    NumberOfBedRoom: houseNumberOfBedRoom.value,
-                    NumberOfToilet: houseNumberOfToilet.value,
-                    NumberOfFloor: houseNumberOfFloor.value,
+                    NumberOfBedRoom: parseInt(houseNumberOfBedRoom.value),
+                    NumberOfToilet: parseInt(houseNumberOfToilet.value),
+                    NumberOfFloor: parseInt(houseNumberOfFloor.value),
                     Funiture: houseFuniture.value,
                     RedBook: houseRedBook.value
                 }
@@ -564,9 +579,9 @@ async function createNewPost() {
                 object = 'Apartment'
                 record = {
                     ...record,
-                    NumberOfBedRoom: apartmentNumberOfBedRoom.value,
-                    NumberOfToilet: apartmentNumberOfToilet.value,
-                    Floor: apartmentFloor.value,
+                    NumberOfBedRoom: parseInt(apartmentNumberOfBedRoom.value),
+                    NumberOfToilet: parseInt(apartmentNumberOfToilet.value),
+                    Floor: parseInt(apartmentFloor.value),
                     LegalDocument: apartmentLegalDocument.value
                 }
                 break;
@@ -599,6 +614,8 @@ async function createNewPost() {
         record.ImageUrlsCreateDto = imageUrls.map(url => ({
             Url: url
         }));
+
+        console.log(record);
     
         await createRecord(object, record);
 

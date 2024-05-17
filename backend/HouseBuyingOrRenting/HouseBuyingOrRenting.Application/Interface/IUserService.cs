@@ -10,5 +10,7 @@ namespace HouseBuyingOrRenting.Application
     public interface IUserService : IBaseService<User, UserDto, UserCreateDto, UserUpdateDto>
     {
         Task<UserDto> GetUserAsync(UserLoginDto user);
+
+        Task<UserDto> CheckUserLoginedAsync();
     }
 }

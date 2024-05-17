@@ -10,3 +10,8 @@ export const register = async (user) =>  {
     const response = await axios.post(`${config.API}/Auth/register`, user);
     return response;
 }
+
+export const getUserInfo = async () =>  {
+    const response = await axios.get(`${config.API}/Auth/info`);
+    return response;
+}

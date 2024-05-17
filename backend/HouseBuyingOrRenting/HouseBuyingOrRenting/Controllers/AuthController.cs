@@ -29,7 +29,8 @@ namespace HouseBuyingOrRenting.Controllers
             {
                 new Claim(ClaimTypes.Name, user.UserName ?? ""),
                 new Claim("Email", user.Email ?? ""),
-                new Claim("PhoneNumber", user.PhoneNumber ?? "")
+                new Claim("PhoneNumber", user.PhoneNumber ?? ""),
+                new Claim("Id", user.Id.ToString() ?? "")
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -44,6 +45,14 @@ namespace HouseBuyingOrRenting.Controllers
                 new ClaimsPrincipal(claimsIdentity),
                 authProperties);
 
+            return StatusCode(StatusCodes.Status200OK, user);
+        }
+
+        [HttpGet]
+        [Route("info")]
+        public async Task<IActionResult> GetUserLoginedAsync()
+        {
+            var user = await _userService.CheckUserLoginedAsync();
             return StatusCode(StatusCodes.Status200OK, user);
         }
     }

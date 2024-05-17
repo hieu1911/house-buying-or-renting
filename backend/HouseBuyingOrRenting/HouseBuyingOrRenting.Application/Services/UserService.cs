@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using HouseBuyingOrRenting.Domain;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
+using System.Security.Claims;
 using System.Text;
 
 namespace HouseBuyingOrRenting.Application
@@ -57,6 +59,26 @@ namespace HouseBuyingOrRenting.Application
         public override Task<User> MapEntityUpdateDtoToEntity(Guid id, UserUpdateDto entityUpdateDto)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<UserDto> CheckUserLoginedAsync()
+        {
+            var context = new HttpContextAccessor().HttpContext;
+
+            var userClaim = context.User;
+            if (!userClaim.Identity.IsAuthenticated)
+            {
+                return null;
+            }
+
+            var userDto = new UserDto()
+            {
+                UserName = userClaim.FindFirst(ClaimTypes.Name).Value,
+                Email = userClaim.FindFirst("Email").Value,
+                Id = new Guid(userClaim.FindFirst("Id").Value)
+            };
+
+            return userDto;
         }
 
         private string HashPassword(string password)
