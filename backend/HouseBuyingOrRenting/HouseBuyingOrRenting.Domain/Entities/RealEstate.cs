@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HouseBuyingOrRenting.Domain
 {
-    public abstract class RealEstate : BaseEntity
+    public class RealEstate : BaseEntity
     {
         public Guid OwnerId { get; set; }
 
@@ -32,5 +32,9 @@ namespace HouseBuyingOrRenting.Domain
         public string? Feature { get; set; }
 
         public PostType Type { get; set; }
+
+        public RealEstateType RealEstateType { get; set; }
+
+        public List<ImageUrl> ImageUrls { get; set; }
     }
 }

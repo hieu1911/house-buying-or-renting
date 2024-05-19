@@ -344,6 +344,7 @@ import { createRecord } from '@/js/service/base';
 import { publicStore } from '@/js/store/publicStore';
 import { getUserInfo } from '@/js/service/auth';
 import { router } from '@/js/router/router';
+import { deFormatNumber } from '@/js/common/helper';
 
 const storage = useFirebaseStorage()
 
@@ -538,9 +539,11 @@ function valideProperties() {
 }
 
 async function createNewPost() {
+    console.log(deFormatNumber(price.value));
     if (valideProperties()) {
         let object;
-        let record = {
+        let record;
+        let RealEstateCreateDto = {
             OwnerId: ownerId,
             DistrictId: district.value,
             Address: addressDetail.value,
@@ -549,15 +552,16 @@ async function createNewPost() {
             Area: parseFloat(area.value),
             Title: title.value,
             Description: description.value,
-            Price: parseFloat(price.value),
+            Price: parseFloat(deFormatNumber(price.value)),
             Type: postType.value
         }
 
         switch (realestateType.value) {
             case realestateEnum.HOUSE:
-                object = 'House'
+                object = 'House';
+                RealEstateCreateDto.RealEstateType = realestateEnum.HOUSE;
                 record = {
-                    ...record,
+                    RealEstateCreateDto,
                     NumberOfBedRoom: parseInt(houseNumberOfBedRoom.value),
                     NumberOfToilet: parseInt(houseNumberOfToilet.value),
                     NumberOfFloor: parseInt(houseNumberOfFloor.value),
@@ -567,18 +571,20 @@ async function createNewPost() {
                 break;
             
             case realestateEnum.BOARDINGHOUSE:
-                object = 'BoardingHouse'
+                object = 'BoardingHouse';
+                RealEstateCreateDto.RealEstateType = realestateEnum.BOARDINGHOUSE;
                 record = {
-                    ...record,
+                    RealEstateCreateDto,
                     Funiture: boardingHouseFuniture.value,
                     SeftContained: boardingHouseSelfContained.value
                 }
                 break;
 
             case realestateEnum.APARTMENT:
-                object = 'Apartment'
+                object = 'Apartment';
+                RealEstateCreateDto.RealEstateType = realestateEnum.APARTMENT;
                 record = {
-                    ...record,
+                    RealEstateCreateDto,
                     NumberOfBedRoom: parseInt(apartmentNumberOfBedRoom.value),
                     NumberOfToilet: parseInt(apartmentNumberOfToilet.value),
                     Floor: parseInt(apartmentFloor.value),
@@ -587,9 +593,10 @@ async function createNewPost() {
                 break;
 
             case realestateEnum.LAND:
-                object = 'Land'
+                object = 'Land';
+                RealEstateCreateDto.RealEstateType = realestateEnum.LAND;
                 record = {
-                    ...record,
+                    RealEstateCreateDto,
                     LandType: landType.value,
                     LegalDocument: landLegalDocument.value
                 }
@@ -598,6 +605,7 @@ async function createNewPost() {
             default: 
                 break;
         }
+        console.log(record)
         common.showLoading(true);
 
         let imageUrls = [];
@@ -611,7 +619,7 @@ async function createNewPost() {
             await upload(image);
         });
         
-        record.ImageUrlsCreateDto = imageUrls.map(url => ({
+        record.RealEstateCreateDto.ImageUrlsCreateDto = imageUrls.map(url => ({
             Url: url
         }));
 

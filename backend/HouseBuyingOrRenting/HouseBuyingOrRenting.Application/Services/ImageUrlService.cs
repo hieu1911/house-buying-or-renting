@@ -17,20 +17,23 @@ namespace HouseBuyingOrRenting.Application
             _mapper = mapper;
         }
 
-        public async override Task<ImageUrl> MapEntityCreateDtoToEntity(ImageUrlCreateDto entityCreateDto)
+        public override async Task<ImageUrl> MapEntityCreateDtoToEntity(ImageUrlCreateDto entityCreateDto)
         {
             var imageUrl = _mapper.Map<ImageUrl>(entityCreateDto);
             return imageUrl;
         }
 
-        public override Task<ImageUrlDto> MapEntityToEntityDto(ImageUrl entity)
+        public override async Task<ImageUrlDto> MapEntityToEntityDto(ImageUrl entity)
         {
-            throw new NotImplementedException();
+            var imageUrlDto = _mapper.Map<ImageUrlDto>(entity);
+            return imageUrlDto;
         }
 
-        public override Task<ImageUrl> MapEntityUpdateDtoToEntity(Guid id, ImageUrlUpdateDto entityUpdateDto)
+        public override async Task<ImageUrl> MapEntityUpdateDtoToEntity(Guid id, ImageUrlUpdateDto entityUpdateDto)
         {
-            throw new NotImplementedException();
+            var imageUrl = _mapper.Map<ImageUrl>(entityUpdateDto);
+            imageUrl.Id = id;
+            return imageUrl;
         }
     }
 }

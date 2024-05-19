@@ -33,6 +33,8 @@ namespace HouseBuyingOrRenting.Application
 
         public PostType Type { get; set; }
 
+        public RealEstateType RealEstateType { get; set; }
+
         public List<ImageUrlCreateDto> ImageUrlsCreateDto { get; set; }
     }
 }

@@ -22,5 +22,7 @@ namespace HouseBuyingOrRenting.Infrastructure
         public DbSet<Province> Provinces { get; set; }
 
         public DbSet<District> Districts { get; set; }
+
+        public DbSet<RealEstate> RealEstates { get; set; }
     }
 }

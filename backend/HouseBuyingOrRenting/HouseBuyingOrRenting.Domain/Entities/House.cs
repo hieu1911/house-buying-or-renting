@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace HouseBuyingOrRenting.Domain
 {
-    public class House : RealEstate
+    public class House : BaseEntity
     {
+        public Guid RealEstateId { get; set; }
+
+        public RealEstate RealEstate { get; set; }
+
         public int NumberOfBedRoom { get; set; }
 
         public int NumberOfToilet { get; set; }

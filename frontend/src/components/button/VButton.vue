@@ -40,8 +40,8 @@ function checkClassByType(allowTypes) {
 
 const buttonClass = {
     'btn--primary': checkClassByType(['primary', 'hasIconPrimary', 'login']),
-    'btn--secondary': checkClassByType(['secondary', 'filter']),
-    'btn--btn-with-icon': checkClassByType(['hasIcon', 'hasIconPrimary', 'filter']),
+    'btn--secondary': checkClassByType(['secondary', 'filter', 'hasIconSecondary']),
+    'btn--btn-with-icon': checkClassByType(['hasIcon', 'hasIconPrimary', 'filter', 'hasIconSecondary']),
     'btn--third': checkClassByType(['third']),
     'btn--link': checkClassByType(['link', 'loginLink']),
     'btn--login-link': checkClassByType(['loginLink']),

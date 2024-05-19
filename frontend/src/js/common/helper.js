@@ -4,6 +4,25 @@ import enums from './enum';
 import router from '../router/router';
 import { publicStore } from '../store/publicStore';
 
+export const formatNumber = (num) => {
+    if (!num && num !== 0) return;
+    let n = num;
+    let str = n.toLocaleString('en-US');
+    str = str.replace(/\./, ',');
+    str = str.replace(/,/g, '.');
+    return str;
+}
+
+export const  deFormatNumber = (numberString) => {
+    let number;
+
+    if (numberString === null || numberString === undefined) return 0;
+    number = numberString.toString().replace(/\./g, "");
+    number = parseInt(number);
+
+    return number;
+}
+
 const common = {
     showToastMessage(type, title, content) {
         emitter.emit('showToastMessage', type, title, content);

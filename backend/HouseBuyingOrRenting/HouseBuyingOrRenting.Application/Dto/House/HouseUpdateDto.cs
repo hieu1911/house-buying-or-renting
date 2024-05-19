@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace HouseBuyingOrRenting.Application
 {
-    public class HouseUpdateDto : RealEstateUpdateDto
+    public class HouseUpdateDto
     {
+        public Guid RealEstateId { get; set; }
+
+        public RealEstateUpdateDto RealEstateUpdateDto { get; set; }
+
         public int NumberOfBedRoom { get; set; }
 
         public int NumberOfToilet { get; set; }

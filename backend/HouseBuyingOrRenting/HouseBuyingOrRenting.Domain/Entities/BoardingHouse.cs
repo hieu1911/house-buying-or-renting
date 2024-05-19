@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace HouseBuyingOrRenting.Domain
 {
-    public class BoardingHouse : RealEstate
+    public class BoardingHouse : BaseEntity
     {
-        public double Deposit { get; set; }
+        public Guid RealEstateId { get; set; }
+
+        public RealEstate RealEstate { get; set; }
 
         public string? Funiture { get; set; }
 

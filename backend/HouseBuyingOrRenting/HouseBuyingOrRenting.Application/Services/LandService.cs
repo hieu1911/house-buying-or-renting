@@ -10,12 +10,15 @@ namespace HouseBuyingOrRenting.Application
 {
     public class LandService : BaseService<Land, LandDto, LandCreateDto, LandUpdateDto>, ILandService
     {
+        private readonly IRealEstateRepository _realEstateRepository;
+
         private readonly IImageUrlService _imageUrlService;
 
         private readonly IMapper _mapper;
 
-        public LandService(ILandRepository districtRepository, IImageUrlService imageUrlService, IMapper mapper) : base(districtRepository)
+        public LandService(ILandRepository districtRepository, IRealEstateRepository realEstateRepository, IImageUrlService imageUrlService, IMapper mapper) : base(districtRepository)
         {
+            _realEstateRepository = realEstateRepository;
             _imageUrlService = imageUrlService;
             _mapper = mapper;
         }
@@ -23,37 +26,46 @@ namespace HouseBuyingOrRenting.Application
         public async override Task<int> InsertAsync(LandCreateDto entityCreateDto)
         {
 
-            var land = await MapEntityCreateDtoToEntity(entityCreateDto);
-            land.CreatedDate = DateTime.Now;
-            land.CreatedName = "";
-            land.Id = Guid.NewGuid();
+            var realEstate = _mapper.Map<RealEstate>(entityCreateDto.RealEstateCreateDto);
+            var realEstateId = Guid.NewGuid();
+            realEstate.CreatedDate = DateTime.Now;
+            realEstate.CreatedName = "";
+            realEstate.Id = realEstateId;
 
-            var imageUrlsCreateDto = entityCreateDto.ImageUrlsCreateDto.Select(imageUrlCreateDto =>
+            var land = await MapEntityCreateDtoToEntity(entityCreateDto);
+            land.Id = Guid.NewGuid();
+            land.RealEstateId = realEstateId;
+
+            var imageUrlsCreateDto = entityCreateDto.RealEstateCreateDto.ImageUrlsCreateDto.Select(imageUrlCreateDto =>
             {
-                imageUrlCreateDto.RealEstateId = land.Id;
+                imageUrlCreateDto.RealEstateId = realEstateId;
                 return imageUrlCreateDto;
             }).ToList();
 
-            var result = await BaseRepository.InsertAsync(land);
+            await _realEstateRepository.InsertAsync(realEstate);
             await _imageUrlService.InsertMultiAsync(imageUrlsCreateDto);
+            var result = await BaseRepository.InsertAsync(land);
 
             return result;
         }
 
-        public async override Task<Land> MapEntityCreateDtoToEntity(LandCreateDto entityCreateDto)
+        public override async Task<Land> MapEntityCreateDtoToEntity(LandCreateDto entityCreateDto)
         {
             var land = _mapper.Map<Land>(entityCreateDto);
             return land;
         }
 
-        public override Task<LandDto> MapEntityToEntityDto(Land entity)
+        public override async Task<LandDto> MapEntityToEntityDto(Land entity)
         {
-            throw new NotImplementedException();
+            var landDto = _mapper.Map<LandDto>(entity);
+            return landDto;
         }
 
-        public override Task<Land> MapEntityUpdateDtoToEntity(Guid id, LandUpdateDto entityUpdateDto)
+        public override async Task<Land> MapEntityUpdateDtoToEntity(Guid id, LandUpdateDto entityUpdateDto)
         {
-            throw new NotImplementedException();
+            var land = _mapper.Map<Land>(entityUpdateDto);
+            land.Id = id;
+            return land;
         }
     }
 }

@@ -93,6 +93,8 @@ builder.Services.AddScoped<IApartmentService, ApartmentService>();
 builder.Services.AddScoped<IApartmentRepository, ApartmentRepository>();
 builder.Services.AddScoped<ILandService, LandService>();
 builder.Services.AddScoped<ILandRepository, LandRepository>();
+builder.Services.AddScoped<IRealEstateService, RealEstateService>();
+builder.Services.AddScoped<IRealEstateRepository, RealEstateRepository>();
 
 var app = builder.Build();
 

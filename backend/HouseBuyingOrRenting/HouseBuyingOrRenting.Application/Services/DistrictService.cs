@@ -31,7 +31,8 @@ namespace HouseBuyingOrRenting.Application
 
         public override async Task<District> MapEntityCreateDtoToEntity(DistrictCreateDto entityCreateDto)
         {
-            throw new NotImplementedException();
+            var district = _mapper.Map<District>(entityCreateDto);
+            return district;
         }
 
         public override async Task<DistrictDto> MapEntityToEntityDto(District entity)
@@ -40,9 +41,11 @@ namespace HouseBuyingOrRenting.Application
             return district;
         }
 
-        public override Task<District> MapEntityUpdateDtoToEntity(Guid id, DistrictUpdateDto entityUpdateDto)
+        public override async Task<District> MapEntityUpdateDtoToEntity(Guid id, DistrictUpdateDto entityUpdateDto)
         {
-            throw new NotImplementedException();
+            var district = _mapper.Map<District>(entityUpdateDto);
+            district.Id = id;
+            return district;
         }
     }
 }

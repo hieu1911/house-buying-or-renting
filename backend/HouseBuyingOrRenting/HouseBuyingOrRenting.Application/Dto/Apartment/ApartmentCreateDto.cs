@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace HouseBuyingOrRenting.Application
 {
-    public class ApartmentCreateDto : RealEstateCreateDto
+    public class ApartmentCreateDto
     {
+        public RealEstateCreateDto RealEstateCreateDto { get; set; }
+
         public int NumberOfBedRoom { get; set; }
 
         public int NumberOfToilet { get; set; }

@@ -45,6 +45,7 @@
 
 <script setup>
 import { defineEmits, defineProps, defineExpose, ref, computed, watch } from 'vue';
+import { formatNumber, deFormatNumber } from '@/js/common/helper';
 
 const emit = defineEmits(['update:modelValue', 'clickIcon', 'clear', 'tab', 'focus', 'blur', 'change'])
 
@@ -144,25 +145,6 @@ function handleClickIcon() {
     if (props.password) {
         showPassword.value = !showPassword.value;
     }
-}
-
-function formatNumber(num) {
-    if (!num && num !== 0) return;
-    let n = num;
-    let str = n.toLocaleString('en-US');
-    str = str.replace(/\./, ',');
-    str = str.replace(/,/g, '.');
-    return str;
-}
-
-function deFormatNumber(numberString) {
-    let number;
-
-    if (numberString === null || numberString === undefined) return 0;
-    number = numberString.toString().replace(/\./g, "");
-    number = parseInt(number);
-
-    return number;
 }
 
 // function blur() {

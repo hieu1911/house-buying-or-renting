@@ -116,7 +116,7 @@
 }
 
 .btn--secondary:hover label {
-    color: var(--color-hover);
+    color: #fff !important;
 }
 
 .btn--secondary:active {

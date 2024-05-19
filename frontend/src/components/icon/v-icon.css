@@ -240,3 +240,11 @@
 	width: 24px;
 	height: 24px;
 }
+
+.icon-search-home {
+	background: url('../../assets/icon/search-interface-symbol.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 16px;
+	height: 16px;
+}

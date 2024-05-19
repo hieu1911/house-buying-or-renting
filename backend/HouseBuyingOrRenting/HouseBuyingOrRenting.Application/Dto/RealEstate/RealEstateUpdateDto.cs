@@ -33,6 +33,8 @@ namespace HouseBuyingOrRenting.Application
 
         public PostType Type { get; set; }
 
+        public RealEstateType RealEstateType { get; set; }
+
         public DateTimeOffset? CreatedDate { get; set; }
 
         public DateTimeOffset? ModifiedDate { get; set; }
@@ -40,5 +42,7 @@ namespace HouseBuyingOrRenting.Application
         public string? CreatedName { get; set; }
 
         public string? ModifiedName { get; set; }
+
+        public List<ImageUrl> ImageUrl { get; set; }
     }
 }

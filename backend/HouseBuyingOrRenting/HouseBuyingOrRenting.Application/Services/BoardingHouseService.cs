@@ -10,12 +10,15 @@ namespace HouseBuyingOrRenting.Application
 {
     public class BoardingHouseService : BaseService<BoardingHouse, BoardingHouseDto, BoardingHouseCreateDto, BoardingHouseUpdateDto>, IBoardingHouseService
     {
+        private readonly IRealEstateRepository _realEstateRepository;
+
         private readonly IImageUrlService _imageUrlService;
 
         private readonly IMapper _mapper;
 
-        public BoardingHouseService(IBoardingHouseRepository districtRepository, IImageUrlService imageUrlService, IMapper mapper) : base(districtRepository)
+        public BoardingHouseService(IBoardingHouseRepository districtRepository, IRealEstateRepository realEstateRepository, IImageUrlService imageUrlService, IMapper mapper) : base(districtRepository)
         {
+            _realEstateRepository = realEstateRepository;
             _imageUrlService = imageUrlService;
             _mapper = mapper;
         }
@@ -23,19 +26,25 @@ namespace HouseBuyingOrRenting.Application
         public async override Task<int> InsertAsync(BoardingHouseCreateDto entityCreateDto)
         {
 
-            var boardingHouse = await MapEntityCreateDtoToEntity(entityCreateDto);
-            boardingHouse.CreatedDate = DateTime.Now;
-            boardingHouse.CreatedName = "";
-            boardingHouse.Id = Guid.NewGuid();
+            var realEstate = _mapper.Map<RealEstate>(entityCreateDto.RealEstateCreateDto);
+            var realEstateId = Guid.NewGuid();
+            realEstate.CreatedDate = DateTime.Now;
+            realEstate.CreatedName = "";
+            realEstate.Id = realEstateId;
 
-            var imageUrlsCreateDto = entityCreateDto.ImageUrlsCreateDto.Select(imageUrlCreateDto =>
+            var boardingHouse = await MapEntityCreateDtoToEntity(entityCreateDto);
+            boardingHouse.Id = Guid.NewGuid();
+            boardingHouse.RealEstateId = realEstateId;
+
+            var imageUrlsCreateDto = entityCreateDto.RealEstateCreateDto.ImageUrlsCreateDto.Select(imageUrlCreateDto =>
             {
-                imageUrlCreateDto.RealEstateId = boardingHouse.Id;
+                imageUrlCreateDto.RealEstateId = realEstateId;
                 return imageUrlCreateDto;
             }).ToList();
 
-            var result = await BaseRepository.InsertAsync(boardingHouse);
+            await _realEstateRepository.InsertAsync(realEstate);
             await _imageUrlService.InsertMultiAsync(imageUrlsCreateDto);
+            var result = await BaseRepository.InsertAsync(boardingHouse);
 
             return result;
         }
@@ -46,14 +55,17 @@ namespace HouseBuyingOrRenting.Application
             return boardingHouse;
         }
 
-        public override Task<BoardingHouseDto> MapEntityToEntityDto(BoardingHouse entity)
+        public async override Task<BoardingHouseDto> MapEntityToEntityDto(BoardingHouse entity)
         {
-            throw new NotImplementedException();
+            var boardingHouseDto = _mapper.Map<BoardingHouseDto>(entity);
+            return boardingHouseDto;
         }
 
-        public override Task<BoardingHouse> MapEntityUpdateDtoToEntity(Guid id, BoardingHouseUpdateDto entityUpdateDto)
+        public async override Task<BoardingHouse> MapEntityUpdateDtoToEntity(Guid id, BoardingHouseUpdateDto entityUpdateDto)
         {
-            throw new NotImplementedException();
+            var boardingHouse = _mapper.Map<BoardingHouse>(entityUpdateDto);
+            boardingHouse.Id = id;
+            return boardingHouse;
         }
     }
 }

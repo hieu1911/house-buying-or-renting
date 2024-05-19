@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace HouseBuyingOrRenting.Application
 {
-    public class BoardingHouseDto : RealEstateDto
+    public class BoardingHouseDto
     {
-        public double Deposit { get; set; }
+        public Guid RealEstateId { get; set; }
+
+        public RealEstateDto RealEstateDto { get; set; }
 
         public string? Funiture { get; set; }
 
