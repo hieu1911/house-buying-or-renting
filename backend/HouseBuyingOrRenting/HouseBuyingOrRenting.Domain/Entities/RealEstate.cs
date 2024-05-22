@@ -13,6 +13,8 @@ namespace HouseBuyingOrRenting.Domain
 
         public Guid? DistrictId { get; set; }
 
+        public District District { get; set; }
+
         public string? Address { get; set; }
 
         public double? Latitude { get; set; }

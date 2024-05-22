@@ -13,7 +13,7 @@ export const formatNumber = (num) => {
     return str;
 }
 
-export const  deFormatNumber = (numberString) => {
+export const deFormatNumber = (numberString) => {
     let number;
 
     if (numberString === null || numberString === undefined) return 0;
@@ -21,6 +21,36 @@ export const  deFormatNumber = (numberString) => {
     number = parseInt(number);
 
     return number;
+}
+
+export const numberToWord = (number) => {
+    if (number > 1000000000) {
+        const n = number / 1000000000;
+        if (n % 1 == 0) return `${number / 1000000000} tỷ`;
+        else return `${(number / 1000000000).toFixed(1)} tỷ`;
+    } else {
+        const n = number / 1000000;
+        if (n % 1 == 0) return `${number / 1000000} triệu`;
+        else return `${(number / 1000000).toFixed(1)} triệu`
+    }
+}
+
+export const convertMilliseconds = (ms) => {
+    let seconds = Math.floor(ms / 1000);
+    let minutes = Math.floor(seconds / 60);
+    let hours = Math.floor(minutes / 60);
+    let days = Math.floor(hours / 24);
+
+    seconds = seconds % 60;
+    minutes = minutes % 60;
+    hours = hours % 24;
+
+    return {
+        days: days,
+        hours: hours,
+        minutes: minutes,
+        seconds: seconds
+    };
 }
 
 const common = {

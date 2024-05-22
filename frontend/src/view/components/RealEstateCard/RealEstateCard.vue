@@ -1,0 +1,73 @@
+<template>
+    <div>
+        <img :src="imgUrl" class="img-thumbnail"/>
+        <p class="card-title">{{ realEstate.Title }}</p>
+        <div class="card-info">
+            <span class="card-area">{{ realEstate.Area }} m²</span>
+            <span class="card-mid">-</span>
+            <span class="card-price">{{ numberToWord(realEstate.Price) }}</span>
+        </div>
+        <div class="card-info">
+            <span class="card-time">{{ timePosted }}</span>
+            <div>
+                <v-icon type="pin" nowrap></v-icon>
+                <span class="card-address">{{ realEstate.District.Province.Name }}</span>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script setup>
+import { onBeforeMount, defineProps, ref } from 'vue';
+import { ref as storageRef } from 'firebase/storage';
+import { useFirebaseStorage, useStorageFileUrl } from 'vuefire';
+
+import { numberToWord, convertMilliseconds } from '@/js/common/helper';
+
+const imgUrl = ref('');
+const timePosted = ref('');
+
+const props = defineProps({
+    'realEstate': Object
+})
+
+onBeforeMount(() => {
+    const thumbnail = props.realEstate.ImageUrls[0]?.Url;
+
+    const storage = useFirebaseStorage()
+    const imageFileRef = storageRef(storage, `images/${thumbnail}`)
+    const {
+        refresh
+    } = useStorageFileUrl(imageFileRef)
+    refresh().then(value => {
+        imgUrl.value = value;
+        console.log(props.realEstate.Title + "---------" + value);
+    });
+
+    const createdTime = new Date(props.realEstate.CreatedDate);
+    const timeObj = convertMilliseconds(Date.now() - createdTime);
+    timePosted.value = '';
+    if (timeObj.days > 0) {
+        timePosted.value += `${timeObj.days} ngày `;
+    }
+
+    if (timeObj.hours > 0) {
+        timePosted.value += `${timeObj.hours} giờ `;
+    }
+
+    if (timeObj.days == 0 && timeObj.minutes > 0) {
+        timePosted.value += `${timeObj.minutes} phút `;
+    }
+
+    if (timeObj.days == 0 && timeObj.hours == 0 && timeObj.minutes == 0) {
+        timePosted.value += `${timeObj.seconds} giây `;
+    }
+
+    timePosted.value += 'trước';
+});
+
+</script>
+
+<style scoped>
+@import url(./real-estate-card.css);
+</style>

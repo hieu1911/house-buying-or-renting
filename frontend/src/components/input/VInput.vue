@@ -1,5 +1,5 @@
 <template>
-    <div :class="{'input--w-100': w100}">
+    <div :class="{'input--w-100': w100}" ref="wref">
         <label
             v-if="label" 
             class="input__title" 
@@ -44,8 +44,10 @@
 </template>
 
 <script setup>
-import { defineEmits, defineProps, defineExpose, ref, computed, watch } from 'vue';
+import { defineEmits, defineProps, defineExpose, ref, computed, watch, onMounted } from 'vue';
 import { formatNumber, deFormatNumber } from '@/js/common/helper';
+
+import { useOnClickOutside } from '@/js/composable/click-outside';
 
 const emit = defineEmits(['update:modelValue', 'clickIcon', 'clear', 'tab', 'focus', 'blur', 'change'])
 
@@ -88,6 +90,15 @@ const showErrorDesc = ref(false)
 const showDeleteIcon = ref(false)
 const showPassword = ref(false)
 const inputType = ref("text")
+const wref = ref(null);
+
+onMounted(() => {
+    if (wref.value) {
+        useOnClickOutside(wref.value, () => {
+            showDeleteIcon.value = false;
+        });
+    }
+})
 
 if (props.password) {
     inputType.value = "password"
@@ -130,7 +141,6 @@ function showError() {
 
 function deleteValue() {
     value.value = '';
-    console.log(value.value);
     emit('update:modelValue', value.value);
     emit('clear');
     focus();
@@ -186,7 +196,6 @@ watch(value, (newValue, oldValue) => {
         }
         
         value.value = formatNumber(number);
-        //console.log(value.value)
     }
 
     emit('update:modelValue', value.value);

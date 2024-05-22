@@ -9,6 +9,11 @@
             </div>
         </div>
         <div class="header-right">
+            <v-button
+                :label="$t('post.post')"
+                type="hasIconPrimary"
+                icon="checked"
+            ></v-button>
             <v-icon type='notify'></v-icon>
             <v-icon type='user'></v-icon>
         </div>

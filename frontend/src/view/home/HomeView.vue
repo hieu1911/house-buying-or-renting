@@ -30,13 +30,13 @@
         </div>
         <div>
             <h4 class="region-title">{{ $t('home.recomendTitle') }}</h4>
-            <h3 class="region-sub-title">{{ $t('home.recomendSubTitle') }}</h3>
+            <h3 class="region-sub-title" style="margin: 0 0 16px 0">{{ $t('home.recomendSubTitle') }}</h3>
             <div class="recomend">
                 <div style="width: 49%;" class="card-wrapper" @click="navigateByCityName('Da Lat')">
                     <div class="recomend-card">
                         <img src="../../assets/image/dalat.jpg" alt="">
                     </div>
-                    <h3>Đà Lạt</h3>
+                    <h3>Hà Nội</h3>
                 </div>
                 <div style="width: 49%;" class="card-wrapper" @click="navigateByCityName('Ho Chi Minh City')">
                     <div class="recomend-card">
@@ -66,9 +66,29 @@
         </div>
         <div>
             <h4 class="region-title">{{ $t('home.rentRealestateTtile') }}</h4>
-            <Carousel :items-to-show="4">
-                <Slide v-for="slide in 10" :key="slide">
-                    <div class="carousel__item">{{ slide }}</div>
+            <h3 class="region-sub-title" style="margin: 0;">{{ $t('home.rentRealestateSubTitle') }}</h3>
+            <Carousel :items-to-show="5">
+                <Slide v-for="(realEstate, idx) in realEstateRent" :key="idx">
+                    <RealEstateCard
+                        :realEstate="realEstate"
+                    ></RealEstateCard>
+                </Slide>
+
+                <template #addons>
+                    <Navigation />
+                    <Pagination />
+                </template>
+            </Carousel>
+        </div>
+
+        <div>
+            <h4 class="region-title">{{ $t('home.buyRealestateTitle') }}</h4>
+            <h3 class="region-sub-title" style="margin: 0;">{{ $t('home.buyRealestateSubTitle') }}</h3>
+            <Carousel :items-to-show="5">
+                <Slide v-for="(realEstate, idx) in realEstateBuy" :key="idx">
+                    <RealEstateCard
+                        :realEstate="realEstate"
+                    ></RealEstateCard>
                 </Slide>
 
                 <template #addons>
@@ -86,6 +106,8 @@ import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
 import 'vue3-carousel/dist/carousel.css'
 
 import { getForCarousel } from '@/js/service/realEstate';
+import RealEstateCard from '../components/RealEstateCard/RealEstateCard.vue';
+
 const postEnums = inject('$enums').postEnum;
 const realEstateRent = reactive([]);
 const realEstateBuy = reactive([]);

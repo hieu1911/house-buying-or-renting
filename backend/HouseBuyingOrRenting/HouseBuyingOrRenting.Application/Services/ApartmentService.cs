@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HouseBuyingOrRenting.Domain;
+using HouseBuyingOrRenting.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +17,20 @@ namespace HouseBuyingOrRenting.Application
 
         private readonly IMapper _mapper;
 
-        public ApartmentService(IApartmentRepository districtRepository, IRealEstateRepository realEstateRepository, IImageUrlService imageUrlService, IMapper mapper) : base(districtRepository)
+        private readonly MyDbContext _db;
+
+        public ApartmentService(
+            IApartmentRepository districtRepository, 
+            IRealEstateRepository realEstateRepository, 
+            IImageUrlService imageUrlService, 
+            IMapper mapper,
+            MyDbContext db
+            ) : base(districtRepository)
         {
             _realEstateRepository = realEstateRepository;
             _imageUrlService = imageUrlService;
             _mapper = mapper;
+            _db = db;
         }
 
         public async override Task<int> InsertAsync(ApartmentCreateDto entityCreateDto)
@@ -42,11 +52,22 @@ namespace HouseBuyingOrRenting.Application
                 return imageUrlCreateDto;
             }).ToList();
 
-            await _realEstateRepository.InsertAsync(realEstate);
-            await _imageUrlService.InsertMultiAsync(imageUrlsCreateDto);
-            var result = await BaseRepository.InsertAsync(apartment);
-
-            return result;
+            using (var transaction = _db.Database.BeginTransaction())
+            {
+                try
+                {
+                    await _realEstateRepository.InsertAsync(realEstate);
+                    await _imageUrlService.InsertMultiAsync(imageUrlsCreateDto);
+                    var result = await BaseRepository.InsertAsync(apartment);
+                    transaction.Commit();
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw ex;
+                }
+            }
         }
 
         public async override Task<Apartment> MapEntityCreateDtoToEntity(ApartmentCreateDto entityCreateDto)

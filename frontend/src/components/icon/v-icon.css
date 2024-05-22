@@ -248,3 +248,11 @@
 	width: 16px;
 	height: 16px;
 }
+
+.icon-pin {
+	background: url('../../assets/icon/pin.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 14px;
+	height: 14px;
+}

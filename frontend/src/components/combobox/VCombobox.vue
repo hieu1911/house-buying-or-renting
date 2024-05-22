@@ -162,7 +162,6 @@ function handleSelect(item) {
 function toggleCombobox() {
     if (!props.disable) {
         showCombobox.value = !showCombobox.value;
-        console.log(showCombobox.value)
     }
 }
 

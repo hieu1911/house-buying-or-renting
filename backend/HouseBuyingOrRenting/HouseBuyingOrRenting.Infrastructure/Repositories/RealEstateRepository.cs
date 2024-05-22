@@ -1,16 +1,11 @@
 ﻿using HouseBuyingOrRenting.Domain;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HouseBuyingOrRenting.Infrastructure
 {
     public class RealEstateRepository : BaseRepository<RealEstate>, IRealEstateRepository
     {
-        public DbSet<RealEstate> _dbSet { get; set; }
+        private DbSet<RealEstate> _dbSet { get; set; }
 
         public RealEstateRepository(MyDbContext db) : base(db, db.RealEstates)
         {
@@ -21,11 +16,19 @@ namespace HouseBuyingOrRenting.Infrastructure
         {
             var realEstateRent = _dbSet
                .Where(e => e.Type == PostType.Renting)
+               .Include(e => e.ImageUrls)
+               .Include(e => e.District)
+               .ThenInclude(d => d.Province)
+               .OrderByDescending(e => e.CreatedDate)
                .Take(8)
                .ToList();
 
             var realEstateBuy = _dbSet
                 .Where(e => e.Type == PostType.Buying)
+                .Include(e => e.ImageUrls)
+                .Include(e => e.District)
+                .ThenInclude(d => d.Province)
+                .OrderByDescending(e => e.CreatedDate)
                 .Take(8)
                 .ToList();
 

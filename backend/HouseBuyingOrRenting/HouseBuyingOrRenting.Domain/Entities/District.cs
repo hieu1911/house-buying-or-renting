@@ -11,6 +11,8 @@ namespace HouseBuyingOrRenting.Domain
     {
         public Guid ProvinceId { get; set; }
 
+        public Province Province { get; set; }
+
         public string Name { get; set; }
     }
 }

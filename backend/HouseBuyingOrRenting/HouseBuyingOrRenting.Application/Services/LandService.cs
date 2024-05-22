@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HouseBuyingOrRenting.Domain;
+using HouseBuyingOrRenting.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +17,20 @@ namespace HouseBuyingOrRenting.Application
 
         private readonly IMapper _mapper;
 
-        public LandService(ILandRepository districtRepository, IRealEstateRepository realEstateRepository, IImageUrlService imageUrlService, IMapper mapper) : base(districtRepository)
+        private readonly MyDbContext _db;
+
+        public LandService(
+            ILandRepository districtRepository,
+            IRealEstateRepository realEstateRepository,
+            IImageUrlService imageUrlService,
+            IMapper mapper,
+            MyDbContext db
+            ) : base(districtRepository)
         {
             _realEstateRepository = realEstateRepository;
             _imageUrlService = imageUrlService;
             _mapper = mapper;
+            _db = db;
         }
 
         public async override Task<int> InsertAsync(LandCreateDto entityCreateDto)
@@ -42,11 +52,22 @@ namespace HouseBuyingOrRenting.Application
                 return imageUrlCreateDto;
             }).ToList();
 
-            await _realEstateRepository.InsertAsync(realEstate);
-            await _imageUrlService.InsertMultiAsync(imageUrlsCreateDto);
-            var result = await BaseRepository.InsertAsync(land);
-
-            return result;
+            using (var transaction = _db.Database.BeginTransaction())
+            {
+                try
+                {
+                    await _realEstateRepository.InsertAsync(realEstate);
+                    await _imageUrlService.InsertMultiAsync(imageUrlsCreateDto);
+                    var result = await BaseRepository.InsertAsync(land);
+                    transaction.Commit();
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw ex;
+                }
+            }
         }
 
         public override async Task<Land> MapEntityCreateDtoToEntity(LandCreateDto entityCreateDto)

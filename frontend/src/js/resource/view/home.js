@@ -7,7 +7,9 @@ const homeResource = {
         recomendTitle: 'Bất động sản theo khu vực',
         recomendSubTitle: 'Khám phá bất động sản tại các khu vực hot',
         rentRealestateTtile: 'Cho thuê bất động sản',
-        buyRealestateTitle: 'Mua bán bất động san'
+        rentRealestateSubTitle: 'Khám phá bất động sản cho thuê mới đăng gần đây',
+        buyRealestateTitle: 'Mua bán bất động sản',
+        buyRealestateSubTitle: 'Khám phá bất động sản buôn bán mới đăng gần đây'
     },
     en: {
         searchTitle: 'Search real estete',

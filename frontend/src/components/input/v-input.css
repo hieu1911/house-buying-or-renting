@@ -232,9 +232,10 @@
     position: absolute;
     display: flex;
     align-items: center;
-    top: 0;
+    top: 50%;
     right: 4px;
-    height: 100%;
+    transform: translateY(-50%);
+    height: 80%;
 }
 
 .input__body:has(.input--have-icon-after) .input-delete-icon {

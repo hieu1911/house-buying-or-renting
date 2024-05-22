@@ -15,6 +15,8 @@ namespace HouseBuyingOrRenting.Application
 
         public Guid? DistrictId { get; set; }
 
+        public District District { get; set; }
+
         public string? Address { get; set; }
 
         public double? Latitude { get; set; }
@@ -45,6 +47,6 @@ namespace HouseBuyingOrRenting.Application
 
         public string? ModifiedName { get; set; }
 
-        public List<ImageUrl> ImageUrl { get; set; }
+        public List<ImageUrl> ImageUrls { get; set; }
     }
 }

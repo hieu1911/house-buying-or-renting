@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HouseBuyingOrRenting.Domain;
+using HouseBuyingOrRenting.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,15 +17,25 @@ namespace HouseBuyingOrRenting.Application
 
         private readonly IMapper _mapper;
 
-        public HouseService(IHouseRepository houseRepository, IRealEstateRepository realEstateRepository, IImageUrlService imageUrlService, IMapper mapper) : base(houseRepository)
+        private readonly MyDbContext _db;
+
+        public HouseService(
+            IHouseRepository houseRepository, 
+            IRealEstateRepository realEstateRepository, 
+            IImageUrlService imageUrlService, 
+            IMapper mapper,
+            MyDbContext db
+            ) : base(houseRepository)
         {
             _realEstateRepository = realEstateRepository;
             _imageUrlService = imageUrlService;
             _mapper = mapper;
+            _db = db;
         }
 
         public async override Task<int> InsertAsync(HouseCreateDto entityCreateDto)
         {
+            
             var realEstate = _mapper.Map<RealEstate>(entityCreateDto.RealEstateCreateDto);
             var realEstateId = Guid.NewGuid();
             realEstate.CreatedDate = DateTime.Now;
@@ -41,11 +52,22 @@ namespace HouseBuyingOrRenting.Application
                 return imageUrlCreateDto;
             }).ToList();
 
-            await _realEstateRepository.InsertAsync(realEstate);
-            await _imageUrlService.InsertMultiAsync(imageUrlsCreateDto);
-            var result = await BaseRepository.InsertAsync(house);
-
-            return result;
+            using (var transaction = _db.Database.BeginTransaction())
+            {
+                try
+                {
+                    await _realEstateRepository.InsertAsync(realEstate);
+                    await _imageUrlService.InsertMultiAsync(imageUrlsCreateDto);
+                    var result = await BaseRepository.InsertAsync(house);
+                    transaction.Commit();
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw ex;
+                }
+            }
         }
 
         public override async Task<House> MapEntityCreateDtoToEntity(HouseCreateDto entityCreateDto)

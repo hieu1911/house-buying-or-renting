@@ -1,10 +1,5 @@
 ﻿using HouseBuyingOrRenting.Domain;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HouseBuyingOrRenting.Infrastructure
 {
@@ -21,7 +16,7 @@ namespace HouseBuyingOrRenting.Infrastructure
         {
             var user = await _db.Users.SingleOrDefaultAsync(u => (u.PhoneNumber == phoneOrEmail || u.Email == phoneOrEmail)
                 && u.Password == password);
-            
+
             return user;
         }
     }
