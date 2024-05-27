@@ -335,7 +335,7 @@
 import { ref, inject, onBeforeMount, reactive } from 'vue';
 import { GoogleMap, Marker } from 'vue3-google-map';
 import { ref as storageRef } from 'firebase/storage';
-import { useFirebaseStorage, useStorageFile } from 'vuefire';
+import { useFirebaseStorage, useStorageFile, useStorageFileUrl } from 'vuefire';
 
 import common from '@/js/common/helper';
 import { getRecords } from '@/js/service/base';
@@ -539,7 +539,6 @@ function valideProperties() {
 }
 
 async function createNewPost() {
-    console.log(deFormatNumber(price.value));
     if (valideProperties()) {
         let object;
         let record;
@@ -608,26 +607,25 @@ async function createNewPost() {
         common.showLoading(true);
 
         let imageUrls = [];
-        imageFiles.forEach(async (image, idx) => {
+        for (const [idx, image] of imageFiles.entries()) {
             let imageName = Date.now().toString() + idx + image.name;
             let imageRef = storageRef(storage, `images/${imageName}`)
             let { upload } = useStorageFile(imageRef)
 
-            imageUrls.push(imageName)
             await upload(image);
 
-            // const {
-            //     refresh
-            // } = useStorageFileUrl(imageRef)
-            // const imgRefresh = await refresh();
-            // imageUrls.push(imgRefresh)
-
-        });
+            const {
+                refresh
+            } = useStorageFileUrl(imageRef)
+            const imgRefresh = await refresh();
+            imageUrls.push(imgRefresh)
+        }
         
         record.RealEstateCreateDto.ImageUrlsCreateDto = imageUrls.map(url => ({
             Url: url
         }));
 
+        console.log(record);
     
         await createRecord(object, record);
 
