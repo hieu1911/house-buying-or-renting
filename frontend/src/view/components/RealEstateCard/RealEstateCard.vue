@@ -19,9 +19,6 @@
 
 <script setup>
 import { onBeforeMount, defineProps, ref } from 'vue';
-import { ref as storageRef } from 'firebase/storage';
-import { useFirebaseStorage, useStorageFileUrl } from 'vuefire';
-
 import { numberToWord, convertMilliseconds } from '@/js/common/helper';
 
 const imgUrl = ref('');
@@ -32,17 +29,7 @@ const props = defineProps({
 })
 
 onBeforeMount(() => {
-    const thumbnail = props.realEstate.ImageUrls[0]?.Url;
-
-    const storage = useFirebaseStorage()
-    const imageFileRef = storageRef(storage, `images/${thumbnail}`)
-    const {
-        refresh
-    } = useStorageFileUrl(imageFileRef)
-    refresh().then(value => {
-        imgUrl.value = value;
-        console.log(props.realEstate.Title + "---------" + value);
-    });
+    imgUrl.value = props.realEstate.ImageUrls[0]?.Url;
 
     const createdTime = new Date(props.realEstate.CreatedDate);
     const timeObj = convertMilliseconds(Date.now() - createdTime);

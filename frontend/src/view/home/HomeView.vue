@@ -32,31 +32,31 @@
             <h4 class="region-title">{{ $t('home.recomendTitle') }}</h4>
             <h3 class="region-sub-title" style="margin: 0 0 16px 0">{{ $t('home.recomendSubTitle') }}</h3>
             <div class="recomend">
-                <div style="width: 49%;" class="card-wrapper" @click="navigateByCityName('Da Lat')">
+                <div style="width: 49%;" class="card-wrapper" @click="navigateByCityName('6e52efd1-769c-2ea0-eedc-845b5dcdad45')">
                     <div class="recomend-card">
                         <img src="../../assets/image/dalat.jpg" alt="">
                     </div>
                     <h3>Hà Nội</h3>
                 </div>
-                <div style="width: 49%;" class="card-wrapper" @click="navigateByCityName('Ho Chi Minh City')">
+                <div style="width: 49%;" class="card-wrapper" @click="navigateByCityName('1235c88b-5f2a-78d9-e612-ebbbcf065d1c')">
                     <div class="recomend-card">
                         <img src="../../assets/image/hcm.jpg" alt="">
                     </div>
                     <h3>Thành phố Hồ Chí Minh</h3>
                 </div>
-                <div style="width: 32%;" class="card-wrapper" @click="navigateByCityName('Nha Trang')">
+                <div style="width: 32%;" class="card-wrapper" @click="navigateByCityName('405cd8be-1160-35ff-85c3-d3ede7a72094')">
                     <div class="recomend-card">
                         <img src="../../assets/image/nhatrang.jpg" alt="">
                     </div>
                     <h3>Nha Trang</h3>
                 </div>
-                <div style="width: 32%;" class="card-wrapper" @click="navigateByCityName('Da Nang')">
+                <div style="width: 32%;" class="card-wrapper" @click="navigateByCityName('79e2659b-1e78-7dc9-0528-030d4265475f')">
                     <div class="recomend-card">
                         <img src="../../assets/image/danang.jpg" alt="">
                     </div>
                     <h3>Đà Nẵng</h3>
                 </div>
-                <div style="width: 32%;" class="card-wrapper" @click="navigateByCityName('Hoi An')">
+                <div style="width: 32%;" class="card-wrapper" @click="navigateByCityName('7b01963d-2bc0-5b15-82c3-d3ede7a72094')">
                     <div class="recomend-card">
                         <img src="../../assets/image/hoian.jpg" alt="">
                     </div>
@@ -73,7 +73,6 @@
                         :realEstate="realEstate"
                     ></RealEstateCard>
                 </Slide>
-
                 <template #addons>
                     <Navigation />
                     <Pagination />
@@ -106,7 +105,11 @@ import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
 import 'vue3-carousel/dist/carousel.css'
 
 import { getForCarousel } from '@/js/service/realEstate';
+import router from '@/js/router/router';
+import { publicStore } from '@/js/store/publicStore';
 import RealEstateCard from '../components/RealEstateCard/RealEstateCard.vue';
+
+publicStore().setIsHomePage(true);
 
 const postEnums = inject('$enums').postEnum;
 const realEstateRent = reactive([]);
@@ -122,6 +125,15 @@ onBeforeMount(async () => {
         }
     })
 })
+
+async function navigateByCityName(id) {
+    router.push({
+        path: '/list',
+        query: {
+            provinceId: id
+        }
+    })
+}
 
 </script>
 

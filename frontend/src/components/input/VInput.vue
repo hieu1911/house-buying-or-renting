@@ -205,6 +205,11 @@ watch(value, (newValue, oldValue) => {
 watch(() => props.modelValue, newValue => {
     value.value = newValue;
 })
+
+watch(showPassword, newValue => {
+    if (newValue) inputType.value = 'text';
+    else inputType.value = 'password';
+})
 </script>
 
 <style scoped>

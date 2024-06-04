@@ -78,9 +78,9 @@
     position: relative;
 }
 
-.input--hide-text {
+/* .input--hide-text {
     -webkit-text-security: disc;
-}
+} */
 
 .input--required::after {
     content: '*';

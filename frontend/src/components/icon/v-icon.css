@@ -256,3 +256,19 @@
 	width: 14px;
 	height: 14px;
 }
+
+.icon-show-pass {
+	background: url('../../assets/icon/eye.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 16px;
+	height: 16px;
+}
+
+.icon-hide-pass {
+	background: url('../../assets/icon/hidden.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 16px;
+	height: 16px;
+}

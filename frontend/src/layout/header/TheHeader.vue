@@ -8,6 +8,21 @@
                 <a>{{ $t('header.rent') }}</a>
             </div>
         </div>
+        <div v-if="!publicStore().isHomePage" class="header-mid">
+            <v-input
+                placeholder="Bất động sản"
+                type="primary"
+                w100
+                hasIcon
+                iconType="search"
+            >
+            </v-input>
+            <v-button
+                type="hasIconSecondary"
+                :label="$t('home.filter')"
+                icon="filter"
+            ></v-button>
+        </div>
         <div class="header-right">
             <v-button
                 :label="$t('post.post')"
@@ -21,7 +36,7 @@
 </template>
 
 <script setup>
-
+import { publicStore } from '@/js/store/publicStore';
 </script>
 
 <style scoped>

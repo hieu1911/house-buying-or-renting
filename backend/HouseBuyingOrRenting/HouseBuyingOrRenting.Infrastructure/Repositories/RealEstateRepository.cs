@@ -36,5 +36,20 @@ namespace HouseBuyingOrRenting.Infrastructure
 
             return result;
         }
+
+        public async Task<List<RealEstate>> GetByProvinceId(Guid? provinceId, int pageSize, int pageNumber)
+        {
+            var realEstates = _dbSet
+                .Include(e => e.ImageUrls)
+                .Include(e => e.District)
+                .ThenInclude(d => d.Province)
+                .Where(e => provinceId == null || e.District.ProvinceId == provinceId)
+                .OrderByDescending(e => e.CreatedDate)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            return realEstates.ToList();
+        }
     }
 }

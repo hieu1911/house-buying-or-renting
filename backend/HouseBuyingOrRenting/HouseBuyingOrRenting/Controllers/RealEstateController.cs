@@ -30,5 +30,13 @@ namespace HouseBuyingOrRenting.Controllers
             var result = await _realEstateService.GetRealEstateForCarousel();
             return StatusCode(StatusCodes.Status200OK, result);
         }
+
+        [HttpGet]
+        [Route("list")]
+        public async Task<IActionResult> GetByProvinceId(Guid? provinceId, int pageSize, int pageNumber)
+        {
+            var result = await _realEstateService.GetList(provinceId, pageSize, pageNumber);
+            return StatusCode(StatusCodes.Status200OK, result);
+        }
     }
 }
