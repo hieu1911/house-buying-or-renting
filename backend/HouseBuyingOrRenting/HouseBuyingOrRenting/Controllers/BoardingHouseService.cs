@@ -9,8 +9,19 @@ namespace HouseBuyingOrRenting.Controllers
     [ApiController]
     public class BoardingHouseController : BaseController<BoardingHouse, BoardingHouseDto, BoardingHouseCreateDto, BoardingHouseUpdateDto>
     {
-        public BoardingHouseController(IBoardingHouseService provinceService) : base(provinceService)
+        private readonly IBoardingHouseService _boardingHouseService;
+
+        public BoardingHouseController(IBoardingHouseService boardingHouseService) : base(boardingHouseService)
         {
+            _boardingHouseService = boardingHouseService;
+        }
+
+        [HttpGet]
+        [Route("RealEstate/{realEstateId}")]
+        public async Task<IActionResult> GetByRealEstateId(Guid realEstateId)
+        {
+            var result = await _boardingHouseService.GetByRealEstateId(realEstateId);
+            return StatusCode(StatusCodes.Status201Created, result);
         }
     }
 }

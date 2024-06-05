@@ -11,7 +11,9 @@ namespace HouseBuyingOrRenting.Application
 {
     public class ApartmentService : BaseService<Apartment, ApartmentDto, ApartmentCreateDto, ApartmentUpdateDto>, IApartmentService
     {
-        private IRealEstateRepository _realEstateRepository;
+        private readonly IRealEstateRepository _realEstateRepository;
+
+        private readonly IApartmentRepository _apartmentRepository;
 
         private readonly IImageUrlService _imageUrlService;
 
@@ -20,18 +22,28 @@ namespace HouseBuyingOrRenting.Application
         private readonly MyDbContext _db;
 
         public ApartmentService(
-            IApartmentRepository districtRepository, 
+            IApartmentRepository apartmentRepository, 
             IRealEstateRepository realEstateRepository, 
             IImageUrlService imageUrlService, 
             IMapper mapper,
             MyDbContext db
-            ) : base(districtRepository)
+            ) : base(apartmentRepository)
         {
             _realEstateRepository = realEstateRepository;
+            _apartmentRepository = apartmentRepository;
             _imageUrlService = imageUrlService;
             _mapper = mapper;
             _db = db;
         }
+
+        public async Task<ApartmentDto> GetByRealEstateId(Guid realEstateId)
+        {
+            var apartment = await _apartmentRepository.GetByRealEstateId(realEstateId);
+            var apartmentDto = await MapEntityToEntityDto(apartment);
+
+            return apartmentDto;
+        }
+
 
         public async override Task<int> InsertAsync(ApartmentCreateDto entityCreateDto)
         {
@@ -79,6 +91,7 @@ namespace HouseBuyingOrRenting.Application
         public async override Task<ApartmentDto> MapEntityToEntityDto(Apartment entity)
         {
             var apartmentDto = _mapper.Map<ApartmentDto>(entity);
+            apartmentDto.RealEstateDto = _mapper.Map<RealEstateDto>(entity.RealEstate);
             return apartmentDto;
         }
 

@@ -9,8 +9,19 @@ namespace HouseBuyingOrRenting.Controllers
     [ApiController]
     public class LandController : BaseController<Land, LandDto, LandCreateDto, LandUpdateDto>
     {
-        public LandController(ILandService districtService) : base(districtService)
+        private readonly ILandService _landService;
+
+        public LandController(ILandService landService) : base(landService)
         {
+            _landService = landService;
+        }
+
+        [HttpGet]
+        [Route("RealEstate/{realEstateId}")]
+        public async Task<IActionResult> GetByRealEstateId(Guid realEstateId)
+        {
+            var result = await _landService.GetByRealEstateId(realEstateId);
+            return StatusCode(StatusCodes.Status201Created, result);
         }
     }
 }

@@ -13,6 +13,8 @@ namespace HouseBuyingOrRenting.Application
     {
         private readonly IRealEstateRepository _realEstateRepository;
 
+        private readonly IBoardingHouseRepository _boardingHouseRepository;
+
         private readonly IImageUrlService _imageUrlService;
 
         private readonly IMapper _mapper;
@@ -20,17 +22,26 @@ namespace HouseBuyingOrRenting.Application
         private readonly MyDbContext _db;
 
         public BoardingHouseService(
-            IBoardingHouseRepository districtRepository,
+            IBoardingHouseRepository boardingHouseRepository,
             IRealEstateRepository realEstateRepository,
             IImageUrlService imageUrlService,
             IMapper mapper,
             MyDbContext db
-            ) : base(districtRepository)
+            ) : base(boardingHouseRepository)
         {
             _realEstateRepository = realEstateRepository;
+            _boardingHouseRepository = boardingHouseRepository;
             _imageUrlService = imageUrlService;
             _mapper = mapper;
             _db = db;
+        }
+
+        public async Task<BoardingHouseDto> GetByRealEstateId(Guid realEstateId)
+        {
+            var boardingHouse = await _boardingHouseRepository.GetByRealEstateId(realEstateId);
+            var boardingHouseDto = await MapEntityToEntityDto(boardingHouse);
+
+            return boardingHouseDto;
         }
 
         public async override Task<int> InsertAsync(BoardingHouseCreateDto entityCreateDto)
@@ -79,6 +90,7 @@ namespace HouseBuyingOrRenting.Application
         public async override Task<BoardingHouseDto> MapEntityToEntityDto(BoardingHouse entity)
         {
             var boardingHouseDto = _mapper.Map<BoardingHouseDto>(entity);
+            boardingHouseDto.RealEstateDto = _mapper.Map<RealEstateDto>(entity.RealEstate);
             return boardingHouseDto;
         }
 

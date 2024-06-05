@@ -46,6 +46,12 @@ export const getRecordsLimit = async (object, limit, offset, sortType = null, so
     return response;
 }
 
+export const getRecord = async (object, id) => {
+    const response = await axios.get(`${object}/${id}`);
+    
+    return response;
+}
+
 export const getRecords = async (object, params = {}) => {
     const response = await axios.get(`${object}`, {
         params

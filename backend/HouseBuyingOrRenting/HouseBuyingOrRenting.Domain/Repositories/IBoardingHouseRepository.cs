@@ -8,5 +8,6 @@ namespace HouseBuyingOrRenting.Domain
 {
     public interface IBoardingHouseRepository : IBaseRepository<BoardingHouse>
     {
+        Task<BoardingHouse> GetByRealEstateId(Guid realEstateId);
     }
 }

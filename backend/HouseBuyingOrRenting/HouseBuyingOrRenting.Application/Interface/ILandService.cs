@@ -9,5 +9,6 @@ namespace HouseBuyingOrRenting.Application
 {
     public interface ILandService : IBaseService<Land, LandDto, LandCreateDto, LandUpdateDto>
     {
+        Task<LandDto> GetByRealEstateId(Guid realEstateId);
     }
 }

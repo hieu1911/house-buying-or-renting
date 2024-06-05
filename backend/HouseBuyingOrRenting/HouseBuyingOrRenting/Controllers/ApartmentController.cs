@@ -9,8 +9,19 @@ namespace HouseBuyingOrRenting.Controllers
     [ApiController]
     public class ApartmentController : BaseController<Apartment, ApartmentDto, ApartmentCreateDto, ApartmentUpdateDto>
     {
-        public ApartmentController(IApartmentService districtService) : base(districtService)
+        private readonly IApartmentService _apartmentService;
+
+        public ApartmentController(IApartmentService apartmentService) : base(apartmentService)
         {
+            _apartmentService = apartmentService;
+        }
+
+        [HttpGet]
+        [Route("RealEstate/{realEstateId}")]
+        public async Task<IActionResult> GetByRealEstateId(Guid realEstateId)
+        {
+            var result = await _apartmentService.GetByRealEstateId(realEstateId);
+            return StatusCode(StatusCodes.Status201Created, result);
         }
     }
 }

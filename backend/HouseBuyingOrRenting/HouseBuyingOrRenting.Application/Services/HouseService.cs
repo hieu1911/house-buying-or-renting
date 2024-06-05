@@ -13,6 +13,8 @@ namespace HouseBuyingOrRenting.Application
     {
         private readonly IRealEstateRepository _realEstateRepository;
 
+        private readonly IHouseRepository _houseRepository;
+
         private readonly IImageUrlService _imageUrlService;
 
         private readonly IMapper _mapper;
@@ -28,9 +30,18 @@ namespace HouseBuyingOrRenting.Application
             ) : base(houseRepository)
         {
             _realEstateRepository = realEstateRepository;
+            _houseRepository = houseRepository;
             _imageUrlService = imageUrlService;
             _mapper = mapper;
             _db = db;
+        }
+
+        public async Task<HouseDto> GetByRealEstateId(Guid realEstateId)
+        {
+            var house = await _houseRepository.GetByRealEstateId(realEstateId);
+            var houseDto = await MapEntityToEntityDto(house);
+
+            return houseDto;
         }
 
         public async override Task<int> InsertAsync(HouseCreateDto entityCreateDto)
@@ -79,6 +90,7 @@ namespace HouseBuyingOrRenting.Application
         public override async Task<HouseDto> MapEntityToEntityDto(House entity)
         {
             var houseDto = _mapper.Map<HouseDto>(entity);
+            houseDto.RealEstateDto = _mapper.Map < RealEstateDto>(entity.RealEstate);
             return houseDto;
         }
 

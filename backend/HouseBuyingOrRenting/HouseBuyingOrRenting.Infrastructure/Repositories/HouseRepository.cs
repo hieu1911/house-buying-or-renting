@@ -18,5 +18,14 @@ namespace HouseBuyingOrRenting.Infrastructure
 
             return result;
         }
+
+        public async Task<House> GetByRealEstateId(Guid realEstateId)
+        {
+            var house = _db.Houses
+                .Include(h => h.RealEstate)
+                .SingleOrDefault<House>(h => h.RealEstateId == realEstateId);
+
+            return house;
+        }
     }
 }

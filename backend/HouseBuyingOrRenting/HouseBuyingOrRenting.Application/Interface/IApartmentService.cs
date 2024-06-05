@@ -9,5 +9,6 @@ namespace HouseBuyingOrRenting.Application
 {
     public interface IApartmentService : IBaseService<Apartment, ApartmentDto, ApartmentCreateDto, ApartmentUpdateDto>
     {
+        Task<ApartmentDto> GetByRealEstateId(Guid realEstateId);
     }
 }

@@ -6,7 +6,7 @@ export const getForCarousel = async () => {
     return response;
 }
 
-export const getListRealEstate = async(provinceId, pageSize, pageNumber) => {
+export const getListRealEstate = async (provinceId, pageSize, pageNumber) => {
     const response = await axios.get(`${config.API}/RealEstate/list`, {
         params: {
             provinceId,
@@ -14,5 +14,10 @@ export const getListRealEstate = async(provinceId, pageSize, pageNumber) => {
             pageNumber
         }
     });
+    return response;
+}
+
+export const getDetailRealEstate = async (type, realEstateId) => {
+    const response = await axios.get(`${config.API}/${type}/RealEstate/${realEstateId}`);
     return response;
 }
