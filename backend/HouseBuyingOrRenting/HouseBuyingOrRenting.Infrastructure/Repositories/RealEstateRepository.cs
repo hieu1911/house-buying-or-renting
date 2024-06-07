@@ -12,6 +12,12 @@ namespace HouseBuyingOrRenting.Infrastructure
             _dbSet = db.RealEstates;
         }
 
+        public override async Task<RealEstate?> GetAsync(Guid id)
+        {
+            var realEstate = await _dbSet.Include(r => r.ImageUrls).FirstOrDefaultAsync(r => r.Id == id);
+            return realEstate;
+        }
+
         public async Task<List<RealEstate>> GetRealEstateForCarousel()
         {
             var realEstateRent = _dbSet

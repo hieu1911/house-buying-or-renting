@@ -9,5 +9,7 @@ namespace HouseBuyingOrRenting.Domain
     public interface IDistrictRepository : IBaseRepository<District>
     {
         Task<List<District>> GetDistrictsByProvinceId(Guid provinceId);
+
+        Task<List<Address>> GetDistrictsName();
     }
 }

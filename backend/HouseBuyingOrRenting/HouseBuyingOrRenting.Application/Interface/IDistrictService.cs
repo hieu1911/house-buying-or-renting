@@ -10,5 +10,7 @@ namespace HouseBuyingOrRenting.Application
     public interface IDistrictService : IBaseService<District, DistrictDto, DistrictCreateDto, DistrictUpdateDto>
     {
         Task<List<DistrictDto>> GetDistrictsByProvinceId(Guid provinceId);
+
+        Task<List<Address>> GetDistrictsName();
     }
 }

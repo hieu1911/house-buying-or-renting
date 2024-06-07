@@ -9,8 +9,17 @@ namespace HouseBuyingOrRenting.Application
 {
     public class ProvinceService : BaseService<Province, ProvinceDto, ProvinceCreateDto, ProvinceUpdateDto>, IProvinceService
     {
+        private readonly IProvinceRepository _provinceRepository;
+
         public ProvinceService(IProvinceRepository provinceRepository) : base(provinceRepository)
         {
+            _provinceRepository = provinceRepository;
+        }
+
+        public async Task<List<Address>> GetProinvcesName()
+        {
+            var result = await _provinceRepository.GetProinvcesName();
+            return result;
         }
 
         public override Task<Province> MapEntityCreateDtoToEntity(ProvinceCreateDto entityCreateDto)

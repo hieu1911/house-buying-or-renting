@@ -27,7 +27,7 @@ namespace HouseBuyingOrRenting.Infrastructure
             return entities;
         }
 
-        public async Task<TEntity?> GetAsync(Guid id)
+        public virtual async Task<TEntity?> GetAsync(Guid id)
         {
             var entity = await _dbSet.FindAsync(id);
 

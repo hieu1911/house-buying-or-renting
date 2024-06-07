@@ -29,6 +29,12 @@ namespace HouseBuyingOrRenting.Application
             return districtsDto;
         }
 
+        public async Task<List<Address>> GetDistrictsName()
+        {
+            var result = await _disctrictRepository.GetDistrictsName();
+            return result;
+        }
+
         public override async Task<District> MapEntityCreateDtoToEntity(DistrictCreateDto entityCreateDto)
         {
             var district = _mapper.Map<District>(entityCreateDto);
