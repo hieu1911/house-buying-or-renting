@@ -272,3 +272,123 @@
 	width: 16px;
 	height: 16px;
 }
+
+.icon-bag {
+	background: url('../../assets/icon/briefcase.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 16px;
+	height: 16px;
+}
+
+.icon-messager {
+	background: url('../../assets/icon/messenger.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 16px;
+	height: 16px;
+}
+
+.icon-not-save {
+	background: url('../../assets/icon/not-save.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-saved {
+	background: url('../../assets/icon/saved.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-next {
+	background: url('../../assets/icon/next.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 16px;
+	height: 16px;
+}
+
+.icon-time {
+	background: url('../../assets/icon/history.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-location-detail {
+	background: url('../../assets/icon/location-detail.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-area {
+	background: url('../../assets/icon/area.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-price {
+	background: url('../../assets/icon/dollar.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-bed-room {
+	background: url('../../assets/icon/key-chain.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-toilet {
+	background: url('../../assets/icon/toilet.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-floor {
+	background: url('../../assets/icon/stairs.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-funiture {
+	background: url('../../assets/icon/buy.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-document {
+	background: url('../../assets/icon/file.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-earth {
+	background: url('../../assets/icon/earth.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+}

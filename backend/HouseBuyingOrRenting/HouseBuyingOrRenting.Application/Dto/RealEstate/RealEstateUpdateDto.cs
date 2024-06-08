@@ -9,6 +9,8 @@ namespace HouseBuyingOrRenting.Application
 {
     public class RealEstateUpdateDto
     {
+        public bool IsPersonal { get; set; }
+
         public Guid OwnerId { get; set; }
 
         public Guid? DistrictId { get; set; }

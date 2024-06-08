@@ -11,6 +11,7 @@
 
 .btn--w-100 {
     width: 100% !important;
+    justify-content: center;
 }
 
 .btn--height-40 {

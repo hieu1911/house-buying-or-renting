@@ -6,7 +6,7 @@
             <h4 class="post-row-title">{{ $t('post.poster') }}</h4>
             <div class="radio-group">
                 <div>
-                    <input type="radio" id="personal" name="poster" value="0" checked>
+                    <input type="radio" id="personal" name="poster" value="0" checked v-model="isPersonal">
                     <label for="html">{{ $t('post.personal') }}</label><br>
                 </div>
                 <div>
@@ -348,6 +348,7 @@ import { deFormatNumber } from '@/js/common/helper';
 
 const storage = useFirebaseStorage()
 
+const isPersonal = ref(true);
 const realestateType = ref(null)
 const postType = ref(null)
 const realestateName = ref('')
@@ -543,6 +544,7 @@ async function createNewPost() {
         let object;
         let record;
         let RealEstateCreateDto = {
+            IsPersonal: isPersonal.value,
             OwnerId: ownerId,
             DistrictId: district.value,
             Address: addressDetail.value,
