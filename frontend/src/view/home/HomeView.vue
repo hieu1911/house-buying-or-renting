@@ -12,18 +12,26 @@
                 <div class="search-content">
                     <div class="search-content-left">
                         <v-icon type="search-home"></v-icon>
-                        <input class="search-input" :placeholder="$t('home.searchTitle')"/>
+                        <input 
+                            class="search-input" 
+                            :placeholder="$t('home.searchTitle')" 
+                            v-model="searchValue"
+                        />
                     </div>
                     <div>
                         <v-button
                             type="hasIconSecondary"
                             :label="$t('home.filter')"
                             icon="filter"
+                            @click="common.showFilter()"
                         ></v-button>
                         <v-button
                             type="primary"
                             :label="$t('home.search')"
                         ></v-button>
+                    </div>
+                    <div v-if="searchSuggestions.length > 0" class="search-suggest">
+                        <div v-for="(item, index) in searchSuggestions" :key="index">{{ item.Name }}</div>
                     </div>
                 </div>
             </div>
@@ -100,13 +108,16 @@
 </template>
 
 <script setup>
-import { onBeforeMount, reactive, inject } from 'vue';
+import { onBeforeMount, reactive, inject, watch, ref } from 'vue';
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
 import 'vue3-carousel/dist/carousel.css'
 
 import { getForCarousel } from '@/js/service/realEstate';
-import router from '@/js/router/router';
 import { publicStore } from '@/js/store/publicStore';
+import { getAddress } from '@/js/service/common';
+import { debounce } from '@/js/common/helper';
+import common from '@/js/common/helper';
+import router from '@/js/router/router';
 import RealEstateCard from '../components/RealEstateCard/RealEstateCard.vue';
 
 publicStore().setIsHomePage(true);
@@ -114,6 +125,9 @@ publicStore().setIsHomePage(true);
 const postEnums = inject('$enums').postEnum;
 const realEstateRent = reactive([]);
 const realEstateBuy = reactive([]);
+const searchSuggestions = reactive([]);
+const address = [];
+const searchValue = ref("");
 
 onBeforeMount(async () => {
     const realEstates = await getForCarousel();
@@ -124,6 +138,8 @@ onBeforeMount(async () => {
             realEstateBuy.push(realEstate)
         }
     })
+    
+    Object.assign(address, (await getAddress()).data)
 })
 
 async function navigateByCityName(id) {
@@ -134,6 +150,19 @@ async function navigateByCityName(id) {
         }
     })
 }
+
+const getSuggestion = debounce(() => {
+    searchSuggestions.splice(0, searchSuggestions.length);
+    if (searchValue.value.trim()) {
+        address.forEach(item => {
+            if (item.Name.includes(searchValue.value.trim())) searchSuggestions.push(item);
+        })
+    }
+}, 300);
+
+watch(searchValue, () => {
+    getSuggestion();
+});
 
 </script>
 

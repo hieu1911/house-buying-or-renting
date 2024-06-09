@@ -15,6 +15,7 @@ import VIcon from './components/icon/VIcon.vue';
 import VDialog from './components/dialog/VDialog.vue';
 import VCombobox from './components/combobox/VCombobox.vue';
 import VCheckbox from './components/checkbox/VCheckbox.vue';
+import VToastMessage from './components/toast-message/VToastMessage.vue';
 import messages from './js/resource';
 import enums from './js/common/enum';
 import common from './js/common/helper';
@@ -40,6 +41,7 @@ app
 .component('v-dialog', VDialog)
 .component('v-combobox', VCombobox)
 .component('v-checkbox', VCheckbox)
+.component('v-toast-message', VToastMessage)
 
 app.use(
     VueTippy,

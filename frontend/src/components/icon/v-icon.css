@@ -154,11 +154,11 @@
 }
 
 .icon-notify {
-	background: url('../../assets/icon/notify.png');
+	background: url('../../assets/icon/notification.png');
 	background-size: contain;
 	background-repeat: no-repeat;
-	width: 24px;
-	height: 24px;
+	width: 26px;
+	height: 26px;
 }
 
 .icon-user {
@@ -391,4 +391,60 @@
 	background-repeat: no-repeat;
 	width: 20px;
 	height: 20px;
+}
+
+.icon-login {
+	background: url('../../assets/icon/login.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-register {
+	background: url('../../assets/icon/edit.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-user-info {
+	background: url('../../assets/icon/user-info.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-post-history {
+	background: url('../../assets/icon/blog.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-post-saved {
+	background: url('../../assets/icon/love.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-logout {
+	background: url('../../assets/icon/logout.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-success-tm {
+	background: url('../../assets/icon/tick-mark.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 28px;
+	height: 28px;
 }

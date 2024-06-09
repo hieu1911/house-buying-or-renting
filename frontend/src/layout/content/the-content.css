@@ -43,9 +43,8 @@
 
 .toast-message-wrapper {
     position: absolute;
-    top: 44px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 20px;
+    right: 20px;
     min-height: 56px;
     display: flex;
     flex-direction: column;
@@ -54,6 +53,7 @@
     max-height: 740px;
     overflow-y: hidden;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    overflow: hidden;
 }
 
 .toast-enter-active {
@@ -62,5 +62,14 @@
 
 .toast-enter-from {
     opacity: 0;
-    transform: translateY(-100%);
+    transform: translateX(100%);
 }   
+
+.filter-wrapper {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(65, 65, 65, 0.4);
+}

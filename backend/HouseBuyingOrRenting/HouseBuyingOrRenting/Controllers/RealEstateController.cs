@@ -11,9 +11,12 @@ namespace HouseBuyingOrRenting.Controllers
     {
         private readonly IRealEstateService _realEstateService;
 
-        public RealEstateController(IRealEstateService realEstateService) : base(realEstateService)
+        private readonly IPostSaveService _postSaveService;
+
+        public RealEstateController(IRealEstateService realEstateService, IPostSaveService postSaveService) : base(realEstateService)
         {
             _realEstateService = realEstateService;
+            _postSaveService = postSaveService;
         }
 
         [HttpGet]
@@ -36,6 +39,24 @@ namespace HouseBuyingOrRenting.Controllers
         public async Task<IActionResult> GetByProvinceId(Guid? provinceId, int pageSize, int pageNumber)
         {
             var result = await _realEstateService.GetList(provinceId, pageSize, pageNumber);
+            return StatusCode(StatusCodes.Status200OK, result);
+        }
+
+        [HttpGet]
+        [Route("owner/{id}")]
+        public async Task<IActionResult> GetByOwner(Guid id)
+        {
+            var result = await _realEstateService.GetByOwner(id);
+            return StatusCode(StatusCodes.Status200OK, result);
+        }
+
+        [HttpGet]
+        [Route("save-history/{id}")]
+        public async Task<IActionResult> GetSaveHistory(Guid id)
+        {
+            var realEstateIds = await _postSaveService.GetRealEstateIdsByUser(id);
+            var result = await _realEstateService.GetByIdsAsync(realEstateIds);
+
             return StatusCode(StatusCodes.Status200OK, result);
         }
     }

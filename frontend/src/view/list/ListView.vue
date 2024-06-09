@@ -1,8 +1,9 @@
 <template>
     <div>
         <hr/>
+        <div v-if="realEstate.length == 0" style="font-size: 14px;">Chưa có bất động sản nào trong danh sách.</div>
         <div class="list-wrapper">
-            <div class="filter">
+            <div class="filter" v-show="showFilter">
                 <h3>Chọn lọc theo</h3>
                 <div class="filter-price">
                     <h4>Khoảng giá</h4>
@@ -59,23 +60,70 @@
 </template>
 
 <script setup>
-import { onBeforeMount, reactive, ref } from 'vue';
+import { onBeforeMount, reactive, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import router from '@/js/router/router';
 
 import { numberToWord } from '@/js/common/helper';
-import { getListRealEstate } from '@/js/service/realEstate';
+import { getListRealEstate, getByOwner, getSavedHistory } from '@/js/service/realEstate';
+import { getUserInfo } from '@/js/service/auth';
 
 const realEstate= reactive([]);
-const isBuy = ref(true)
+const isBuy = ref(true);
+const showFilter = ref(true);
 
 onBeforeMount(async () => {
+    realEstate.splice(0, realEstate.length);
     const router = useRoute();
     const provinceId = router.query.provinceId;
+    const ownerId = router.query.ownerId;
+    const saved = router.query.saved;
+
+    if (saved) {
+        const user = await getUserInfo();
+        const res = await getSavedHistory(user.data.Id);
+        res.data.forEach(r => realEstate.push(r));
+        showFilter.value = false;        
+        return;
+    }
+
+    if (ownerId) {
+        const res = await getByOwner(ownerId);
+        res.data.forEach(r => realEstate.push(r));
+        showFilter.value = false;
+        return;
+    }
 
     const res = await getListRealEstate(provinceId, 10, 1);
     res.data.forEach(r => realEstate.push(r));
 });
+
+watch(() => useRoute().query, async () => {
+    realEstate.splice(0, realEstate.length);
+    const router = useRoute();
+    const provinceId = router.query.provinceId;
+    const ownerId = router.query.ownerId;
+    const saved = router.query.saved;
+
+    if (saved) {
+        const user = await getUserInfo();
+        const res = await getSavedHistory(user.data.Id);
+        console.log(res);
+        res.data.forEach(r => realEstate.push(r));
+        showFilter.value = false;        
+        return;
+    }
+
+    if (ownerId) {
+        const res = await getByOwner(ownerId);
+        res.data.forEach(r => realEstate.push(r));
+        showFilter.value = false;
+        return;
+    }
+
+    const res = await getListRealEstate(provinceId, 10, 1);
+    res.data.forEach(r => realEstate.push(r));
+})
 </script>
 
 <style scoped>

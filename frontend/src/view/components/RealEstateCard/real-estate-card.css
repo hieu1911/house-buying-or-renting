@@ -1,6 +1,7 @@
 .img-thumbnail {
     width: 200px;
     height: 200px;
+    cursor: pointer;
 }
 
 .card-title {
@@ -16,6 +17,7 @@
     height: 40px;
     letter-spacing: .5px;
     line-height: 20px;
+    cursor: pointer;
 }
 
 .card-info {

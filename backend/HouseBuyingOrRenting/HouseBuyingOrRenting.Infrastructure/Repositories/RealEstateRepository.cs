@@ -55,7 +55,33 @@ namespace HouseBuyingOrRenting.Infrastructure
                 .Take(pageSize)
                 .ToList();
 
-            return realEstates.ToList();
+            return realEstates;
+        }
+
+        public async Task<List<RealEstate>> GetByOwner(Guid id)
+        {
+            var realEstates = _dbSet
+                .Include(e => e.ImageUrls)
+                .Include(e => e.District)
+                .ThenInclude(d => d.Province)
+                .Where(r => r.OwnerId == id)
+                .OrderByDescending(e => e.CreatedDate)
+                .ToList();
+
+            return realEstates;
+        }
+
+        public override async Task<List<RealEstate>> GetByIdsAsync(List<Guid> ids)
+        {
+            var realEstates = _dbSet
+               .Include(e => e.ImageUrls)
+               .Include(e => e.District)
+               .ThenInclude(d => d.Province)
+               .Where(r => ids.Contains(r.Id))
+               .OrderByDescending(e => e.CreatedDate)
+               .ToList();
+
+            return realEstates;
         }
     }
 }

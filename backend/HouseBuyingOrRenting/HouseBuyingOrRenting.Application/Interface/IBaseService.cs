@@ -14,6 +14,8 @@ namespace HouseBuyingOrRenting.Application
 
         Task<TEntity> GetAsync(Guid id);
 
+        Task<List<TEntity>> GetByIdsAsync(List<Guid> ids);
+
         Task<int> InsertAsync(TEntityCreateDto entityCreateDto);
 
         Task<int> InsertMultiAsync(List<TEntityCreateDto> entitiesCreateDto);

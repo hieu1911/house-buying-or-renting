@@ -24,5 +24,7 @@ namespace HouseBuyingOrRenting.Infrastructure
         public DbSet<District> Districts { get; set; }
 
         public DbSet<RealEstate> RealEstates { get; set; }
+
+        public DbSet<PostSave> PostSaves { get; set; }
     }
 }

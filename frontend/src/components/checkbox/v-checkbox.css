@@ -99,7 +99,8 @@ input[type='checkbox']:disabled {
 }
 
 .checkbox-wrapper label {
-    font-size: 13px;
+    font-size: 14px;
+    margin-top: 2px;
     width: 112px;
     user-select: none;
     cursor: pointer;

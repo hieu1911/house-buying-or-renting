@@ -28,7 +28,7 @@
                     @keydown.enter="$emit('close')"
                 ></v-button>
                 <v-button 
-                    :label="$t('button.accept')" 
+                    :label="showCancelBtn ? 'Xác nhận' : $t('button.accept')" 
                     type='primary' 
                     ref="dialogConfirmBtnRef"
                     @click="handleClickAccepBtn()" 

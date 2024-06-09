@@ -21,7 +21,7 @@
                     <div>
                         <div class="info-title">
                             <h4>{{ realEstate.Title }}</h4>
-                            <v-icon type="not-save" desc="Lưu tin"></v-icon>
+                            <v-icon :type="isSaved ? 'saved' : 'not-save'" :desc="isSaved ? 'Bỏ lưu' : 'Lưu tin'" v-show="showOwnerInfo" @click="changePostSaveHistory"></v-icon>
                         </div>
                         <div class="info-price-area">
                             <span>{{ numberToWord(realEstate.Price) }}</span>
@@ -59,7 +59,7 @@
                     </div>
                 </div>
             </div>
-            <div class="detail-top-right">
+            <div class="detail-top-right" v-if="showOwnerInfo">
                     <div class="detail-owner">
                         <div class="avt">{{ owner.FullName?.split(' ')[owner.FullName?.split(' ').length - 1][0] }}</div>
                         <div class="info">
@@ -114,16 +114,21 @@
 </template>
 
 <script setup>
-import { onBeforeMount, ref, reactive } from 'vue';
+import { onBeforeMount, ref, reactive, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
 import 'vue3-carousel/dist/carousel.css'
 
-import { getRecord } from '@/js/service/base';
+import { getRecord, createRecord, deleteRecord } from '@/js/service/base';
 import { getDetailRealEstate } from '@/js/service/realEstate';
 import { numberToWord, convertMilliseconds } from '@/js/common/helper';
+import { getUserInfo } from '@/js/service/auth';
+import { getByUserIdAndRealEstateId } from '@/js/service/postsave';
 import enums from '@/js/common/enum';
+import common from '@/js/common/helper';
+import router from '@/js/router/router';
 
+const route = useRoute();
 const timePosted = ref("");
 const imgUrlLarge = ref("");
 const realEstateType = ref(0);
@@ -135,7 +140,12 @@ const boardingHouse = reactive({});
 const house = reactive({});
 const land = reactive({});
 const owner = reactive({});
+const user = reactive({});
 const features = reactive([]);
+const showOwnerInfo = ref(true);
+const currentRouteName = computed(() => route.path);
+const isSaved = ref(false);
+const saveHistoryInfo = reactive({});
 
 const contactMsg = ["Bất động sản này còn không?", "Giá bán hiện tại?", "Diện tích sử dụng?",
     "Có sổ đỏ/sổ hồng không?", "Có nằm trong khu vực quy hoạch không?", "Hướng nhà là hướng nào?", "An ninh tốt không?",
@@ -145,8 +155,10 @@ const contactMsg = ["Bất động sản này còn không?", "Giá bán hiện t
 
 onBeforeMount(async () => {
     features.splice(0, features.length);
-    const router = useRoute();
-    const realEstateId = router.params.id;
+
+    const realEstateId = route.params.id;
+    const userInfo = (await getUserInfo()).data;
+    Object.assign(user, userInfo)
 
     const realEstateCurr = await getRecord('RealEstate', realEstateId);
     Object.assign(realEstate, realEstateCurr.data);
@@ -159,11 +171,22 @@ onBeforeMount(async () => {
         title: `Giá: ${numberToWord(realEstate.Price)}`
     }]);
 
+    if (userInfo) {
+        const postSaved = await getByUserIdAndRealEstateId(userInfo.Id, realEstate.Id);
+        if (postSaved.status != 204) {
+            isSaved.value = true;
+            Object.assign(saveHistoryInfo, postSaved.data);
+        }
+        else isSaved.value = false;
+    }
+
+    if (userInfo && userInfo.Id == realEstate.OwnerId) showOwnerInfo.value = false;
+    else showOwnerInfo.value = true;
+
     getTime(realEstate.CreatedDate);
 
     const posterCurr = await getRecord('Auth', realEstate.OwnerId);
     Object.assign(owner, posterCurr.data);
-    console.log(realEstate)
 
     imgUrlLarge.value = realEstate?.ImageUrls[0]?.Url;
     
@@ -215,7 +238,7 @@ onBeforeMount(async () => {
             },
             {
                 icon: 'floor', 
-                title: `Số tầng: ${house.Floor}`
+                title: `Số tầng: ${house.NumberOfFloor}`
             },
             {
                 icon: 'funiture', 
@@ -240,7 +263,6 @@ onBeforeMount(async () => {
         default: 
             break;
     }
-    console.log(features);
 })
 
 function getTime(time) {
@@ -264,6 +286,29 @@ function getTime(time) {
 
     timePosted.value += 'trước';
     return timePosted.value;
+}
+
+async function changePostSaveHistory() {
+    if (user.Id) {
+        if (isSaved.value) {
+            common.showDialog(enums.statusEnum.WARNING, 'Cảnh báo', ['Xóa bài đăng khỏi danh sách đã lưu?'], async () => {
+                await deleteRecord('PostSave', saveHistoryInfo.Id);
+                isSaved.value = false;
+                common.showToastMessage('success', 'Thông báo', 'Bỏ lưu bài đăng thành công!')
+            })
+        } else {
+            await createRecord('PostSave', {
+                UserId: user.Id,
+                RealEstateId: realEstate.Id
+            })
+            const postSaved = await getByUserIdAndRealEstateId(user.Id, realEstate.Id);
+            Object.assign(saveHistoryInfo, postSaved.data);
+            isSaved.value = true;
+            common.showToastMessage('success', 'Thông báo', 'Lưu bài đăng thành công!')
+        }
+    } else {
+        router.push(`/login?returnUrl=${currentRouteName.value.slice(1)}`)
+    }
 }
 
 </script>

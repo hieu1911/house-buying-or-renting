@@ -12,12 +12,14 @@ namespace HouseBuyingOrRenting.Domain
 
         Task<TEntity?> GetAsync(Guid id);
 
+        Task<List<TEntity>> GetByIdsAsync(List<Guid> ids);
+
         Task<int> InsertAsync(TEntity entity);
 
         Task<int> InsertMultiAsync(List<TEntity> entities);
 
         Task<int> UpdateAsync(TEntity entity);
 
-        Task<int> DeleteAsync(TEntity entity);
+        Task<int> DeleteAsync(Guid id);
     }
 }

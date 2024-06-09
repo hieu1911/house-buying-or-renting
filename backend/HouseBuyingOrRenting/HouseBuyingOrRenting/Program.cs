@@ -95,6 +95,8 @@ builder.Services.AddScoped<ILandService, LandService>();
 builder.Services.AddScoped<ILandRepository, LandRepository>();
 builder.Services.AddScoped<IRealEstateService, RealEstateService>();
 builder.Services.AddScoped<IRealEstateRepository, RealEstateRepository>();
+builder.Services.AddScoped<IPostSaveService, PostSaveService>();
+builder.Services.AddScoped<IPostSaveRepository, PoseSaveRepository>();
 
 var app = builder.Build();
 

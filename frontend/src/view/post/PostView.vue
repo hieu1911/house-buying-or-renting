@@ -421,7 +421,7 @@ onBeforeMount(async () => {
     if (!publicStore().isAuthPage) {
         const user = await getUserInfo();
         if (!user.data) {
-            router.push('/login');
+            router.push('/login?returnUrl=post');
             return;
         } else {
             ownerId = user.data.Id;

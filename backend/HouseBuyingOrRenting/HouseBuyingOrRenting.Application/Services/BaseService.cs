@@ -17,9 +17,10 @@ namespace HouseBuyingOrRenting.Application
             BaseRepository = baseRepository;
         }
 
-        public Task<int> DeleteAsync(Guid id)
+        public async Task<int> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var result = await BaseRepository.DeleteAsync(id);
+            return result;
         }
 
         public async Task<List<TEntity>> GetAllAsync()
@@ -71,5 +72,11 @@ namespace HouseBuyingOrRenting.Application
         public abstract Task<TEntity> MapEntityUpdateDtoToEntity(Guid id, TEntityUpdateDto entityUpdateDto);
 
         public abstract Task<TEntityDto> MapEntityToEntityDto(TEntity entity);
+
+        public async Task<List<TEntity>> GetByIdsAsync(List<Guid> ids)
+        {
+            var result = await BaseRepository.GetByIdsAsync(ids);
+            return result;
+        }
     }
 }

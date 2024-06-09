@@ -61,6 +61,10 @@ const common = {
     showDialog(type, title, desc, action) {
         emitter.emit('showDialog', type, title, desc, action);
     },
+
+    showFilter() {
+        emitter.emit('showFilter');
+    },
     
     handleError(err) {
         console.log(err);
@@ -120,5 +124,17 @@ const common = {
         emitter.emit('showLoading', showed)
     }
 };
+
+export const debounce = (callback, delay) => {
+    let timer
+    return function() {
+      clearTimeout(timer)
+      timer = setTimeout(() => {
+        callback();
+      }, delay)
+    }
+  }
+  
+  
 
 export default common;

@@ -15,9 +15,15 @@ namespace HouseBuyingOrRenting.Infrastructure
             _dbSet = dbSet;
         }
 
-        public Task<int> DeleteAsync(TEntity entity)
+        public async Task<int> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var entity = _dbSet.SingleOrDefault(x => x.Id == id);
+            if (entity == null) throw new NotFoundException();
+            
+            _dbSet.Remove(entity);
+            _dbContext.SaveChanges();
+
+            return 1;
         }
 
         public virtual async Task<List<TEntity>> GetAllAsync()
@@ -32,6 +38,12 @@ namespace HouseBuyingOrRenting.Infrastructure
             var entity = await _dbSet.FindAsync(id);
 
             return entity;
+        }
+
+        public virtual async Task<List<TEntity>> GetByIdsAsync(List<Guid> ids)
+        {
+            var result = _dbSet.Where(e => ids.Contains(e.Id)).ToList();
+            return result;
         }
 
         public async Task<int> InsertAsync(TEntity entity)

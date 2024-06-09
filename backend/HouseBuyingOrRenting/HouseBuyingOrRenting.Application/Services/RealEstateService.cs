@@ -25,6 +25,17 @@ namespace HouseBuyingOrRenting.Application
             throw new NotImplementedException();
         }
 
+        public async Task<List<RealEstateDto>> GetByOwner(Guid id)
+        {
+
+            var realEstates = await _realEstateRepository.GetByOwner(id);
+
+            var result = realEstates.Select(async realEstate => await MapEntityToEntityDto(realEstate))
+                    .Select(realEstate => realEstate.Result).ToList();
+
+            return result;
+        }
+
         public async Task<List<RealEstateDto>> GetList(Guid? provinceId, int pageSize, int pageNumber)
         {
             var realEstates = await _realEstateRepository.GetByProvinceId(provinceId, pageSize, pageNumber);

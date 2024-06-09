@@ -11,5 +11,7 @@ namespace HouseBuyingOrRenting.Domain
         Task<List<RealEstate>> GetRealEstateForCarousel();
 
         Task<List<RealEstate>> GetByProvinceId(Guid? provinceId, int pageSize, int pageNumber);
+
+        Task<List<RealEstate>> GetByOwner(Guid id);
     }
 }

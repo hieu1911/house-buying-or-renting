@@ -57,7 +57,8 @@
 </template>
 
 <script setup>
-import { ref, inject } from 'vue';
+import { ref, inject, onBeforeMount } from 'vue';
+import { useRoute } from 'vue-router';
 import { login } from '@/js/service/auth';
 import { publicStore } from '@/js/store/publicStore';
 import { userStore } from '@/js/store/userStore';
@@ -72,7 +73,12 @@ const phoneNumberOrGmail = ref('');
 const password = ref('');
 const router = inject('$router');
 const emitter = inject('$emitter');
-const enums = inject('$enums')
+const enums = inject('$enums');
+const returnUrl = ref('');
+
+onBeforeMount(() => {
+    returnUrl.value = useRoute().query.returnUrl;
+})
 
 async function handleLogin() {
     if (phoneNumberOrGmail.value.trim() == '') {
@@ -96,7 +102,7 @@ async function handleLogin() {
             id: response.data.Id
         })
         publicStore().setAuthPageStatus(false);
-        router.push('/')
+        router.push(`${returnUrl.value ? returnUrl.value : '/'}`);
     } else {
         emitter.emit('showDialog', enums.statusEnum.ERROR, 'Cảnh báo', ['Thông tin đăng nhập không chính xác'])
     }

@@ -1,0 +1,103 @@
+.filter-body {
+    width: 600px;
+    padding: 16px 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.filter-body > div {
+    padding: 0 20px;
+}
+
+.filter-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 20px;
+}
+
+.filter-header h4 {
+    font-size: 20px;
+    margin: 0;
+}
+
+.filter-header > div {
+    position: absolute;
+    right: 16px;
+}
+
+.filter-body h5 {
+    font-size: 16px;
+    margin: 28px 0 12px;
+}
+
+.filter-post-type h5 {
+    margin: 16px 0 12px;
+}
+
+.filter-post-type > div {
+    display: flex;
+    column-gap: 64px;
+}
+
+.filter-post-type > div input {
+    width: 19px;
+    height: 19px;
+    margin: 0;
+}
+
+.filter-post-type > div label {
+    font-size: 14px;
+    text-align: center;
+    margin-top: 2px;
+}
+
+.filter-post-type > div > div {
+    display: flex;
+    align-items: center;
+    column-gap: 6px;
+}
+
+.filter-realestate-type > div {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 8px;
+    column-gap: 100px;
+}
+
+.filter-realestate-type > div > div {
+    flex: 1 1 34%;
+}
+
+.filter-realestate-type > div .checkbox-wrapper {
+    justify-content: start;
+}
+
+.filter-combobox {
+    border: none;
+}
+
+.filter-combobox h5 {
+    margin: 28px 0 8px;
+}
+
+.filter-combobox > div {
+    display: flex;
+    justify-content: space-between;
+    column-gap: 32px;
+}
+
+.filter-combobox > div > div {
+    flex: 1 1 40%;
+}
+
+.filter-footer {
+    display: flex;
+    justify-content: end;
+}

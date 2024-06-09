@@ -113,11 +113,12 @@
 }
 
 .btn--secondary:hover {
-    border-color: var(--color-hover) !important ;
+    border-color: var(--color-hover) !important;
+    background-color: #fff !important;
 }
 
 .btn--secondary:hover label {
-    color: #fff !important;
+    color: var(--color-primary) !important;
 }
 
 .btn--secondary:active {
