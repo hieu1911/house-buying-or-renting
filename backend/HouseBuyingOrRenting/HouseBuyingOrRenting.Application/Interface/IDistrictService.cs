@@ -12,5 +12,7 @@ namespace HouseBuyingOrRenting.Application
         Task<List<DistrictDto>> GetDistrictsByProvinceId(Guid provinceId);
 
         Task<List<Address>> GetDistrictsName();
+
+        Task<List<DistrictDto>> SearchByName(string value);
     }
 }

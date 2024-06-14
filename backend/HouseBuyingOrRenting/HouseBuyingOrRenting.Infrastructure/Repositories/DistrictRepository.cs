@@ -29,5 +29,11 @@ namespace HouseBuyingOrRenting.Infrastructure
 
             return result.Select(r => new Address() { Id = r.Id, Name = r.Name, Type = AddressType.DISTRICT }).ToList();
         }
+
+        public async Task<List<District>> SearchByName(string value)
+        {
+            var districts = _db.Districts.Where(district => district.Name.Contains(value)).ToList();
+            return districts;
+        }
     }
 }

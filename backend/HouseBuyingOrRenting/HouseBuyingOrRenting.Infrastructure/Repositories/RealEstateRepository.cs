@@ -83,5 +83,61 @@ namespace HouseBuyingOrRenting.Infrastructure
 
             return realEstates;
         }
+
+        public async Task<List<RealEstate>> SearchByTitle(string value)
+        {
+            var realEstates = _dbSet
+             .Include(e => e.ImageUrls)
+             .Include(e => e.District)
+             .ThenInclude(d => d.Province)
+             .Where(r => r.Title.Contains(value))
+             .OrderByDescending(e => e.CreatedDate)
+             .ToList();
+
+            return realEstates;
+        }
+
+        public async Task<List<RealEstate>> GetByProvinceIds(List<Guid> ids)
+        {
+            var realEstates = _dbSet
+             .Include(e => e.ImageUrls)
+             .Include(e => e.District)
+             .ThenInclude(d => d.Province)
+             .Where(r => ids.Contains(r.District.Province.Id))
+             .OrderByDescending(e => e.CreatedDate)
+             .ToList();
+
+            return realEstates;
+        }
+
+        public async Task<List<RealEstate>> GetByDisctrictIds(List<Guid> ids)
+        {
+            var realEstates = _dbSet
+              .Include(e => e.ImageUrls)
+              .Include(e => e.District)
+              .ThenInclude(d => d.Province)
+              .Where(r => ids.Contains(r.District.Id))
+              .OrderByDescending(e => e.CreatedDate)
+              .ToList();
+
+            return realEstates;
+
+        }
+
+        public async Task<List<RealEstate>> FilterRealEstate(PostType type, List<RealEstateType> realEstateTypes, double minPrice, double maxPrice, double minArea, double maxArea)
+        {
+            var realEstates = _dbSet
+              .Include(e => e.ImageUrls)
+              .Include(e => e.District)
+              .ThenInclude(d => d.Province)
+              .Where(r => r.Type == type)
+              .Where(r => realEstateTypes.Contains(r.RealEstateType))
+              .Where(r => r.Price >= minPrice && r.Price <= maxPrice)
+              .Where(r => r.Area >= minArea && r.Area <= maxArea)
+              .OrderByDescending(e => e.CreatedDate)
+              .ToList();
+
+            return realEstates;
+        }
     }
 }

@@ -53,5 +53,15 @@ namespace HouseBuyingOrRenting.Application
             district.Id = id;
             return district;
         }
+
+        public async Task<List<DistrictDto>> SearchByName(string value)
+        {
+            var districts = await _disctrictRepository.SearchByName(value);
+            var districtsDto = districts.Select(async disctrict => await MapEntityToEntityDto(disctrict))
+                .Select(district => district.Result)
+                .ToList();
+
+            return districtsDto;
+        }
     }
 }

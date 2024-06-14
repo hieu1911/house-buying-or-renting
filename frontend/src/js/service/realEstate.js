@@ -31,3 +31,27 @@ export const getSavedHistory = async (userId) => {
     const response = await axios.get(`${config.API}/RealEstate/save-history/${userId}`);
     return response;
 }
+
+export const filter = async (postType, realEstateType, minPrice, maxPrice, minArea, maxArea) => {
+    const response = await axios.get(`${config.API}/RealEstate/filter`, {
+        params: {
+            type: postType,
+            realEstateTypeStr: realEstateType,
+            minPrice,
+            maxPrice,
+            minArea,
+            maxArea
+        }
+    });
+    return response;
+}
+
+export const search = async (value, type) => {
+    const response = await axios.get(`${config.API}/RealEstate/search-by-key`, {
+        params: {
+            value,
+            type
+        }
+    });
+    return response;
+}

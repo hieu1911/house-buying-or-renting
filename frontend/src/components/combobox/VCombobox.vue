@@ -44,9 +44,9 @@
             >
                 <div v-if="options?.length > 0">
                     <div 
-                        v-for="(item) in options" 
+                        v-for="(item, idx) in options" 
                         class="combobox__item"
-                        :key="item?.value" 
+                        :key="idx" 
                         :value="item?.value" 
                         :class="{'combobox__item--selected': item?.value == selectedValue}"
                         @click="handleSelect(item)"
@@ -64,7 +64,7 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits, ref, onMounted } from 'vue';
+import { defineProps, defineEmits, ref, onMounted, watch } from 'vue';
 import { useOnClickOutside } from '@/js/composable/click-outside';
 // import { publicStore } from '@/js/store/public';
 
@@ -114,6 +114,11 @@ function toggleCombobox() {
         showCombobox.value = !showCombobox.value;
     }
 }
+
+watch(() => props.modelValue, () => {
+    selectedTitle.value = props.options?.find(option => props.modelValue == option.value)?.title;
+    selectedValue.value = props.modelValue;
+});
 </script>
 
 <style scoped>

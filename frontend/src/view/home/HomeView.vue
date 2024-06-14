@@ -4,9 +4,8 @@
             <h4>{{ $t('home.searchTitle') }}</h4>
             <div class="search-body">
                 <div class="search-type">
-                    <span class="active">{{ $t('header.buy') }}</span>
-                    <span>{{ $t('header.rent') }}</span>
-                    <span>{{ $t('home.address') }}</span>
+                    <span :class="{'active': postTypeSearch == 2}" @click="postTypeSearch = 2">{{ $t('header.buy') }}</span>
+                    <span :class="{'active': postTypeSearch == 1}" @click="postTypeSearch = 1">{{ $t('header.rent') }}</span>
                 </div>
                 <hr/>
                 <div class="search-content">
@@ -16,6 +15,7 @@
                             class="search-input" 
                             :placeholder="$t('home.searchTitle')" 
                             v-model="searchValue"
+                            @keydown.enter="search()"
                         />
                     </div>
                     <div>
@@ -28,6 +28,7 @@
                         <v-button
                             type="primary"
                             :label="$t('home.search')"
+                            @click="search()"
                         ></v-button>
                     </div>
                     <div v-if="searchSuggestions.length > 0" class="search-suggest">
@@ -128,6 +129,7 @@ const realEstateBuy = reactive([]);
 const searchSuggestions = reactive([]);
 const address = [];
 const searchValue = ref("");
+const postTypeSearch = ref(2);
 
 onBeforeMount(async () => {
     const realEstates = await getForCarousel();
@@ -159,6 +161,16 @@ const getSuggestion = debounce(() => {
         })
     }
 }, 300);
+
+function search() {
+    router.push({
+        path: '/list',
+        query: {
+            search: searchValue.value,
+            postType: postTypeSearch.value
+        }
+    })
+}
 
 watch(searchValue, () => {
     getSuggestion();

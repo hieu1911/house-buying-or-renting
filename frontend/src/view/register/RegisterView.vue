@@ -32,7 +32,6 @@
                     :errorDesc="$t('auth.passwordEmpyt')"
                     ref="passwordRef"
                     v-model="password"
-                    password
                     w100
                     h40
                 ></v-input>

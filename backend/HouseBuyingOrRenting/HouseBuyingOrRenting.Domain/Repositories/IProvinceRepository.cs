@@ -9,5 +9,7 @@ namespace HouseBuyingOrRenting.Domain
     public interface IProvinceRepository : IBaseRepository<Province>
     {
         Task<List<Address>> GetProinvcesName();
+
+        Task<List<Province>> SearchByName(string value);
     }
 }

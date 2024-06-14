@@ -20,15 +20,52 @@ namespace HouseBuyingOrRenting.Application
             _mapper = mapper;
         }
 
+        public async Task<List<RealEstateDto>> FilterRealEstate(PostType type, string realEstateTypeStr, double minPrice, double maxPrice, double minArea, double maxArea)
+        {
+            var realEstateTypes = new List<RealEstateType>();
+            foreach (var item in realEstateTypeStr)
+            {
+                var realEstateType = (RealEstateType) (item - '0');
+                realEstateTypes.Add(realEstateType);
+            }
+
+            var realEstates = await _realEstateRepository.FilterRealEstate(type, realEstateTypes, minPrice, maxPrice, minArea, maxArea);
+
+            var result = realEstates.Select(async realEstate => await MapEntityToEntityDto(realEstate))
+                    .Select(realEstate => realEstate.Result).ToList();
+
+            return result;
+        }
+
         public Task<List<RealEstate>> GetAllRentRealEstate()
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<List<RealEstateDto>> GetByDisctrictIds(List<Guid> ids)
+        {
+            var realEstates = await _realEstateRepository.GetByDisctrictIds(ids);
+
+            var result = realEstates.Select(async realEstate => await MapEntityToEntityDto(realEstate))
+                    .Select(realEstate => realEstate.Result).ToList();
+
+            return result;
         }
 
         public async Task<List<RealEstateDto>> GetByOwner(Guid id)
         {
 
             var realEstates = await _realEstateRepository.GetByOwner(id);
+
+            var result = realEstates.Select(async realEstate => await MapEntityToEntityDto(realEstate))
+                    .Select(realEstate => realEstate.Result).ToList();
+
+            return result;
+        }
+
+        public async Task<List<RealEstateDto>> GetByProvinceIds(List<Guid> ids)
+        {
+            var realEstates = await _realEstateRepository.GetByProvinceIds(ids);
 
             var result = realEstates.Select(async realEstate => await MapEntityToEntityDto(realEstate))
                     .Select(realEstate => realEstate.Result).ToList();
@@ -70,6 +107,16 @@ namespace HouseBuyingOrRenting.Application
         public override Task<RealEstate> MapEntityUpdateDtoToEntity(Guid id, RealEstateUpdateDto entityUpdateDto)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<List<RealEstateDto>> SearchByTitle(string value)
+        {
+            var realEstates = await _realEstateRepository.SearchByTitle(value);
+
+            var result = realEstates.Select(async realEstate => await MapEntityToEntityDto(realEstate))
+                    .Select(realEstate => realEstate.Result).ToList();
+
+            return result;
         }
     }
 }

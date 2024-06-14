@@ -25,14 +25,14 @@ defineProps({
     'indeterminate': Boolean
 })
 
-defineEmits(['change', 'update:modelValue'])
+const emit = defineEmits(['change', 'update:modelValue'])
 
 const checkboxRef = ref(null);
 
-// function andleChange(event) {
-//     this.$emit('update:modelValue', event.target.checked);
-//     this.$emit('change', event.target.checked);
-// }
+function handleChange(event) {
+    emit('update:modelValue', event.target.checked);
+    emit('change', event.target.checked);
+}
 
 function click() {
     checkboxRef?.value.click();

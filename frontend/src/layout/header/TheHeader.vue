@@ -3,7 +3,7 @@
         <div class="header-left">
             <v-icon type='logo'></v-icon>
             <h3>Real estate</h3>
-            <div class="header-link">
+            <div class="header-link" v-if="!publicStore().isHomePage">
                 <a>{{ $t('header.buy') }}</a>
                 <a>{{ $t('header.rent') }}</a>
             </div>

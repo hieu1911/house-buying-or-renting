@@ -30,5 +30,11 @@ namespace HouseBuyingOrRenting.Infrastructure
 
             return result.Select(r => new Address() { Id = r.Id, Name = r.Name, Type = AddressType.PROVINCE }).ToList();
         }
+
+        public async Task<List<Province>> SearchByName(string value)
+        {
+            var result = await _dbSet.Where(p => p.Name.Contains(value)).ToListAsync();
+            return result;
+        }
     }
 }

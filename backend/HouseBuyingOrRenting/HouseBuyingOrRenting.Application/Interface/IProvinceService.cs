@@ -10,5 +10,7 @@ namespace HouseBuyingOrRenting.Application
     public interface IProvinceService : IBaseService<Province, ProvinceDto, ProvinceCreateDto, ProvinceUpdateDto>
     {
         Task<List<Address>> GetProinvcesName();
+
+        Task<List<ProvinceDto>> SearchByName(string value);
     }
 }

@@ -65,7 +65,7 @@ import { useRoute } from 'vue-router';
 import router from '@/js/router/router';
 
 import { numberToWord } from '@/js/common/helper';
-import { getListRealEstate, getByOwner, getSavedHistory } from '@/js/service/realEstate';
+import { getListRealEstate, getByOwner, getSavedHistory, filter, search } from '@/js/service/realEstate';
 import { getUserInfo } from '@/js/service/auth';
 
 const realEstate= reactive([]);
@@ -78,6 +78,26 @@ onBeforeMount(async () => {
     const provinceId = router.query.provinceId;
     const ownerId = router.query.ownerId;
     const saved = router.query.saved;
+    const searchValue = router.query.search;
+    const postType = router.query.postType;
+    const realEstateType = router.query.realEstateType;
+    const minPrice = router.query.minPrice;
+    const maxPrice = router.query.maxPrice;
+    const minArea = router.query.minArea;
+    const maxArea = router.query.maxArea;
+
+    if (postType && realEstateType && minPrice && maxPrice && minArea && maxArea) {
+        const res = await filter(postType, realEstateType, minPrice, maxPrice, minArea, maxArea);
+        res.data.forEach(r => realEstate.push(r));
+        return;
+    }
+
+    if (searchValue) {
+        const res = await search(searchValue, postType);
+        res.data.forEach(r => realEstate.push(r));
+        return;
+    }
+
 
     if (saved) {
         const user = await getUserInfo();

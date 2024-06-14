@@ -1,4 +1,6 @@
-﻿using HouseBuyingOrRenting.Domain;
+﻿using AutoMapper;
+using HouseBuyingOrRenting.Domain;
+using HouseBuyingOrRenting.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +13,12 @@ namespace HouseBuyingOrRenting.Application
     {
         private readonly IProvinceRepository _provinceRepository;
 
-        public ProvinceService(IProvinceRepository provinceRepository) : base(provinceRepository)
+        private readonly IMapper _mapper;
+
+        public ProvinceService(IProvinceRepository provinceRepository, IMapper mapper) : base(provinceRepository)
         {
             _provinceRepository = provinceRepository;
+            _mapper = mapper;
         }
 
         public async Task<List<Address>> GetProinvcesName()
@@ -27,14 +32,25 @@ namespace HouseBuyingOrRenting.Application
             throw new NotImplementedException();
         }
 
-        public override Task<ProvinceDto> MapEntityToEntityDto(Province entity)
+        public override async Task<ProvinceDto> MapEntityToEntityDto(Province entity)
         {
-            throw new NotImplementedException();
+            var province = _mapper.Map<ProvinceDto>(entity);
+            return province;
         }
 
         public override Task<Province> MapEntityUpdateDtoToEntity(Guid id, ProvinceUpdateDto entityUpdateDto)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<List<ProvinceDto>> SearchByName(string value)
+        {
+            var provinces = await _provinceRepository.SearchByName(value);
+            var districtsDto = provinces.Select(async disctrict => await MapEntityToEntityDto(disctrict))
+                .Select(district => district.Result)
+                .ToList();
+
+            return districtsDto;
         }
     }
 }
