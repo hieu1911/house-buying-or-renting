@@ -55,3 +55,13 @@ export const search = async (value, type) => {
     });
     return response;
 }
+
+export const searchByProvince = async (id) => {
+    const response = await axios.get(`${config.API}/RealEstate/search-by-province/${id}`);
+    return response;
+}
+
+export const searchByDisctrict = async (id) => {
+    const response = await axios.get(`${config.API}/RealEstate/search-by-district/${id}`);
+    return response;
+}

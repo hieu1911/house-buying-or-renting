@@ -14,9 +14,12 @@ namespace HouseBuyingOrRenting.Controllers
     {
         private readonly IUserService _userService;
 
-        public AuthController(IUserService userService) : base(userService)
+        private readonly ChatHub _chatHub;
+
+        public AuthController(IUserService userService, ChatHub chatHub) : base(userService)
         {
             _userService = userService;
+            _chatHub = chatHub;
         }
 
         [HttpPost]
@@ -30,7 +33,8 @@ namespace HouseBuyingOrRenting.Controllers
                 new Claim(ClaimTypes.Name, user.UserName ?? ""),
                 new Claim("Email", user.Email ?? ""),
                 new Claim("PhoneNumber", user.PhoneNumber ?? ""),
-                new Claim("Id", user.Id.ToString() ?? "")
+                new Claim("Id", user.Id.ToString() ?? ""),
+                new Claim("FullName", user.FullName)
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -44,6 +48,20 @@ namespace HouseBuyingOrRenting.Controllers
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity),
                 authProperties);
+
+            return StatusCode(StatusCodes.Status200OK, user);
+        }
+
+        [HttpPost]
+        [Route("sign-out")]
+        public async Task<IActionResult> SignOut()
+        {
+            var user = await _userService.CheckUserLoginedAsync();
+
+            await HttpContext.SignOutAsync(
+       CookieAuthenticationDefaults.AuthenticationScheme);
+
+            _chatHub.RemoveFromGroupAsync(user.Id);
 
             return StatusCode(StatusCodes.Status200OK, user);
         }

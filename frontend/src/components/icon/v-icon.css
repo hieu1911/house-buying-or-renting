@@ -448,3 +448,19 @@
 	width: 28px;
 	height: 28px;
 }
+
+.icon-send {
+	background: url('../../assets/icon/send.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-next-big {
+	background: url('../../assets/icon/next-big.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+}

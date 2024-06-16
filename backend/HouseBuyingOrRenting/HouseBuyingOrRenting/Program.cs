@@ -72,6 +72,7 @@ builder.Services.AddDbContext<MyDbContext>(options =>
 });
 
 builder.Services.AddControllers();
+builder.Services.AddSignalR();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -97,6 +98,9 @@ builder.Services.AddScoped<IRealEstateService, RealEstateService>();
 builder.Services.AddScoped<IRealEstateRepository, RealEstateRepository>();
 builder.Services.AddScoped<IPostSaveService, PostSaveService>();
 builder.Services.AddScoped<IPostSaveRepository, PoseSaveRepository>();
+builder.Services.AddScoped<IMessageService, MessageService>();
+builder.Services.AddScoped<IMessageRepository, MessageRepository>();
+builder.Services.AddSingleton<ChatHub>();
 
 var app = builder.Build();
 
@@ -112,6 +116,8 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseCors(corsPolicyName);
+
+app.MapHub<ChatHub>("/chatHub");
 
 //app.UseMiddleware<ExceptionMiddleware>();
 

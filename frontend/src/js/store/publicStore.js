@@ -4,7 +4,8 @@ export const publicStore = defineStore('publicStore', {
     state: () => {
         return {
             isAuthPage: false,
-            isHomePage: false
+            isHomePage: false,
+            isRenting: false
         }
     },
     actions: {
@@ -14,6 +15,10 @@ export const publicStore = defineStore('publicStore', {
 
         setIsHomePage(isHomePage) {
             this.isHomePage = isHomePage;
+        },
+
+        setIsRenting(isRenting) {
+            this.isRenting = isRenting;
         }
     }
 });

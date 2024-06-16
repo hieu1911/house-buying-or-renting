@@ -1,9 +1,8 @@
 <template>
     <div>
-        <hr/>
         <div v-if="realEstate.length == 0" style="font-size: 14px;">Chưa có bất động sản nào trong danh sách.</div>
         <div class="list-wrapper">
-            <div class="filter" v-show="showFilter">
+            <div class="filter" v-show="showFilter && realEstate.length > 0">
                 <h3>Chọn lọc theo</h3>
                 <div class="filter-price">
                     <h4>Khoảng giá</h4>
@@ -65,8 +64,10 @@ import { useRoute } from 'vue-router';
 import router from '@/js/router/router';
 
 import { numberToWord } from '@/js/common/helper';
-import { getListRealEstate, getByOwner, getSavedHistory, filter, search } from '@/js/service/realEstate';
+import { getListRealEstate, getByOwner, getSavedHistory, filter, search, searchByDisctrict } from '@/js/service/realEstate';
 import { getUserInfo } from '@/js/service/auth';
+import { publicStore } from '@/js/store/publicStore';
+import { getRecords } from '@/js/service/base';
 
 const realEstate= reactive([]);
 const isBuy = ref(true);
@@ -76,6 +77,7 @@ onBeforeMount(async () => {
     realEstate.splice(0, realEstate.length);
     const router = useRoute();
     const provinceId = router.query.provinceId;
+    const districtId = router.query.districtId;
     const ownerId = router.query.ownerId;
     const saved = router.query.saved;
     const searchValue = router.query.search;
@@ -86,13 +88,18 @@ onBeforeMount(async () => {
     const minArea = router.query.minArea;
     const maxArea = router.query.maxArea;
 
+    if (postType) {
+        if (postType == 1) publicStore().setIsRenting(true);
+        else publicStore().setIsRenting(false);
+    }
+
     if (postType && realEstateType && minPrice && maxPrice && minArea && maxArea) {
         const res = await filter(postType, realEstateType, minPrice, maxPrice, minArea, maxArea);
         res.data.forEach(r => realEstate.push(r));
         return;
     }
 
-    if (searchValue) {
+    if (searchValue && postType) {
         const res = await search(searchValue, postType);
         res.data.forEach(r => realEstate.push(r));
         return;
@@ -114,7 +121,20 @@ onBeforeMount(async () => {
         return;
     }
 
-    const res = await getListRealEstate(provinceId, 10, 1);
+    if (provinceId) {
+        const res = await getListRealEstate(provinceId, 10, 1);
+        res.data.forEach(r => realEstate.push(r));
+        return;
+    }
+
+    if (districtId) {
+        const res = await searchByDisctrict(districtId);
+        res.data.forEach(r => realEstate.push(r));
+        return;
+    }
+
+    const res = await getRecords("RealEstate");
+    console.log(res);
     res.data.forEach(r => realEstate.push(r));
 });
 

@@ -1,6 +1,5 @@
 <template>
     <div>
-        <hr style="margin-top: 0"/>
         <div class="detail-wrapper">
             <div class="detail-top">
                 <div class="detail-top-left">
@@ -31,11 +30,12 @@
                         <div class="info-address">
                             <v-icon type="location-detail" nowrap></v-icon>
                             <p>{{ realEstate.Address }}
-                                <span v-if="realEstate.Longtitude > 0 && realEstate.Latitude > 0">
+                                <span v-if="realEstate.Longtitude > 0 && realEstate.Latitude > 0" @click="showGoogleMap = true">
                                     Xem bản đồ
                                     <v-icon type="next" nowrap></v-icon>
                                 </span>
                             </p>
+                            
                         </div>
                         <div class="info-time">
                             <v-icon type="time" nowrap></v-icon>
@@ -83,6 +83,7 @@
                             label="Nhắn tin cho người đăng"
                             icon="messager"
                             w100
+                            @click="common.showMessageWithReceiver(realEstate.OwnerId)"
                         ></v-button>
                     </div>
                     <div class="detail-more-contact-wrapper">
@@ -108,16 +109,45 @@
                             </div>
                         </div>
                     </div>
+            </div>
+            
+            <div v-if="showGoogleMap" class="google-map-wrapper" :style="topStyle">
+                <div class="google-map-content">
+                    <div class="google-map-header">
+                        <div></div>
+                        <h5>{{ $t('post.choosePosition') }}</h5>
+                        <v-icon type="close" @click="showGoogleMap = false"></v-icon>
+                    </div>
+                    <div class="google-map-center">
+                        <GoogleMap
+                            api-key="AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg"
+                            style="width: 1200px; height: 500px"
+                            :center="positionLatLng"
+                            :zoom="15"
+                            @click="handleClick"
+                        >
+                            <Marker :options="{ position: positionLatLng }" />
+                        </GoogleMap>
+                    </div>
+                    <div class="google-map-footer">
+                        <v-button
+                            label="Đóng"
+                            type="primary"
+                            @click="showGoogleMap = false"
+                        ></v-button>
+                    </div>
                 </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script setup>
-import { onBeforeMount, ref, reactive, computed } from 'vue';
+import { onBeforeMount, ref, reactive, computed, onMounted, onUnmounted } from 'vue';
 import { useRoute } from 'vue-router';
-import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
-import 'vue3-carousel/dist/carousel.css'
+import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel';
+import { GoogleMap, Marker } from 'vue3-google-map';
+import 'vue3-carousel/dist/carousel.css';
 
 import { getRecord, createRecord, deleteRecord } from '@/js/service/base';
 import { getDetailRealEstate } from '@/js/service/realEstate';
@@ -146,6 +176,12 @@ const showOwnerInfo = ref(true);
 const currentRouteName = computed(() => route.path);
 const isSaved = ref(false);
 const saveHistoryInfo = reactive({});
+const showGoogleMap = ref(false);
+const topStyle = ref('top: 20px;');
+const positionLatLng = reactive({
+    lat: 0,
+    lng: 0
+})
 
 const contactMsg = ["Bất động sản này còn không?", "Giá bán hiện tại?", "Diện tích sử dụng?",
     "Có sổ đỏ/sổ hồng không?", "Có nằm trong khu vực quy hoạch không?", "Hướng nhà là hướng nào?", "An ninh tốt không?",
@@ -162,6 +198,10 @@ onBeforeMount(async () => {
 
     const realEstateCurr = await getRecord('RealEstate', realEstateId);
     Object.assign(realEstate, realEstateCurr.data);
+
+    positionLatLng.lng = realEstate.Longtitude;
+    positionLatLng.lat = realEstate.Latitude;
+
     features.push.apply(features, [{ 
         icon: 'area',
         title: `Diện tích đất: ${realEstate.Area} m²`
@@ -264,6 +304,18 @@ onBeforeMount(async () => {
             break;
     }
 })
+
+onMounted(() => {
+    window.addEventListener("scroll", onScroll);
+})
+
+onUnmounted(() => {
+    window.removeEventListener("scroll", onScroll)
+})
+
+function onScroll() {
+    topStyle.value = `top: ${Math.floor(window.top.scrollY) + 350}px`
+}
 
 function getTime(time) {
     const timeObj = convertMilliseconds(Date.now() - new Date(time));

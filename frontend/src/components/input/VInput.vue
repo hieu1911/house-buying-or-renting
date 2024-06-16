@@ -22,7 +22,7 @@
                 @keydown.tab="$emit('tab')"
                 @focus="handleFocus"
             />
-            <div v-if="showDeleteIcon && !combobox && !password && !disable" class="input-delete-icon" @click="deleteValue">
+            <div v-if="showDeleteIcon && !combobox && !password && !disable && !iconAfter" class="input-delete-icon" @click="deleteValue">
                 <v-icon type="close-small"></v-icon>
             </div>
             <div v-if="iconFilter" class="input__filter">

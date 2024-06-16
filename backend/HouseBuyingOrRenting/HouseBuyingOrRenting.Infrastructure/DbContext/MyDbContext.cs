@@ -26,5 +26,7 @@ namespace HouseBuyingOrRenting.Infrastructure
         public DbSet<RealEstate> RealEstates { get; set; }
 
         public DbSet<PostSave> PostSaves { get; set; }
+
+        public DbSet<Message> Messages { get; set; }
     }
 }

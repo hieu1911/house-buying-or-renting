@@ -1,7 +1,7 @@
 <template>
     <div>
-        <img :src="imgUrl" class="img-thumbnail"/>
-        <p class="card-title">{{ realEstate.Title }}</p>
+        <img :src="imgUrl" class="img-thumbnail" @click="viewDetail()"/>
+        <p class="card-title" @click="viewDetail()">{{ realEstate.Title }}</p>
         <div class="card-info">
             <span class="card-area">{{ realEstate.Area }} m²</span>
             <span class="card-mid">-</span>
@@ -20,6 +20,7 @@
 <script setup>
 import { onBeforeMount, defineProps, ref } from 'vue';
 import { numberToWord, convertMilliseconds } from '@/js/common/helper';
+import router from '@/js/router/router';
 
 const imgUrl = ref('');
 const timePosted = ref('');
@@ -52,6 +53,10 @@ onBeforeMount(() => {
 
     timePosted.value += 'trước';
 });
+
+function viewDetail() {
+    router.push(`/detail/${props.realEstate.Id}`)
+}
 
 </script>
 

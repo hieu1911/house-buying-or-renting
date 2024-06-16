@@ -6,6 +6,11 @@ export const login = async (user) => {
     return response;
 }
 
+export const signout = async () => {
+    const response = await axios.post(`${config.API}/Auth/sign-out`);
+    return response;
+}
+
 export const register = async (user) =>  {
     const response = await axios.post(`${config.API}/Auth/register`, user);
     return response;

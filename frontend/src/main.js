@@ -6,6 +6,8 @@ import emitter from 'tiny-emitter/instance';
 import { createI18n } from 'vue-i18n';
 import { VueFire, VueFireAuth } from 'vuefire';
 import { firebaseApp } from './js/firebase';
+import { VueSignalR } from '@dreamonkey/vue-signalr';
+import { HubConnectionBuilder } from '@microsoft/signalr';
 
 import router from './js/router/router'
 import App from './App.vue'
@@ -28,6 +30,11 @@ const i18n = createI18n({
     fallbackLocale: 'en',
     messages
 })
+
+const connection = new HubConnectionBuilder()
+  .withUrl('https://localhost:7198/chatHub')
+  .withAutomaticReconnect()
+  .build();
 
 app.provide('$emitter', emitter)
 app.provide('$router', router)
@@ -64,5 +71,6 @@ app.use(VueFire, {
 app.use(router);
 app.use(pinia);
 app.use(i18n);
+app.use(VueSignalR, { connection });
 
 app.mount('#app')

@@ -75,7 +75,8 @@ namespace HouseBuyingOrRenting.Application
             {
                 UserName = userClaim.FindFirst(ClaimTypes.Name).Value,
                 Email = userClaim.FindFirst("Email").Value,
-                Id = new Guid(userClaim.FindFirst("Id").Value)
+                Id = new Guid(userClaim.FindFirst("Id").Value),
+                FullName = userClaim.FindFirst("FullName").Value
             };
 
             return userDto;

@@ -4,8 +4,8 @@
             <h4>{{ $t('home.searchTitle') }}</h4>
             <div class="search-body">
                 <div class="search-type">
-                    <span :class="{'active': postTypeSearch == 2}" @click="postTypeSearch = 2">{{ $t('header.buy') }}</span>
-                    <span :class="{'active': postTypeSearch == 1}" @click="postTypeSearch = 1">{{ $t('header.rent') }}</span>
+                    <span :class="{'active': postTypeSearch == 2}" @click="postTypeSearch = 2; publicStore().setIsRenting(false)">{{ $t('header.buy') }}</span>
+                    <span :class="{'active': postTypeSearch == 1}" @click="postTypeSearch = 1; publicStore().setIsRenting(true)">{{ $t('header.rent') }}</span>
                 </div>
                 <hr/>
                 <div class="search-content">
@@ -32,7 +32,7 @@
                         ></v-button>
                     </div>
                     <div v-if="searchSuggestions.length > 0" class="search-suggest">
-                        <div v-for="(item, index) in searchSuggestions" :key="index">{{ item.Name }}</div>
+                        <div v-for="(item, index) in searchSuggestions" :key="index" @click="searchByAddress(item)">{{ item.Name }}</div>
                     </div>
                 </div>
             </div>
@@ -122,6 +122,7 @@ import router from '@/js/router/router';
 import RealEstateCard from '../components/RealEstateCard/RealEstateCard.vue';
 
 publicStore().setIsHomePage(true);
+let postTypeStore = publicStore().isRenting ? 1 : 2;
 
 const postEnums = inject('$enums').postEnum;
 const realEstateRent = reactive([]);
@@ -129,7 +130,7 @@ const realEstateBuy = reactive([]);
 const searchSuggestions = reactive([]);
 const address = [];
 const searchValue = ref("");
-const postTypeSearch = ref(2);
+const postTypeSearch = ref(postTypeStore);
 
 onBeforeMount(async () => {
     const realEstates = await getForCarousel();
@@ -170,6 +171,16 @@ function search() {
             postType: postTypeSearch.value
         }
     })
+}
+
+function searchByAddress(address) {
+    console.log(address);
+
+    if (address.Type == 1) {
+        router.push(`/list?provinceId=${address.Id}`)
+    } else {
+        router.push(`/list?districtId=${address.Id}`)
+    }
 }
 
 watch(searchValue, () => {

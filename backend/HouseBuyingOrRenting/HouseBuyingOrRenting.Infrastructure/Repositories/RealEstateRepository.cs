@@ -18,6 +18,18 @@ namespace HouseBuyingOrRenting.Infrastructure
             return realEstate;
         }
 
+        public override async Task<List<RealEstate>> GetAllAsync()
+        {
+            var realEstates = _dbSet
+                .Include(e => e.ImageUrls)
+                .Include(e => e.District)
+                .ThenInclude(d => d.Province)
+                .OrderByDescending(e => e.CreatedDate)
+                .ToList();
+
+            return realEstates;
+        }
+
         public async Task<List<RealEstate>> GetRealEstateForCarousel()
         {
             var realEstateRent = _dbSet

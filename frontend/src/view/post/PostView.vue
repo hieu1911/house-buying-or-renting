@@ -97,15 +97,23 @@
                     </GoogleMap>
                 </div>
                 <div class="google-map-footer">
-                    <v-button
-                        :label="$t('button.cancel')"
-                        type="secondary"
-                        @click="showGoogleMap = false"
-                    ></v-button>
-                    <v-button
-                        :label="$t('button.save')"
-                        type="primary"
-                    ></v-button>
+                    <div>
+                        <span>Kinh độ: {{ positionLatLng.lng }}</span>
+                        <span>-</span>
+                        <span>Vĩ độ: {{ positionLatLng.lat }}</span>
+                    </div>
+                    <div>
+                        <v-button
+                            :label="$t('button.cancel')"
+                            type="secondary"
+                            @click="showGoogleMap = false"
+                        ></v-button>
+                        <v-button
+                            :label="$t('button.save')"
+                            type="primary"
+                            @click="savePos"
+                        ></v-button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -377,6 +385,10 @@ const positionLatLng = reactive({
     lat: 20.993302571091153,
     lng: 105.84508713545992
 })
+const position = reactive({
+    lat: 0,
+    lng: 0
+})
 const statusEnum = inject('$enums').statusEnum;
 const images = reactive([]);
 const imageFiles = reactive([]);
@@ -454,8 +466,6 @@ async function handleSelectedProvince(item) {
 }
 
 function handleClick(e) {
-    console.log(e.latLng.lat())
-    console.log(e.latLng.lng())
     positionLatLng.lat = e.latLng.lat();
     positionLatLng.lng = e.latLng.lng();
 }
@@ -467,6 +477,12 @@ function success(position) {
 
 function fail() {
     // Could not obtain location
+}
+
+function savePos() {
+    position.lng = positionLatLng.lng;
+    position.lat = positionLatLng.lat;
+    showGoogleMap.value = false;
 }
 
 function dragFile(files) {
@@ -548,8 +564,8 @@ async function createNewPost() {
             OwnerId: ownerId,
             DistrictId: district.value,
             Address: addressDetail.value,
-            Latitude: 0,
-            Longtitude: 0,
+            Latitude: position.lat,
+            Longtitude: position.lng,
             Area: parseFloat(area.value),
             Title: title.value,
             Description: description.value,

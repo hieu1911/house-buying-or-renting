@@ -85,6 +85,8 @@ namespace HouseBuyingOrRenting.Controllers
             result.AddRange(realEstateByProvince);
             result.AddRange(realEstateByDistrict);
 
+            result = result.GroupBy(r => r.Id).Select(g => g.First()).ToList();
+
             if ((int) type > 0)
             {
                 result = result.Where(r => r.Type == type).ToList();
@@ -99,6 +101,24 @@ namespace HouseBuyingOrRenting.Controllers
             , double minPrice, double maxPrice, double minArea, double maxArea)
         {
             var result = await _realEstateService.FilterRealEstate(type, realEstateTypeStr, minPrice, maxPrice, minArea, maxArea);
+
+            return StatusCode(StatusCodes.Status200OK, result);
+        }
+
+        [HttpGet]
+        [Route("search-by-province/{id}")]
+        public async Task<IActionResult> SearchByProvince(Guid id)
+        {
+            var result = await _realEstateService.GetByProvinceIds(new List<Guid>() { id });
+
+            return StatusCode(StatusCodes.Status200OK, result);
+        }
+
+        [HttpGet]
+        [Route("search-by-district/{id}")]
+        public async Task<IActionResult> SearchByDisctrict(Guid id)
+        {
+            var result = await _realEstateService.GetByDisctrictIds(new List<Guid>() { id });
 
             return StatusCode(StatusCodes.Status200OK, result);
         }

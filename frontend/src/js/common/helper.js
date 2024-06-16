@@ -58,6 +58,10 @@ const common = {
         emitter.emit('showToastMessage', type, title, content);
     },
 
+    showMessageWithReceiver(receiverId, content) {
+        emitter.emit('showMessageWithReceiver', receiverId, content);
+    },
+
     showDialog(type, title, desc, action) {
         emitter.emit('showDialog', type, title, desc, action);
     },
