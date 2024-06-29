@@ -1,0 +1,32 @@
+.return-pay {
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.return-pay h4 {
+    font-size: 28px;
+}
+
+.return-pay-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    width: fit-content;
+    padding: 40px;
+    border-radius: 6px;
+}
+
+.return-pay-wrapper h5 {
+    font-size: 20px;
+    margin: 0;
+    padding: 12px 0 0 0;
+}
+
+.return-pay-wrapper p {
+    font-size: 14px;
+    margin: 12px 0 32px 0;
+}

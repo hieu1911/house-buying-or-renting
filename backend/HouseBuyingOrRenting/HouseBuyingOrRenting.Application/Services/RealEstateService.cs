@@ -93,9 +93,10 @@ namespace HouseBuyingOrRenting.Application
             return result;
         }
 
-        public override Task<RealEstate> MapEntityCreateDtoToEntity(RealEstateCreateDto entityCreateDto)
+        public async override Task<RealEstate> MapEntityCreateDtoToEntity(RealEstateCreateDto entityCreateDto)
         {
-            throw new NotImplementedException();
+            var result = _mapper.Map<RealEstate>(entityCreateDto);
+            return result;
         }
 
         public async override Task<RealEstateDto> MapEntityToEntityDto(RealEstate entity)
@@ -117,6 +118,14 @@ namespace HouseBuyingOrRenting.Application
                     .Select(realEstate => realEstate.Result).ToList();
 
             return result;
+        }
+
+        public bool CheckLatAndLong(double longitude, double latitude)
+        {
+            if (longitude < -180 || longitude > 180) return false;
+            if (latitude < -90 || latitude > 90) return false;
+
+            return true;
         }
     }
 }

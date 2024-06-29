@@ -38,15 +38,6 @@
     border: 1px solid var(--color-border-default);
     margin-bottom: 20px;
     border-radius: 6px;
-    position: relative;
-}
-
-.item-card-status {
-    position: absolute;
-    bottom: 16px;
-    right: 16px;
-    font-size: 16px;
-    font-weight: 500;
 }
 
 .list-content img {

@@ -344,6 +344,7 @@ import { ref, inject, onBeforeMount, reactive } from 'vue';
 import { GoogleMap, Marker } from 'vue3-google-map';
 import { ref as storageRef } from 'firebase/storage';
 import { useFirebaseStorage, useStorageFile, useStorageFileUrl } from 'vuefire';
+// import axios from "axios";
 
 import common from '@/js/common/helper';
 import { getRecords } from '@/js/service/base';
@@ -556,6 +557,15 @@ function valideProperties() {
 }
 
 async function createNewPost() {
+    // var vnpUrl = await axios.post("http://localhost:8888/order/create_payment_url", {
+    //     amount: 1000000
+    // }, {
+    //     withCredentials: false
+    // });
+
+    window.location.href = "http://localhost:8888/order/create_payment_url";
+ 
+
     if (valideProperties()) {
         let object;
         let record;

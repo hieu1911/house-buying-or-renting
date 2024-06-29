@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HouseBuyingOrRenting.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,5 +22,7 @@ namespace HouseBuyingOrRenting.Application
         public Guid? DistrictId { get; set; }
 
         public string? Address { get; set; }
+
+        public int Role { get; set; }
     }
 }

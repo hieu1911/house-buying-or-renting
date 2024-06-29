@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace HouseBuyingOrRenting.Application
 {
@@ -38,6 +39,7 @@ namespace HouseBuyingOrRenting.Application
 
         public override Task<int> InsertAsync(UserCreateDto entityCreateDto)
         {
+            entityCreateDto.Role = (int)UserRole.NORMAL;
             entityCreateDto.Password = HashPassword(entityCreateDto.Password);
 
             return base.InsertAsync(entityCreateDto);
@@ -76,7 +78,8 @@ namespace HouseBuyingOrRenting.Application
                 UserName = userClaim.FindFirst(ClaimTypes.Name).Value,
                 Email = userClaim.FindFirst("Email").Value,
                 Id = new Guid(userClaim.FindFirst("Id").Value),
-                FullName = userClaim.FindFirst("FullName").Value
+                FullName = userClaim.FindFirst("FullName").Value,
+                Role = int.Parse(userClaim.FindFirst("Role").Value)
             };
 
             return userDto;
@@ -93,6 +96,13 @@ namespace HouseBuyingOrRenting.Application
                 numBytesRequested: 256 / 8));
 
             return hashed;
+        }
+
+        public bool IsPasswordValid(string password)
+        {
+            var pattern = @"^(?=.*[a-zA-Z])(?=.*\d).{6,}$";
+
+            return Regex.IsMatch(password, pattern);
         }
     }
 }

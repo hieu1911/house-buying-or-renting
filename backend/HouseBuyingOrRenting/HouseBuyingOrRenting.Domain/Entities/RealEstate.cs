@@ -40,5 +40,7 @@ namespace HouseBuyingOrRenting.Domain
         public RealEstateType RealEstateType { get; set; }
 
         public List<ImageUrl> ImageUrls { get; set; }
+
+        public int IsAccepted { get; set; }
     }
 }

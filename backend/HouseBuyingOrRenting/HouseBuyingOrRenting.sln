@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseBuyingOrRenting", "HouseBuyingOrRenting\HouseBuyingOrRenting.csproj", "{BFFDA3C2-561F-46D5-82E8-1AA9668EFEE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HouseBuyingOrRenting", "HouseBuyingOrRenting\HouseBuyingOrRenting.csproj", "{BFFDA3C2-561F-46D5-82E8-1AA9668EFEE2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseBuyingOrRenting.Domain", "HouseBuyingOrRenting.Domain\HouseBuyingOrRenting.Domain.csproj", "{7B6AB15A-7E29-48E8-B44A-B5EB67E416CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HouseBuyingOrRenting.Domain", "HouseBuyingOrRenting.Domain\HouseBuyingOrRenting.Domain.csproj", "{7B6AB15A-7E29-48E8-B44A-B5EB67E416CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseBuyingOrRenting.Application", "HouseBuyingOrRenting.Application\HouseBuyingOrRenting.Application.csproj", "{011721A5-AAF6-4AB5-8235-0C8AC32493EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HouseBuyingOrRenting.Application", "HouseBuyingOrRenting.Application\HouseBuyingOrRenting.Application.csproj", "{011721A5-AAF6-4AB5-8235-0C8AC32493EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseBuyingOrRenting.Infrastructure", "HouseBuyingOrRenting.Infrastructure\HouseBuyingOrRenting.Infrastructure.csproj", "{76E5C315-C115-4375-9142-DE920CAF54EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HouseBuyingOrRenting.Infrastructure", "HouseBuyingOrRenting.Infrastructure\HouseBuyingOrRenting.Infrastructure.csproj", "{76E5C315-C115-4375-9142-DE920CAF54EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseBuyingOrRentingTest", "HouseBuyingOrRentingTest\HouseBuyingOrRentingTest.csproj", "{2C89B4B6-F246-4AF7-B324-D1DA59E1E678}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{76E5C315-C115-4375-9142-DE920CAF54EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76E5C315-C115-4375-9142-DE920CAF54EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76E5C315-C115-4375-9142-DE920CAF54EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C89B4B6-F246-4AF7-B324-D1DA59E1E678}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C89B4B6-F246-4AF7-B324-D1DA59E1E678}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C89B4B6-F246-4AF7-B324-D1DA59E1E678}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C89B4B6-F246-4AF7-B324-D1DA59E1E678}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

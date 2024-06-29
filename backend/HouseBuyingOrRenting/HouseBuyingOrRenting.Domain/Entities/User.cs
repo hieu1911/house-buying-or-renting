@@ -21,5 +21,7 @@ namespace HouseBuyingOrRenting.Domain
         public Guid? DistrictId { get; set; }
 
         public string? Address { get; set; }
+
+        public int Role { get; set; }
     }
 }

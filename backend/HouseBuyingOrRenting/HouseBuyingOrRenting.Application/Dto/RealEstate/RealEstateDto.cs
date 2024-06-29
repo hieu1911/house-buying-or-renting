@@ -50,5 +50,7 @@ namespace HouseBuyingOrRenting.Application
         public string? ModifiedName { get; set; }
 
         public List<ImageUrl> ImageUrls { get; set; }
+
+        public int IsAccepted { get; set; }
     }
 }

@@ -52,6 +52,10 @@
                             <span class="card-address">{{ item.District.Province.Name }}</span>
                         </div>
                     </div>
+
+                    <div class="item-card-status" :style="item.IsAccepted == 0 ? 'color: #00af00;' : item.IsAccepted == 1 ? 'color: #007AFF;' : 'color: #DE3618;'">
+                       {{ item.IsAccepted == 0 ? 'Đang chờ duyệt' : item.IsAccepted == 1 ? 'Đã được duyệt' : 'Bị từ chối' }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -72,6 +76,7 @@ import { getRecords } from '@/js/service/base';
 const realEstate= reactive([]);
 const isBuy = ref(true);
 const showFilter = ref(true);
+const isShowHistory = ref(false);
 
 onBeforeMount(async () => {
     realEstate.splice(0, realEstate.length);
@@ -118,6 +123,8 @@ onBeforeMount(async () => {
         const res = await getByOwner(ownerId);
         res.data.forEach(r => realEstate.push(r));
         showFilter.value = false;
+        isShowHistory.value = true;
+        console.log(realEstate);
         return;
     }
 

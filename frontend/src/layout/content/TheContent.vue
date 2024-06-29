@@ -28,7 +28,7 @@
         <div v-if="showFilter" class="filter-wrapper">
             <FilterCard @close="showFilter = false"></FilterCard>
         </div>
-        <div v-if="!publicStore().isAuthPage" class="message">
+        <div v-if="!publicStore().isAuthPage && !isAdmin" class="message">
             <img src="../../assets/icon/messenger-main.png" @click="showMessage()"/>
             <div class="message-rect" v-if="showMessageRect && receiverId" ref="messageRectRef">
                 <div class="receiver-info">
@@ -115,8 +115,12 @@ const messageBodyRef = ref(null);
 
 const emitter = inject('$emitter');
 const store = publicStore();
+const isAdmin = ref(false);
 
-onMounted(() => {
+onMounted(async () => {
+    const userData = await getUserInfo();
+    if (userData && userData.data && userData.data.Role == 1) isAdmin.value = true;
+
     emitter.on('showDialog', showDialog);
     emitter.on('showLoading', showLoading);
     emitter.on('showToastMessage', showToastMessage);
@@ -151,7 +155,7 @@ onUnmounted(() => {
     emitter.off('showToastMessage', showToastMessage);
     emitter.off('showFilter', showFilter.value = true);
     emitter.off('showMessageWithReceiver', showMessageWithReceiver);
-    window.removeEventListener("scroll", onScroll)
+    window.removeEventListener("scroll", onScroll);
 })
 
 function showDialog(type, title, desc, action=null) {

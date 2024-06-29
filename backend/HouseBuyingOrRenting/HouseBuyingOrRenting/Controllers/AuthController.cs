@@ -34,7 +34,8 @@ namespace HouseBuyingOrRenting.Controllers
                 new Claim("Email", user.Email ?? ""),
                 new Claim("PhoneNumber", user.PhoneNumber ?? ""),
                 new Claim("Id", user.Id.ToString() ?? ""),
-                new Claim("FullName", user.FullName)
+                new Claim("FullName", user.FullName),
+                new Claim("Role", user.Role.ToString())
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
