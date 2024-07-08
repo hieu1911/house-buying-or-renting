@@ -8,6 +8,8 @@ namespace HouseBuyingOrRenting.Application
 {
     public class HouseDto
     {
+        public Guid Id { get; set; }
+
         public Guid RealEstateId { get; set; }
 
         public RealEstateDto RealEstateDto { get; set; }

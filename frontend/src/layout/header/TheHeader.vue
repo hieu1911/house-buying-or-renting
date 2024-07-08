@@ -51,16 +51,20 @@
             </div>
         </div>
     </div>
+    <div class="user-info-wrapper" v-if="showUserInfo">
+        <UserInfo></UserInfo>
+    </div>
 </template>
 
 <script setup>
-import { reactive, ref, onMounted, computed } from 'vue';
+import { reactive, ref, onMounted, computed, inject } from 'vue';
 import { useRoute } from 'vue-router';
 import { publicStore } from '@/js/store/publicStore';
 import { useOnClickOutside } from '@/js/composable/click-outside';
 import { getUserInfo, signout } from '@/js/service/auth';
 import router from '@/js/router/router';
 import common from '@/js/common/helper';
+import UserInfo from '@/view/components/UserInfo/UserInfo.vue';
 
 const route = useRoute()
 const currentRouteName = computed(() => route.path)
@@ -70,8 +74,12 @@ const showMenuRef = ref(null);
 const searchValue = ref('');
 const userName = ref('');
 const isAdmin = ref(false);
+const showUserInfo = ref(false);
+const emitter = inject('$emitter');
 
 onMounted(async () => {
+    emitter.on('closeUserInfo', () => showUserInfo.value = false);
+
     if (showMenuRef.value) {
         useOnClickOutside(showMenuRef.value, () => {
             showMenu.value = false;
@@ -104,7 +112,7 @@ async function getUser() {
                 {
                     icon: 'user-info',
                     title: 'Chỉnh sửa thông tin',
-                    click: () => {}
+                    click: () => showUserInfo.value = true
                 },
                 {
                     icon: 'post-history',

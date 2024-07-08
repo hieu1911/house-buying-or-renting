@@ -74,5 +74,13 @@ namespace HouseBuyingOrRenting.Controllers
             var user = await _userService.CheckUserLoginedAsync();
             return StatusCode(StatusCodes.Status200OK, user);
         }
+
+        [HttpPost]
+        [Route("change-role/{id}")]
+        public async Task<IActionResult> ChangeRole(Guid id)
+        {
+            var result = await _userService.ChangeRole(id);
+            return StatusCode(StatusCodes.Status200OK, result);
+        }
     }
 }

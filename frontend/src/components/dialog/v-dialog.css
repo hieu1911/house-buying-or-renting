@@ -7,7 +7,7 @@
     width: 100vw;
     height: 100vh;
     background-color: rgba(20, 20, 20, 0.5);
-    z-index: 3;
+    z-index: 20;
 }
 
 .dialog-center {

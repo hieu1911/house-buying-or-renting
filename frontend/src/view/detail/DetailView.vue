@@ -74,7 +74,7 @@
                     <div class="detail-contact">
                         <h4>Liên hệ với người đăng</h4>
                         <div>
-                            <span v-for="(item, index) in contactMsg" :key="index">{{ item }}</span>
+                            <span v-for="(item, index) in contactMsg" :key="index" @click="common.showMessageWithReceiver(realEstate.OwnerId, item)">{{ item }}</span>
                         </div>
                     </div>
                     <div class="detail-send-msg">
@@ -110,7 +110,20 @@
                         </div>
                     </div>
             </div>
-            
+            <div class="item-btn" v-else>
+                <v-button
+                    v-if="realEstate.IsAccepted != 2"
+                    label="Sửa"
+                    type="primary"
+                    @click="router.push(`/post?postId=${realEstate.Id}`)"
+                ></v-button>
+                <v-button
+                    label="Xóa"
+                    type="delete"
+                    @click="deleteRealEstate(realEstate.Id)"
+                ></v-button>
+            </div>
+
             <div v-if="showGoogleMap" class="google-map-wrapper" :style="topStyle">
                 <div class="google-map-content">
                     <div class="google-map-header">
@@ -361,6 +374,15 @@ async function changePostSaveHistory() {
     } else {
         router.push(`/login?returnUrl=${currentRouteName.value.slice(1)}`)
     }
+}
+
+function deleteRealEstate(id) {
+    console.log(12);
+
+    common.showDialog(enums.statusEnum.WARNING, "Cảnh báo", ["Xác nhận xóa bài đăng"], async () => {
+        await deleteRecord('RealEstate', id);
+        router.push('/')
+    });
 }
 
 </script>

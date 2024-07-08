@@ -22,5 +22,7 @@ namespace HouseBuyingOrRenting.Domain
 
         Task<List<RealEstate>> FilterRealEstate(PostType type, List<RealEstateType> realEstateTypes
             , double minPrice, double maxPrice, double minArea, double maxArea);
+
+        Task<int> ChangeStatus(Guid id, int status);
     }
 }

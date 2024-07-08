@@ -105,9 +105,20 @@ namespace HouseBuyingOrRenting.Application
             return result;
         }
 
-        public override Task<RealEstate> MapEntityUpdateDtoToEntity(Guid id, RealEstateUpdateDto entityUpdateDto)
+        public async override Task<RealEstate> MapEntityUpdateDtoToEntity(Guid id, RealEstateUpdateDto entityUpdateDto)
         {
-            throw new NotImplementedException();
+            var result = _mapper.Map<RealEstate>(entityUpdateDto);
+            result.Id = id;
+
+            result.ImageUrls = entityUpdateDto.ImageUrlsCreateDto.Select(img => new ImageUrl() 
+            {
+                RealEstateId = id,
+                Id = Guid.NewGuid(),
+                Url = img.Url,
+            }).ToList();
+
+
+            return result;
         }
 
         public async Task<List<RealEstateDto>> SearchByTitle(string value)
@@ -126,6 +137,12 @@ namespace HouseBuyingOrRenting.Application
             if (latitude < -90 || latitude > 90) return false;
 
             return true;
+        }
+
+        public async Task<int> ChangeStatus(Guid id, int status)
+        {
+            var result = await _realEstateRepository.ChangeStatus(id, status);
+            return result;
         }
     }
 }

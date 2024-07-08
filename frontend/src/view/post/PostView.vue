@@ -10,7 +10,7 @@
                     <label for="html">{{ $t('post.personal') }}</label><br>
                 </div>
                 <div>
-                    <input type="radio" id="agency" name="poster" value="1">
+                    <input type="radio" id="agency" name="poster" value="1" v-model="isPersonal">
                     <label for="html">{{ $t('post.agency') }}</label><br>
                 </div>
             </div>
@@ -195,7 +195,7 @@
                     <label for="html">{{ $t('post.hasRedBook') }}</label><br>
                 </div>
                 <div>
-                    <input type="radio" id="agenoRedBookncy" name="redBook" value="0">
+                    <input type="radio" id="agenoRedBookncy" name="redBook" value="0" v-model="houseRedBook">
                     <label for="html">{{ $t('post.noRedBook') }}</label><br>
                 </div>
             </div>
@@ -216,7 +216,7 @@
                     <label for="html">{{ $t('post.private') }}</label><br>
                 </div>
                 <div>
-                    <input type="radio" id="shard" name="selfContained" value="0">
+                    <input type="radio" id="shard" name="selfContained" value="0" v-model="boardingHouseSelfContained">
                     <label for="html">{{ $t('post.shard') }}</label><br>
                 </div>
             </div>
@@ -266,7 +266,7 @@
                     <label for="html">{{ $t('post.pinkBook') }}</label><br>
                 </div>
                 <div>
-                    <input type="radio" id="noHave" name="legalDocument" value="0">
+                    <input type="radio" id="noHave" name="legalDocument" value="0" v-model="apartmentLegalDocument">
                     <label for="html">{{ $t('post.noHave') }}</label><br>
                 </div>
             </div>
@@ -287,7 +287,7 @@
                     <label for="html">{{ $t('post.have') }}</label><br>
                 </div>
                 <div>
-                    <input type="radio" id="noHave" name="legalDocumentLand" value="0">
+                    <input type="radio" id="noHave" name="legalDocumentLand" value="0" v-model="landLegalDocument">
                     <label for="html">{{ $t('post.noHave') }}</label><br>
                 </div>
             </div>
@@ -295,7 +295,7 @@
         <div class="import-file-header">
             <h4 class="import-file-title input--required">{{ $t('post.provideImage') }}</h4>
             <v-button
-                v-if="images.length > 0"
+                v-if="images.length > 0 || imagesCloud.length > 0"
                 :label="$t('post.addImage')"
                 type="hasIconPrimary"
                 icon="add"
@@ -311,13 +311,19 @@
                 multiple
                 @input="dragFile($event.target.files)" 
             />
-            <div v-if="images.length > 0" class="import-file-wrapper--has-image">
+            <div v-if="images.length > 0 || imagesCloud.length > 0" class="import-file-wrapper--has-image">
                 <div class="img-import-wrapper">
                     <div v-for="(preview, index) in images" :key="index">
                         <div class="img-import-icon-wrapper">
                             <v-icon type="remove" @click="removeImage(index)" :desc="$t('post.removeImage')"></v-icon>
                         </div>
                         <img :src="preview" alt="Preview" class="img-import">
+                    </div>
+                    <div v-for="(item, index) in imagesCloud" :key="index">
+                        <div class="img-import-icon-wrapper">
+                            <v-icon type="remove" @click="removeImage(index, true)" :desc="$t('post.removeImage')"></v-icon>
+                        </div>
+                        <img :src="item" alt="Preview" class="img-import">
                     </div>
                 </div>
             </div>
@@ -329,7 +335,7 @@
         </div>
         <div style="display: flex; justify-content: flex-end;">
             <v-button
-                :label="$t('post.post')"
+                :label="!isEdit ? $t('post.post') : 'Lưu thay đổi'"
                 type="hasIconPrimary"
                 icon="checked"
                 @click="createNewPost"
@@ -347,13 +353,23 @@ import { useFirebaseStorage, useStorageFile, useStorageFileUrl } from 'vuefire';
 // import axios from "axios";
 
 import common from '@/js/common/helper';
-import { getRecords } from '@/js/service/base';
+import { getRecord, getRecords, updateRecord } from '@/js/service/base';
 import { getDistrictsByProvinceId } from '@/js/service/district';
 import { createRecord } from '@/js/service/base';
 import { publicStore } from '@/js/store/publicStore';
 import { getUserInfo } from '@/js/service/auth';
 import { router } from '@/js/router/router';
 import { deFormatNumber } from '@/js/common/helper';
+import enums from '@/js/common/enum';
+import { getDetailRealEstate } from '@/js/service/realEstate';
+
+const apartment = reactive({});
+const boardingHouse = reactive({});
+const house = reactive({});
+const land = reactive({});
+const imagesCloud = reactive([]);
+const isEdit = ref(false);
+const objectId = ref('');
 
 const storage = useFirebaseStorage()
 
@@ -437,12 +453,17 @@ onBeforeMount(async () => {
             router.push('/login?returnUrl=post');
             return;
         } else {
+            if (user.data.Role == 1) {
+                common.showDialog(enums.statusEnum.ERROR, "Cảnh báo", ["Vui lòng không dùng tài khoản admin để đăng bài"]);
+                router.push("/");
+            }           
+
             ownerId = user.data.Id;
         }
     }
 
-    const res = await getRecords('Province')
-    res.data?.forEach(province => provincesOptions.push({
+    const provinceList = await getRecords('Province')
+    provinceList.data?.forEach(province => provincesOptions.push({
         title: province.Name,
         value: province.Id
     }))
@@ -454,6 +475,83 @@ onBeforeMount(async () => {
     else
     {
         alert("Sorry, your browser does not support geolocation services.");
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const postId = urlParams.get('postId')
+    if (postId) {
+        let realEstatePosted = await getRecord('RealEstate', postId);
+        realEstatePosted = realEstatePosted.data;
+
+        if (realEstatePosted) {
+            isEdit.value = true;
+            isPersonal.value = realEstatePosted.IsPersonal;
+            realestateType.value = realEstatePosted.RealEstateType;
+            postType.value = realEstatePosted.Type;
+            realestateName.value = realEstatePosted.RealestateName;
+            addressDetail.value = realEstatePosted.Address;
+            area.value = realEstatePosted.Area;
+            price.value = realEstatePosted.Price;
+            title.value = realEstatePosted.Title;
+            description.value = realEstatePosted.Description;
+            positionLatLng.lat = realEstatePosted.Latitude;
+            positionLatLng.lng = realEstatePosted.Longtitude;
+
+            imagesCloud.splice(0, imagesCloud.length);
+            realEstatePosted.ImageUrls.forEach(i => imagesCloud.push(i.Url))
+            switch (realEstatePosted.RealEstateType) {
+                case enums.realEstateEnum.HOUSE:
+                    Object.assign(house, (await getDetailRealEstate('House', realEstatePosted.Id)).data);
+                    console.log(house);
+                    objectId.value = house.Id;
+                    console.log(objectId.value);
+                    province.value = house.RealEstateDto.District.ProvinceId;
+                    await handleSelectedProvince({ value: province.value })
+                    district.value = house.RealEstateDto.District.Id;
+
+                    houseNumberOfBedRoom.value = house.NumberOfBedRoom
+                    houseNumberOfToilet.value = house.NumberOfToilet
+                    houseNumberOfFloor.value = house.NumberOfFloor
+                    houseFuniture.value = house.Funiture
+                    houseRedBook.value = house.RedBook ? "1" : "0"
+                    break;
+                case enums.realEstateEnum.APARTMENT:
+                    Object.assign(apartment, (await getDetailRealEstate('Apartment', realEstatePosted.Id)).data);
+                    objectId.value = apartment.Id;
+                    province.value = apartment.RealEstateDto.District.ProvinceId;
+                    await handleSelectedProvince({ value: province.value })
+                    district.value = apartment.RealEstateDto.District.Id;
+
+                    apartmentNumberOfBedRoom.value = apartment.NumberOfBedRoom
+                    apartmentNumberOfToilet.value = apartment.NumberOfToilet
+                    apartmentFloor.value = apartment.Floor
+                    apartmentFuniture.value = apartment.Funiture
+                    apartmentLegalDocument.value = apartment.LegalDocument
+                    break;
+                case enums.realEstateEnum.BOARDINGHOUSE: 
+                    Object.assign(boardingHouse, (await getDetailRealEstate('BoardingHouse', realEstatePosted.Id)).data);
+                    objectId.value = boardingHouse.Id;
+                    province.value = boardingHouse.RealEstateDto.District.ProvinceId;
+                    await handleSelectedProvince({ value: province.value })
+                    district.value = boardingHouse.RealEstateDto.District.Id;
+
+                    boardingHouseFuniture.value = boardingHouse.Funiture;
+                    boardingHouseSelfContained.value = boardingHouse.SelfContained;
+                    break;
+                case enums.realEstateEnum.LAND:
+                    Object.assign(land, (await getDetailRealEstate('Land', realEstatePosted.Id)).data);
+                    objectId.value = land.Id;
+                    province.value = land.RealEstateDto.District.ProvinceId;
+                    await handleSelectedProvince({ value: province.value })
+                    district.value = land.RealEstateDto.District.Id;
+
+                    landType.value = land.Type
+                    landLegalDocument.value = land.LegalDocument
+                    break;
+                default: 
+                    break;
+            }
+        }
     }
 });
 
@@ -498,9 +596,13 @@ function dragFile(files) {
     }
 }
 
-function removeImage(idx) {
-    images.splice(idx, 1);
-    imageFiles.splice(idx, 1);
+function removeImage(idx, isCloud) {
+    if (isCloud) {
+        imagesCloud.splice(idx, 1);
+    } else {
+        images.splice(idx, 1);
+        imageFiles.splice(idx, 1);
+    }
 }
 
 function valideHouseProperties() {
@@ -549,22 +651,15 @@ function valideProperties() {
         return false;
     }
 
-    if (images.length < 4) {
+    if (images.length + imagesCloud.length < 4) {
         common.showDialog(statusEnum.WARNING, "Cảnh báo", ["Cung cấp đủ 4 hình ảnh trở lên"])
+        return false;
     }
 
     return true;
 }
 
-async function createNewPost() {
-    // var vnpUrl = await axios.post("http://localhost:8888/order/create_payment_url", {
-    //     amount: 1000000
-    // }, {
-    //     withCredentials: false
-    // });
-
-    window.location.href = "http://localhost:8888/order/create_payment_url";
- 
+async function createNewPost() { 
 
     if (valideProperties()) {
         let object;
@@ -593,7 +688,7 @@ async function createNewPost() {
                     NumberOfToilet: parseInt(houseNumberOfToilet.value),
                     NumberOfFloor: parseInt(houseNumberOfFloor.value),
                     Funiture: houseFuniture.value,
-                    RedBook: houseRedBook.value
+                    RedBook: houseRedBook.value == "1"
                 }
                 break;
             
@@ -603,7 +698,7 @@ async function createNewPost() {
                 record = {
                     RealEstateCreateDto,
                     Funiture: boardingHouseFuniture.value,
-                    SeftContained: boardingHouseSelfContained.value
+                    SeftContained: boardingHouseSelfContained.value == "1"
                 }
                 break;
 
@@ -615,7 +710,7 @@ async function createNewPost() {
                     NumberOfBedRoom: parseInt(apartmentNumberOfBedRoom.value),
                     NumberOfToilet: parseInt(apartmentNumberOfToilet.value),
                     Floor: parseInt(apartmentFloor.value),
-                    LegalDocument: apartmentLegalDocument.value
+                    LegalDocument: apartmentLegalDocument.value == "1"
                 }
                 break;
 
@@ -625,7 +720,7 @@ async function createNewPost() {
                 record = {
                     RealEstateCreateDto,
                     LandType: landType.value,
-                    LegalDocument: landLegalDocument.value
+                    LegalDocument: landLegalDocument.value == "1"
                 }
                 break;
 
@@ -653,11 +748,28 @@ async function createNewPost() {
             Url: url
         }));
 
-        console.log(record);
-    
-        await createRecord(object, record);
+        imagesCloud.forEach(i => record.RealEstateCreateDto.ImageUrlsCreateDto.push({ Url: i }));
+        let result = null;
+
+        if (!isEdit.value) {
+            window.location.href = "http://localhost:8888/order/create_payment_url";
+            result = await createRecord(object, record);
+        } else {
+            const urlParams = new URLSearchParams(window.location.search);
+            const postId = urlParams.get('postId');
+            console.log(record);
+            record.RealEstateUpdateDto = record.RealEstateCreateDto;
+            record.RealEstateId = postId;
+            console.log(record);
+            result = await updateRecord(object, objectId.value, record)
+        }
 
         common.showLoading(false);
+        if (result.data) {
+            common.showDialog(enums.statusEnum.SUCCES0, "Thành công", [`${isEdit.value ? 'Chỉnh sửa' : 'Thêm mới'} thành công!`], () => window.location.href = '/')
+        } else {
+            common.showDialog(enums.statusEnum.ERROR, "Lỗi", ["Có lỗi xảy ra!"])
+        }
     }
 }
 </script>

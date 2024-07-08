@@ -5,10 +5,13 @@ namespace HouseBuyingOrRenting.Infrastructure
 {
     public class RealEstateRepository : BaseRepository<RealEstate>, IRealEstateRepository
     {
+        private MyDbContext _db;
+
         private DbSet<RealEstate> _dbSet { get; set; }
 
         public RealEstateRepository(MyDbContext db) : base(db, db.RealEstates)
         {
+            _db = db;
             _dbSet = db.RealEstates;
         }
 
@@ -150,6 +153,65 @@ namespace HouseBuyingOrRenting.Infrastructure
               .ToList();
 
             return realEstates;
+        }
+
+        public async Task<int> ChangeStatus(Guid id, int status)
+        {
+            var realEstate = await _dbSet.FindAsync(id);
+            if (realEstate != null)
+            {
+                realEstate.IsAccepted = status;
+                await _db.SaveChangesAsync();
+
+                return 1;
+            }
+
+            return 0;
+        }
+
+        public async override Task<int> UpdateAsync(RealEstate entity)
+        {
+            var realEstate = await _dbSet.FindAsync(entity.Id);
+            if (realEstate != null)
+            {
+                realEstate.IsPersonal = entity.IsPersonal;
+                realEstate.DistrictId = entity.DistrictId;
+                realEstate.Address = entity.Address;
+                realEstate.Latitude = entity.Latitude;
+                realEstate.Longtitude = entity.Longtitude;
+                realEstate.Area = entity.Area;
+                realEstate.Title = entity.Title;
+                realEstate.Name = entity.Name;
+                realEstate.Description = entity.Description;
+                realEstate.Price = entity.Price;
+                realEstate.Feature = entity.Feature;
+                realEstate.Type = entity.Type;
+                realEstate.RealEstateType = entity.RealEstateType;
+                realEstate.IsAccepted = 0;
+
+                _db.ImageUrls.Where(img => img.RealEstateId == entity.Id).ExecuteDelete();
+
+                await _db.ImageUrls.AddRangeAsync(entity.ImageUrls);
+
+                await _db.SaveChangesAsync();
+                return 1;
+            }
+
+            return 0;
+        }
+
+        public async override Task<int> DeleteAsync(Guid id)
+        {
+            var realEstate = await _db.RealEstates.FindAsync(id);
+            if (realEstate != null)
+            {
+                realEstate.IsDeleted = true;
+
+                await _db.SaveChangesAsync();
+                return 1;
+            }
+
+            return 0;
         }
     }
 }

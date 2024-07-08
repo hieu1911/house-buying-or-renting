@@ -181,7 +181,7 @@ const inputClass = computed(() => {
 
 watch(value, (newValue, oldValue) => {
     if (newValue) {
-        showDeleteIcon.value = true;
+        //showDeleteIcon.value = true;
     } else {
         emit('clear');
         showDeleteIcon.value = false;

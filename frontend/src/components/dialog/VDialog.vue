@@ -61,7 +61,7 @@ const iconType = computed(() => {
     switch(props.dialogType) {
         case statusEnum.ERROR: return 'error';
         case statusEnum.WARNING: return 'warning';
-        case statusEnum.SUCCESS: return 'success';
+        case statusEnum.SUCCES0: return 'success';
         case statusEnum.INFO: return 'info';
         default: return '';
     }

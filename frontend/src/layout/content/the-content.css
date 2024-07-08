@@ -44,8 +44,8 @@
 } 
 
 .toast-message-wrapper {
-    position: absolute;
-    top: 20px;
+    position: fixed;
+    top: 0;
     right: 20px;
     min-height: 56px;
     display: flex;

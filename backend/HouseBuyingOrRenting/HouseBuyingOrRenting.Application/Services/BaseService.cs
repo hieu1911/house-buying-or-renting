@@ -62,9 +62,12 @@ namespace HouseBuyingOrRenting.Application
             return result;
         }
 
-        public Task<int> UpdateAsync(Guid id, TEntityUpdateDto entityUpdateDto)
+        public async Task<int> UpdateAsync(Guid id, TEntityUpdateDto entityUpdateDto)
         {
-            throw new NotImplementedException();
+            var entity = await MapEntityUpdateDtoToEntity(id, entityUpdateDto);
+            var result = await BaseRepository.UpdateAsync(entity);
+
+            return result;
         }
 
         public abstract Task<TEntity> MapEntityCreateDtoToEntity(TEntityCreateDto entityCreateDto);

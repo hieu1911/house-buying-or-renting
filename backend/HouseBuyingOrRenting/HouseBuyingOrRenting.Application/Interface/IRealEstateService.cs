@@ -26,5 +26,7 @@ namespace HouseBuyingOrRenting.Application
         Task<List<RealEstateDto>> FilterRealEstate(PostType type, string realEstateTypeStr
             , double minPrice, double maxPrice, double minArea, double maxArea);
 
+        Task<int> ChangeStatus(Guid id, int status);
+
     }
 }

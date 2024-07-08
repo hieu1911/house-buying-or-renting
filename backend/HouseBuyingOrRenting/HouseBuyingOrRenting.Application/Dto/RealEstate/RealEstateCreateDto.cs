@@ -38,5 +38,7 @@ namespace HouseBuyingOrRenting.Application
         public RealEstateType RealEstateType { get; set; }
 
         public List<ImageUrlCreateDto> ImageUrlsCreateDto { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

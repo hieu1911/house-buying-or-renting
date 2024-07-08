@@ -242,6 +242,7 @@ async function showMessage() {
 function showMessageWithReceiver(id, content) {
     receiverId.value = id;
     console.log(content);
+    messageContent.value = content;
     showMessage();
 }
 

@@ -58,9 +58,11 @@ namespace HouseBuyingOrRenting.Application
             return userDto;
         }
 
-        public override Task<User> MapEntityUpdateDtoToEntity(Guid id, UserUpdateDto entityUpdateDto)
+        public async override Task<User> MapEntityUpdateDtoToEntity(Guid id, UserUpdateDto entityUpdateDto)
         {
-            throw new NotImplementedException();
+            var user = _mapper.Map<User>(entityUpdateDto);
+            user.Id = id;
+            return user;
         }
 
         public async Task<UserDto> CheckUserLoginedAsync()
@@ -79,7 +81,8 @@ namespace HouseBuyingOrRenting.Application
                 Email = userClaim.FindFirst("Email").Value,
                 Id = new Guid(userClaim.FindFirst("Id").Value),
                 FullName = userClaim.FindFirst("FullName").Value,
-                Role = int.Parse(userClaim.FindFirst("Role").Value)
+                Role = int.Parse(userClaim.FindFirst("Role").Value),
+                PhoneNumber = userClaim.FindFirst("PhoneNumber").Value
             };
 
             return userDto;
@@ -103,6 +106,12 @@ namespace HouseBuyingOrRenting.Application
             var pattern = @"^(?=.*[a-zA-Z])(?=.*\d).{6,}$";
 
             return Regex.IsMatch(password, pattern);
+        }
+
+        public async Task<int> ChangeRole(Guid id)
+        {
+            var result = await _userRepository.ChangeRole(id);
+            return result;
         }
     }
 }

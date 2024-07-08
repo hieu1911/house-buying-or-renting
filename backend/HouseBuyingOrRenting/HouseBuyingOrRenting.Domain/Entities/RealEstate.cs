@@ -42,5 +42,7 @@ namespace HouseBuyingOrRenting.Domain
         public List<ImageUrl> ImageUrls { get; set; }
 
         public int IsAccepted { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

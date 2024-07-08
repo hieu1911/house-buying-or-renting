@@ -15,7 +15,7 @@ namespace HouseBuyingOrRenting.Infrastructure
             _dbSet = dbSet;
         }
 
-        public async Task<int> DeleteAsync(Guid id)
+        public virtual async Task<int> DeleteAsync(Guid id)
         {
             var entity = _dbSet.SingleOrDefault(x => x.Id == id);
             if (entity == null) throw new NotFoundException();
@@ -62,7 +62,7 @@ namespace HouseBuyingOrRenting.Infrastructure
             return entities.Count;
         }
 
-        public Task<int> UpdateAsync(TEntity entity)
+        public virtual Task<int> UpdateAsync(TEntity entity)
         {
             throw new NotImplementedException();
         }

@@ -12,5 +12,7 @@ namespace HouseBuyingOrRenting.Application
         Task<UserDto> GetUserAsync(UserLoginDto user);
 
         Task<UserDto> CheckUserLoginedAsync();
+
+        Task<int> ChangeRole(Guid id);
     }
 }

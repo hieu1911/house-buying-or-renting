@@ -45,6 +45,8 @@ namespace HouseBuyingOrRenting.Application
 
         public string? ModifiedName { get; set; }
 
-        public List<ImageUrl> ImageUrl { get; set; }
+        public List<ImageUrlCreateDto> ImageUrlsCreateDto { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

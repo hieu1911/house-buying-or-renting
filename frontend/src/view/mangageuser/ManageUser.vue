@@ -16,14 +16,19 @@
                     <td class="table-body__col">{{ item.Email }}</td>
                     <td class="table-body__col">{{ item.PhoneNumber }}</td>
                     <td class="table-body__col col-center">
-                       <v-button type="secondary"
-                            :label="item.Role == 2 ? 'Xem và đăng' : 'Chỉ xem'"
-                       ></v-button>
+                        <div style="width: 120px;">
+                            <v-button type="secondary"
+                                w100
+                                :label="item.Role == 2 ? 'Xem và đăng' : 'Chỉ xem'"
+                                @click="changeUserRole(item.Id)"
+                            ></v-button>
+                        </div>
                     </td>
                     <td class="table-body__col col-center">
                         <v-button
                             label="Xóa"
                             type="delete"
+                            @click="deleteUser(item.Id)"
                         ></v-button>
                     </td>
                 </tr>
@@ -34,9 +39,11 @@
 
 <script setup>
 import { onBeforeMount, reactive } from 'vue';
-import { getUserInfo } from '@/js/service/auth';
-import { getRecords } from '@/js/service/base';
+import { getUserInfo, changeRole } from '@/js/service/auth';
+import { deleteRecord, getRecords } from '@/js/service/base';
 import router from '@/js/router/router';
+import common from '@/js/common/helper';
+import enums from '@/js/common/enum';
 
 const users = reactive([]);
 
@@ -57,6 +64,34 @@ onBeforeMount(async () => {
         });
     }
 });
+
+async function deleteUser(id) {
+    common.showDialog(enums.statusEnum.WARNING, "Cảnh báo", ["Xác nhận xóa người dùng"], async () =>  {
+        await deleteRecord("Auth", id);
+        const userList = await getRecords('Auth');
+        users.splice(0, users.length)
+        if (userList.data) {
+            userList.data.forEach(u => {
+                if (u.Role != 1) users.push(u);
+            });
+        } 
+        common.showToastMessage("success", "Thành công!", "Xóa người dùng thành công");
+    });
+}
+
+async function changeUserRole(id) {
+    common.showDialog(enums.statusEnum.WARNING, "Cảnh báo", ["Thay đổi quyền người dùng"], async () =>  {
+        await changeRole(id);
+        const userList = await getRecords('Auth');
+        users.splice(0, users.length)
+        if (userList.data) {
+            userList.data.forEach(u => {
+                if (u.Role != 1) users.push(u);
+            });
+        } 
+        common.showToastMessage("success", "Thành công!", "Thay đổi quyền người dùng");
+    });
+}
 </script>
 
 <style scoped>

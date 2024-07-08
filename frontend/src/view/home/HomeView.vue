@@ -149,7 +149,8 @@ async function navigateByCityName(id) {
     router.push({
         path: '/list',
         query: {
-            provinceId: id
+            provinceId: id,
+            postType: postTypeSearch.value
         }
     })
 }
@@ -177,9 +178,9 @@ function searchByAddress(address) {
     console.log(address);
 
     if (address.Type == 1) {
-        router.push(`/list?provinceId=${address.Id}`)
+        router.push(`/list?provinceId=${address.Id}&postType=${postTypeSearch.value}`)
     } else {
-        router.push(`/list?districtId=${address.Id}`)
+        router.push(`/list?districtId=${address.Id}&postType=${postTypeSearch.value}`)
     }
 }
 

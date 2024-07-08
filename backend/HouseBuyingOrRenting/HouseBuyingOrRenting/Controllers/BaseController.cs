@@ -57,7 +57,7 @@ namespace HouseBuyingOrRenting.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        public async Task<IActionResult> UpdateAsync(Guid id, TEntityUpdateDto entityUpdateDto)
+        public virtual async Task<IActionResult> UpdateAsync(Guid id, TEntityUpdateDto entityUpdateDto)
         {
             var result = await BaseService.UpdateAsync(id, entityUpdateDto);
             return StatusCode(StatusCodes.Status200OK, result);

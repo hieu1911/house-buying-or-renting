@@ -129,6 +129,14 @@
 	height: 28px;
 }
 
+.icon-success {
+	background: url('../../assets/icon/success-dialog.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 26px;
+	height: 26px;
+}
+
 .icon-info {
 	background: url('../../assets/icon/information.png');
 	background-size: contain;

@@ -6,12 +6,13 @@ export const getForCarousel = async () => {
     return response;
 }
 
-export const getListRealEstate = async (provinceId, pageSize, pageNumber) => {
+export const getListRealEstate = async (provinceId, pageSize, pageNumber, postType) => {
     const response = await axios.get(`${config.API}/RealEstate/list`, {
         params: {
             provinceId,
             pageSize,
-            pageNumber
+            pageNumber,
+            postType
         }
     });
     return response;
@@ -61,7 +62,17 @@ export const searchByProvince = async (id) => {
     return response;
 }
 
-export const searchByDisctrict = async (id) => {
-    const response = await axios.get(`${config.API}/RealEstate/search-by-district/${id}`);
+export const searchByDisctrict = async (id, postType) => {
+    const response = await axios.get(`${config.API}/RealEstate/search-by-district/${id}?postType=&${postType}`);
+    return response;
+}
+
+export const acceptRealEstate = async (id) => {
+    const response = await axios.post(`${config.API}/RealEstate/accept/${id}`);
+    return response;
+}
+
+export const rejectRealEstate = async (id) => {
+    const response = await axios.post(`${config.API}/RealEstate/reject/${id}`);
     return response;
 }

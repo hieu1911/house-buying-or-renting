@@ -77,13 +77,15 @@
                                 label="Duyệt bài"
                                 type="primary"    
                                 w100
+                                @click="accept()"
                             ></v-button>
                         </div>
                         <div>
                             <v-button
                                 label="Gỡ bỏ"
-                                type="secondary"
+                                type="delete"
                                 w100
+                                @click="reject()"
                             >
                             </v-button>
                         </div>
@@ -136,6 +138,7 @@ import { getByUserIdAndRealEstateId } from '@/js/service/postsave';
 import enums from '@/js/common/enum';
 import common from '@/js/common/helper';
 import router from '@/js/router/router';
+import { acceptRealEstate, rejectRealEstate } from '@/js/service/realEstate';
 
 const route = useRoute();
 const timePosted = ref("");
@@ -334,6 +337,20 @@ async function changePostSaveHistory() {
     } else {
         router.push(`/login?returnUrl=${currentRouteName.value.slice(1)}`)
     }
+}
+
+async function accept() {
+    common.showDialog(enums.statusEnum.WARNING, "Cảnh báo", ["Duyệt bài đăng"], async () =>  {
+        await acceptRealEstate(route.params.id);
+        router.push('/manage-post');
+    });
+}
+
+async function reject() {
+    common.showDialog(enums.statusEnum.WARNING, "Cảnh báo", ["Từ chối bài đăng"], async () =>  {
+        await rejectRealEstate(route.params.id);
+        router.push('/manage-post');
+    });
 }
 
 </script>

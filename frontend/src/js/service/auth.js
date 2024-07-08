@@ -20,3 +20,8 @@ export const getUserInfo = async () =>  {
     const response = await axios.get(`${config.API}/Auth/info`);
     return response;
 }
+
+export const changeRole = async (id) => {
+    const response = await axios.post(`${config.API}/Auth/change-role/${id}`);
+    return response;
+}

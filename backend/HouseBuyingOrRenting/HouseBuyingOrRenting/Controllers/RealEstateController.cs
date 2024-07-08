@@ -40,14 +40,16 @@ namespace HouseBuyingOrRenting.Controllers
         public async Task<IActionResult> GetForCarousel()
         {
             var result = await _realEstateService.GetRealEstateForCarousel();
+            result = result.Where(r => !r.IsDeleted).ToList();
             return StatusCode(StatusCodes.Status200OK, result);
         }
 
         [HttpGet]
         [Route("list")]
-        public async Task<IActionResult> GetByProvinceId(Guid? provinceId, int pageSize, int pageNumber)
+        public async Task<IActionResult> GetByProvinceId(Guid? provinceId, int pageSize, int pageNumber, int postType)
         {
             var result = await _realEstateService.GetList(provinceId, pageSize, pageNumber);
+            result = result.Where(r => (int)r.Type == postType && !r.IsDeleted).ToList();
             return StatusCode(StatusCodes.Status200OK, result);
         }
 
@@ -56,6 +58,7 @@ namespace HouseBuyingOrRenting.Controllers
         public async Task<IActionResult> GetByOwner(Guid id)
         {
             var result = await _realEstateService.GetByOwner(id);
+            result = result.Where(r => !r.IsDeleted).ToList();
             return StatusCode(StatusCodes.Status200OK, result);
         }
 
@@ -65,7 +68,7 @@ namespace HouseBuyingOrRenting.Controllers
         {
             var realEstateIds = await _postSaveService.GetRealEstateIdsByUser(id);
             var result = await _realEstateService.GetByIdsAsync(realEstateIds);
-
+            result = result.Where(r => !r.IsDeleted).ToList();
             return StatusCode(StatusCodes.Status200OK, result);
         }
 
@@ -91,7 +94,7 @@ namespace HouseBuyingOrRenting.Controllers
             {
                 result = result.Where(r => r.Type == type).ToList();
             }
-
+            result = result.Where(r => !r.IsDeleted).ToList();
             return StatusCode(StatusCodes.Status200OK, result);
         }
 
@@ -101,7 +104,7 @@ namespace HouseBuyingOrRenting.Controllers
             , double minPrice, double maxPrice, double minArea, double maxArea)
         {
             var result = await _realEstateService.FilterRealEstate(type, realEstateTypeStr, minPrice, maxPrice, minArea, maxArea);
-
+            result = result.Where(r => !r.IsDeleted).ToList();
             return StatusCode(StatusCodes.Status200OK, result);
         }
 
@@ -110,16 +113,34 @@ namespace HouseBuyingOrRenting.Controllers
         public async Task<IActionResult> SearchByProvince(Guid id)
         {
             var result = await _realEstateService.GetByProvinceIds(new List<Guid>() { id });
-
+            result = result.Where(r => !r.IsDeleted).ToList();
             return StatusCode(StatusCodes.Status200OK, result);
         }
 
         [HttpGet]
         [Route("search-by-district/{id}")]
-        public async Task<IActionResult> SearchByDisctrict(Guid id)
+        public async Task<IActionResult> SearchByDisctrict(Guid id, int postType)
         {
             var result = await _realEstateService.GetByDisctrictIds(new List<Guid>() { id });
+            result = result.Where(r => (int)r.Type == postType).ToList();
+            result = result.Where(r => !r.IsDeleted).ToList();
+            return StatusCode(StatusCodes.Status200OK, result);
+        }
 
+
+        [HttpPost]
+        [Route("accept/{id}")]
+        public async Task<IActionResult> AcceptRealEstate(Guid id)
+        {
+            var result = await _realEstateService.ChangeStatus(id, 1);
+            return StatusCode(StatusCodes.Status200OK, result);
+        }
+
+        [HttpPost]
+        [Route("reject/{id}")]
+        public async Task<IActionResult> RejectRealEstate(Guid id)
+        {
+            var result = await _realEstateService.ChangeStatus(id, 2);
             return StatusCode(StatusCodes.Status200OK, result);
         }
     }

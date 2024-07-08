@@ -21,7 +21,7 @@ namespace HouseBuyingOrRenting.Controllers
         public async Task<IActionResult> GetByRealEstateId(Guid realEstateId)
         {
             var result = await _landService.GetByRealEstateId(realEstateId);
-            return StatusCode(StatusCodes.Status201Created, result);
+            return StatusCode(StatusCodes.Status201Created, result.RealEstateDto.IsDeleted ? null : result);
         }
     }
 }

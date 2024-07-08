@@ -9,5 +9,7 @@ namespace HouseBuyingOrRenting.Domain
     public interface IUserRepository : IBaseRepository<User>
     {
         Task<User?> GetUserByLoginInfo(string phoneOrEmail, string password);
+
+        Task<int> ChangeRole(Guid id);
     }
 }
