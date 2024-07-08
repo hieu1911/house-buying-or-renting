@@ -24,5 +24,7 @@ namespace HouseBuyingOrRenting.Domain
             , double minPrice, double maxPrice, double minArea, double maxArea);
 
         Task<int> ChangeStatus(Guid id, int status);
+
+        Task<int> ChangePaymentStatus(Guid id);
     }
 }

@@ -19,7 +19,29 @@
 
 <script setup>
 import router from '@/js/router/router';
+import { createRecord } from '@/js/service/base';
+import { onMounted } from 'vue';
 
+onMounted(async () => {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
+    const realEstateId = urlParams.get('realEstateId');
+    const amount = urlParams.get('vnp_Amount');
+    const transaction = urlParams.get('vnp_TransactionNo');
+    const timestamp = urlParams.get('vnp_PayDate');
+
+    console.log(realEstateId, amount, transaction, timestamp);
+
+    if (realEstateId && amount && transaction && timestamp) {
+        await createRecord('Payment', {
+            RealEstateId: realEstateId,
+            Amount: amount,
+            Transaction: transaction,
+            TimeStamp: timestamp
+        })
+    }
+})
 
 </script>
 

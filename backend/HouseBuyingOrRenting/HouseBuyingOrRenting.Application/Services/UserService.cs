@@ -37,7 +37,7 @@ namespace HouseBuyingOrRenting.Application
             return userDto;
         }
 
-        public override Task<int> InsertAsync(UserCreateDto entityCreateDto)
+        public override Task<Guid> InsertAsync(UserCreateDto entityCreateDto)
         {
             entityCreateDto.Role = (int)UserRole.NORMAL;
             entityCreateDto.Password = HashPassword(entityCreateDto.Password);

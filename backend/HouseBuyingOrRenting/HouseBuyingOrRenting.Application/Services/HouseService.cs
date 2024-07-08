@@ -44,7 +44,7 @@ namespace HouseBuyingOrRenting.Application
             return houseDto;
         }
 
-        public async override Task<int> InsertAsync(HouseCreateDto entityCreateDto)
+        public async override Task<Guid> InsertAsync(HouseCreateDto entityCreateDto)
         {
             
             var realEstate = _mapper.Map<RealEstate>(entityCreateDto.RealEstateCreateDto);
@@ -71,7 +71,7 @@ namespace HouseBuyingOrRenting.Application
                     await _imageUrlService.InsertMultiAsync(imageUrlsCreateDto);
                     var result = await BaseRepository.InsertAsync(house);
                     transaction.Commit();
-                    return result;
+                    return realEstate.Id;
                 }
                 catch (Exception ex)
                 {

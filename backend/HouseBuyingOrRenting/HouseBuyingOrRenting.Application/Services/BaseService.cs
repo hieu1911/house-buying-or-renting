@@ -42,7 +42,7 @@ namespace HouseBuyingOrRenting.Application
             return entity;
         }
 
-        public virtual async Task<int> InsertAsync(TEntityCreateDto entityCreateDto)
+        public virtual async Task<Guid> InsertAsync(TEntityCreateDto entityCreateDto)
         {
             var entity = await MapEntityCreateDtoToEntity(entityCreateDto);
             entity.CreatedDate = DateTime.Now;
@@ -50,7 +50,7 @@ namespace HouseBuyingOrRenting.Application
             entity.Id = Guid.NewGuid();
 
             var result = await BaseRepository.InsertAsync(entity);
-            return result;
+            return entity.Id;
         }
 
         public async Task<int> InsertMultiAsync(List<TEntityCreateDto> entitiesCreateDto)

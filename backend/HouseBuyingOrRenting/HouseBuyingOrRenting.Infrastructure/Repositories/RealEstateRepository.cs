@@ -213,5 +213,19 @@ namespace HouseBuyingOrRenting.Infrastructure
 
             return 0;
         }
+
+        public async Task<int> ChangePaymentStatus(Guid id)
+        {
+            var realEstate = await _db.RealEstates.FindAsync(id);
+            if (realEstate != null) 
+            {
+                realEstate.IsPayed = true;
+
+                await _db.SaveChangesAsync();
+                return 1;
+            }
+
+            return 0;
+        }
     }
 }

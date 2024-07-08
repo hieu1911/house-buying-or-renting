@@ -100,6 +100,8 @@ builder.Services.AddScoped<IPostSaveService, PostSaveService>();
 builder.Services.AddScoped<IPostSaveRepository, PoseSaveRepository>();
 builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 builder.Services.AddSingleton<ChatHub>();
 
 var app = builder.Build();

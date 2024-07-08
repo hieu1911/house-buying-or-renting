@@ -54,5 +54,7 @@ namespace HouseBuyingOrRenting.Application
         public int IsAccepted { get; set; }
 
         public bool IsDeleted { get; set; }
+
+        public bool IsPayed { get; set; }
     }
 }

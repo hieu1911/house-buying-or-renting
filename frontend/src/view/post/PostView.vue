@@ -752,8 +752,11 @@ async function createNewPost() {
         let result = null;
 
         if (!isEdit.value) {
-            window.location.href = "http://localhost:8888/order/create_payment_url";
             result = await createRecord(object, record);
+            if (result.data) {
+                console.log(result.data);
+                window.location.href = `http://localhost:8888/order/create_payment_url?realEstateId=${result.data}`;
+            }
         } else {
             const urlParams = new URLSearchParams(window.location.search);
             const postId = urlParams.get('postId');
@@ -766,7 +769,9 @@ async function createNewPost() {
 
         common.showLoading(false);
         if (result.data) {
-            common.showDialog(enums.statusEnum.SUCCES0, "Thành công", [`${isEdit.value ? 'Chỉnh sửa' : 'Thêm mới'} thành công!`], () => window.location.href = '/')
+            if (isEdit.value) {
+                common.showDialog(enums.statusEnum.SUCCES0, "Thành công", [`${isEdit.value ? 'Chỉnh sửa' : 'Thêm mới'} thành công!`], () => window.location.href = '/')
+            }
         } else {
             common.showDialog(enums.statusEnum.ERROR, "Lỗi", ["Có lỗi xảy ra!"])
         }

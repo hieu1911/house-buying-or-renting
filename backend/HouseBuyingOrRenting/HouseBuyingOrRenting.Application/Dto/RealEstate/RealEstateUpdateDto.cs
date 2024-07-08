@@ -48,5 +48,7 @@ namespace HouseBuyingOrRenting.Application
         public List<ImageUrlCreateDto> ImageUrlsCreateDto { get; set; }
 
         public bool IsDeleted { get; set; }
+
+        public bool IsPayed { get; set; }
     }
 }

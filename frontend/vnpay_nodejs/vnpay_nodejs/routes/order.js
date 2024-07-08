@@ -16,7 +16,7 @@ router.get('/', function(req, res, next){
 });
 
 router.get('/create_payment_url', function (req, res, next) {
-    res.render('order', {title: 'Phí đăng bài', amount: 10000})
+    res.render('order', {title: 'Phí đăng bài', amount: 10000, realEstaetId: req.query.realEstateId})
 });
 
 router.get('/querydr', function (req, res, next) {
@@ -54,6 +54,7 @@ router.post('/create_payment_url', function (req, res, next) {
     let returnUrl = config.get('vnp_ReturnUrl');
     let orderId = moment(date).format('DDHHmmss');
     let amount = req.body.amount;
+    let realEstateId = req.body.realEstaetId;
     let bankCode = req.body.bankCode;
     
     let locale = req.body.language;
@@ -71,7 +72,7 @@ router.post('/create_payment_url', function (req, res, next) {
     vnp_Params['vnp_OrderInfo'] = 'Thanh toan cho ma GD:' + orderId;
     vnp_Params['vnp_OrderType'] = 'other';
     vnp_Params['vnp_Amount'] = amount * 100;
-    vnp_Params['vnp_ReturnUrl'] = returnUrl;
+    vnp_Params['vnp_ReturnUrl'] = `${returnUrl}?realEstateId=${realEstateId}`;
     vnp_Params['vnp_IpAddr'] = ipAddr;
     vnp_Params['vnp_CreateDate'] = createDate;
     if(bankCode !== null && bankCode !== ''){
